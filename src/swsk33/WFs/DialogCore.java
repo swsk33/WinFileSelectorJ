@@ -3,8 +3,10 @@ package swsk33.WFs;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 
 public class DialogCore {
+	
 	private static int x;
 	private static int y;
 	static String oks="确定";
@@ -13,10 +15,23 @@ public class DialogCore {
 	static JComboBox jcbtyp=new JComboBox();
 	static DefaultListModel dfl=new DefaultListModel();
 	static JTextField jtn=new JTextField();
+	
+	void idxfileexa() throws Exception {		//路径记录文件自检
+		File appdir=new File(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ");
+		File reidx=new File(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs");
+		if(!reidx.exists()) {
+			appdir.mkdir();
+			reidx.createNewFile();
+			new FileRaWUtils().writeText(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",System.getProperty("user.home"));
+		}
+	}
+	
 	/**
+	 * @throws Exception 
 	 * @wbp.parser.entryPoint
 	 */
-	public void df() {
+	public void df() throws Exception {
+		this.idxfileexa();
 		Toolkit kit=Toolkit.getDefaultToolkit();
 		Dimension sc=kit.getScreenSize();
 		JDialog jd=new JDialog();
