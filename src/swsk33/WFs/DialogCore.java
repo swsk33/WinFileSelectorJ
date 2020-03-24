@@ -14,7 +14,26 @@ public class DialogCore {
 	static JComboBox jcbidx=new JComboBox();
 	static JComboBox jcbtyp=new JComboBox();
 	static DefaultListModel dfl=new DefaultListModel();
+	static JList fls;
 	static JTextField jtn=new JTextField();
+	//图片常用格式（提供预览图）和其余格式
+	static String[] compicfo={"jpg","jpeg","png","bmp","gif"};
+	static String[] othpicfo={"psd","ai","tiff","iff","jfif","svg","pcx","dxf","wmf","emf","lic","eps","tga","raw","ico","hdri","webp","heic","spr","mpo"};
+	//音频文件格式
+	static String[] audfo={"mp3","mp2","aiff","wav","mid","wma","ogg","flac","amr","ra","rm","rmx","vqf","ape","aac","cda"};
+	//视频文件格式
+	static String[] vedfo={"mp4","avi","flv","wmv","3gp","mov","mkv","mpg","asf","asx","rm","rmvb","m4v","dat","vob"};
+	//文档格式
+	static String[] docfo={"doc","docx","xls","xlsx","ppt","ppts","pdf","txt"};
+	//压缩文件格式
+	static String[] zipfo={"zip","rar","7z","tar","gz","xz","uue","iso","apk"};
+	//代码文件格式
+	static String[] progfo={"c","o","cpp","py","java","jar","class","bat","go","js"};
+	
+	public final int ALL_FILES_ALLOW=0;
+	public final int FILE_ONLY=1;
+	public final int DIR_ONLY=2;
+	public final int DRIVE_ONLY=3;
 	
 	void idxfileexa() throws Exception {		//路径记录文件自检
 		File appdir=new File(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ");
@@ -118,7 +137,7 @@ public class DialogCore {
 		cancel.setFont(new Font("黑体", Font.BOLD, 20));
 		cancel.setBounds(605, 448, 88, 35);
 		cancel.setContentAreaFilled(false);
-		JList fls=new JList(dfl);
+		fls=new JList(dfl);
 		JScrollPane jsp=new JScrollPane();
 		jsp.setBounds(43, 108, 656, 278);
 		jsp.setViewportView(fls);
