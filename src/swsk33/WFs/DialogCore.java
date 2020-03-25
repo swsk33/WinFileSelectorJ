@@ -1,6 +1,7 @@
 package swsk33.WFs;
 
 import javax.swing.*;
+import javax.swing.filechooser.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -11,6 +12,7 @@ public class DialogCore {
 	private static int y;
 	static String oks="确定";
 	static String jdt="选择文件";
+	static String cdpath;
 	static JComboBox jcbidx=new JComboBox();
 	static JComboBox jcbtyp=new JComboBox();
 	static DefaultListModel dfl=new DefaultListModel();
@@ -35,22 +37,53 @@ public class DialogCore {
 	public final int DIR_ONLY=2;
 	public final int DRIVE_ONLY=3;
 	
-	void idxfileexa() throws Exception {		//路径记录文件自检
+	void idxfileexa() throws Exception {		//路径记录文件自检及初始化
 		File appdir=new File(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ");
 		File reidx=new File(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs");
 		if(!reidx.exists()) {
 			appdir.mkdir();
 			reidx.createNewFile();
 			new FileRaWUtils().writeText(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",System.getProperty("user.home"));
+			new FileRaWUtils().writeText("0",System.getProperty("user.home"));
 		}
+		cdpath=new FileRaWUtils().ReadText(reidx.getAbsolutePath(),1);
+	}
+	
+	@SuppressWarnings("unchecked")
+	void refreshfile() {		//获取文件列表(无过滤)
+		dfl.removeAllElements();
+		File[] filels=new File(cdpath).listFiles();
+		for(File addfiles:filels) {
+				dfl.addElement(addfiles);
+		}
+	}
+	
+	@SuppressWarnings({ "unchecked", "unlikely-arg-type" })
+	void refreshfile(String[] hidefiles) {		//获取文件列表(设置过滤)
+		dfl.removeAllElements();
+		File[] filels=new File(cdpath).listFiles();
+		for(File addfiles:filels) {
+			for(String type:hidefiles) {
+				if(!addfiles.equals(type)) {
+					dfl.addElement(addfiles);
+				}
+			}
+		}
+	}
+	
+	File[] getdriveroot() {		//获取所有驱动器
+		File[] dr=FileSystemView.getFileSystemView().getRoots();
+		return dr;
 	}
 	
 	/**
 	 * @throws Exception 
 	 * @wbp.parser.entryPoint
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	public void df() throws Exception {
 		this.idxfileexa();
+		this.refreshfile();
 		Toolkit kit=Toolkit.getDefaultToolkit();
 		Dimension sc=kit.getScreenSize();
 		JDialog jd=new JDialog();
@@ -138,6 +171,7 @@ public class DialogCore {
 		cancel.setBounds(605, 448, 88, 35);
 		cancel.setContentAreaFilled(false);
 		fls=new JList(dfl);
+		fls.setCellRenderer(new WFsCellRender());
 		JScrollPane jsp=new JScrollPane();
 		jsp.setBounds(43, 108, 656, 278);
 		jsp.setViewportView(fls);
