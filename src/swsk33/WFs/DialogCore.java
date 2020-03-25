@@ -8,8 +8,9 @@ import java.io.*;
 
 public class DialogCore {
 	
-	private static int x;
-	private static int y;
+	static int x;
+	static int y;
+	static int viewop;
 	static String oks="确定";
 	static String jdt="选择文件";
 	static String cdpath;
@@ -47,6 +48,7 @@ public class DialogCore {
 			new FileRaWUtils().writeText(reidx.getAbsolutePath(),"0");
 		}
 		cdpath=new FileRaWUtils().ReadText(reidx.getAbsolutePath(),1);
+		viewop=Integer.parseInt(new FileRaWUtils().ReadText(reidx.getAbsolutePath(),2));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -95,7 +97,6 @@ public class DialogCore {
 		File[] dr=File.listRoots();
 		for(File ss:dr) {
 			String name=FileSystemView.getFileSystemView().getSystemDisplayName(ss);
-			System.out.println(name);
 		}
 		return dr;
 	}
