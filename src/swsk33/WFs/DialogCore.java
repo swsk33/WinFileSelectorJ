@@ -20,7 +20,7 @@ public class DialogCore {
 	static String[] compicfo={"jpg","jpeg","png","bmp","gif"};
 	static String[] othpicfo={"psd","tiff","iff","jfif","svg","pcx","dxf","wmf","emf","lic","eps","tga","raw","ico","hdri","webp","heic","spr","mpo"};
 	//音频文件格式
-	static String[] audfo={"mp3","mp2","aiff","wav","mid","wma","ogg","flac","amr","ra","rm","rmx","vqf","ape","aac","cda"};
+	static String[] audfo={"mp3","mp2","aiff","wav","mid","wma","m4a","ogg","flac","amr","ra","rm","rmx","vqf","ape","aac","cda"};
 	//视频文件格式
 	static String[] vedfo={"mp4","avi","flv","wmv","3gp","mov","mkv","mpg","asf","asx","rm","rmvb","m4v","dat","vob"};
 	//文档格式
