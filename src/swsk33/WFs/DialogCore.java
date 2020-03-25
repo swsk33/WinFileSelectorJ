@@ -53,8 +53,15 @@ public class DialogCore {
 	void refreshfile() {		//获取文件列表(无过滤)
 		dfl.removeAllElements();
 		File[] filels=new File(cdpath).listFiles();
+		for(File adddirs:filels) {
+			if(adddirs.isDirectory()) {
+				dfl.addElement(adddirs);
+			}
+		}
 		for(File addfiles:filels) {
+			if(addfiles.isFile()) {
 				dfl.addElement(addfiles);
+			}
 		}
 	}
 	
@@ -62,17 +69,34 @@ public class DialogCore {
 	void refreshfile(String[] hidefiles) {		//获取文件列表(设置过滤)
 		dfl.removeAllElements();
 		File[] filels=new File(cdpath).listFiles();
-		for(File addfiles:filels) {
-			for(String type:hidefiles) {
-				if(!addfiles.equals(type)) {
-					dfl.addElement(addfiles);
+		for(File adddirs:filels) {
+			if(adddirs.isDirectory()) {
+				dfl.addElement(adddirs);
+			}
+		}
+		for(File addfile:filels) {
+			boolean shouldadd=true;
+			if(addfile.isFile()) {
+				String ft=new FileRaWUtils().getFileFormat(addfile.getAbsolutePath());
+				for(String cft:hidefiles) {
+					if(cft.equals(ft)) {
+						shouldadd=false;
+						break;
+					}
+				}
+				if(shouldadd) {
+					dfl.addElement(addfile);
 				}
 			}
 		}
 	}
 	
 	File[] getdriveroot() {		//获取所有驱动器
-		File[] dr=FileSystemView.getFileSystemView().getRoots();
+		File[] dr=File.listRoots();
+		for(File ss:dr) {
+			String name=FileSystemView.getFileSystemView().getSystemDisplayName(ss);
+			System.out.println(name);
+		}
 		return dr;
 	}
 	
@@ -84,6 +108,7 @@ public class DialogCore {
 	public void df() throws Exception {
 		this.idxfileexa();
 		this.refreshfile();
+		this.getdriveroot();
 		Toolkit kit=Toolkit.getDefaultToolkit();
 		Dimension sc=kit.getScreenSize();
 		JDialog jd=new JDialog();
