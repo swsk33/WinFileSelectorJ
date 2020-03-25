@@ -13,7 +13,8 @@ public class DialogCore {
 	static int viewop;
 	static String oks="确定";
 	static String jdt="选择文件";
-	static String cdpath;
+	static String cdpath;		//所在路径
+	static boolean isInaDisk;		//所在路径是否在一个磁盘里面
 	static JComboBox jcbidx=new JComboBox();
 	static JComboBox jcbtyp=new JComboBox();
 	static DefaultListModel dfl=new DefaultListModel();
@@ -49,6 +50,15 @@ public class DialogCore {
 		}
 		cdpath=new FileRaWUtils().ReadText(reidx.getAbsolutePath(),1);
 		viewop=Integer.parseInt(new FileRaWUtils().ReadText(reidx.getAbsolutePath(),2));
+		if(!cdpath.equals("root")&&!new File(cdpath).exists()) {
+			cdpath=System.getProperty("user.home");
+			new FileRaWUtils().replaceLine(reidx.getAbsolutePath(),1,cdpath);
+		}
+		if(cdpath.equals("root")) {
+			isInaDisk=false;
+		} else {
+			isInaDisk=true;
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -93,12 +103,12 @@ public class DialogCore {
 		}
 	}
 	
-	File[] getdriveroot() {		//获取所有驱动器
+	void getdriveroot() {		//获取所有驱动器
+		dfl.removeAllElements();
 		File[] dr=File.listRoots();
 		for(File ss:dr) {
-			String name=FileSystemView.getFileSystemView().getSystemDisplayName(ss);
+			dfl.addElement(ss);
 		}
-		return dr;
 	}
 	
 	/**
@@ -108,8 +118,11 @@ public class DialogCore {
 	@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	public void df() throws Exception {
 		this.idxfileexa();
-		this.refreshfile();
-		this.getdriveroot();
+		if(isInaDisk) {
+			this.refreshfile();
+		} else {
+			this.getdriveroot();
+		}
 		Toolkit kit=Toolkit.getDefaultToolkit();
 		Dimension sc=kit.getScreenSize();
 		JDialog jd=new JDialog();
