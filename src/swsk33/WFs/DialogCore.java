@@ -28,7 +28,7 @@ public class DialogCore {
 	//压缩文件格式
 	static String[] zipfo={"zip","rar","7z","jar","tar","gz","xz","uue","iso","apk"};
 	//代码文件和可执行/二进制文件格式
-	static String[] progfo={"c","o","cpp","py","java","bat","go","js","html","css","dll","exe","class"};
+	static String[] progfo={"c","o","cpp","py","java","bat","go","js","html","css","dll","class"};
 	
 	public final int ALL_FILES_ALLOW=0;
 	public final int FILE_ONLY=1;
