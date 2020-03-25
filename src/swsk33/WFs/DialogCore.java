@@ -43,8 +43,8 @@ public class DialogCore {
 		if(!reidx.exists()) {
 			appdir.mkdir();
 			reidx.createNewFile();
-			new FileRaWUtils().writeText(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",System.getProperty("user.home"));
-			new FileRaWUtils().writeText("0",System.getProperty("user.home"));
+			new FileRaWUtils().writeText(reidx.getAbsolutePath(),System.getProperty("user.home"));
+			new FileRaWUtils().writeText(reidx.getAbsolutePath(),"0");
 		}
 		cdpath=new FileRaWUtils().ReadText(reidx.getAbsolutePath(),1);
 	}
