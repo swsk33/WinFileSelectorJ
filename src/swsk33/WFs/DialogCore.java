@@ -22,7 +22,7 @@ public class DialogCore {
 	static JTextField jtn=new JTextField();
 	//图片常用格式（提供预览图）和其余格式
 	static String[] compicfo={"jpg","jpeg","png","bmp","gif"};
-	static String[] othpicfo={"psd","tiff","iff","jfif","svg","pcx","dxf","wmf","emf","lic","eps","tga","raw","ico","hdri","webp","heic","spr","mpo"};
+	static String[] othpicfo={"psd","tiff","iff","jfif","svg","pcx","dxf","wmf","emf","lic","eps","tga","raw","ico","webp","heic","spr","mpo"};
 	//音频文件格式
 	static String[] audfo={"mp3","mp2","aiff","wav","mid","wma","m4a","ogg","flac","amr","ra","rm","rmx","vqf","ape","aac","cda"};
 	//视频文件格式
@@ -32,7 +32,7 @@ public class DialogCore {
 	//压缩文件格式
 	static String[] zipfo={"zip","rar","7z","jar","tar","gz","xz","uue","iso","apk"};
 	//代码文件和可执行/二进制文件格式
-	static String[] progfo={"c","o","cpp","py","java","bat","go","js","html","css","dll","class"};
+	static String[] progfo={"c","o","cpp","py","java","bat","go","js","html","css","dll","exe","class"};
 	
 	public final int ALL_FILES_ALLOW=0;
 	public final int FILE_ONLY=1;
@@ -211,6 +211,26 @@ public class DialogCore {
 		cancel.setContentAreaFilled(false);
 		fls=new JList(dfl);
 		fls.setCellRenderer(new WFsCellRender());
+		fls.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount()==2) {
+					int index=fls.locationToIndex(e.getPoint());
+					if(!isInaDisk) {		//若当前在我的电脑下
+						cdpath=fls.getModel().getElementAt(index).toString();
+						new DialogCore().refreshfile();
+						isInaDisk=true;
+					} else {		//若当前在磁盘里面
+						cdpath=fls.getModel().getElementAt(index).toString();
+						if(new File(cdpath).isDirectory()) {		//若双击文件夹，则进入		
+							cdpath=fls.getModel().getElementAt(index).toString();
+							new DialogCore().refreshfile();
+						} else if(new File(cdpath).isFile()) {		//如果是文件
+							System.out.println("是文件！");
+						}
+					}
+				}
+			}
+		});
 		JScrollPane jsp=new JScrollPane();
 		jsp.setBounds(43, 108, 656, 278);
 		jsp.setViewportView(fls);
