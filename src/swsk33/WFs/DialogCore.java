@@ -18,7 +18,7 @@ public class DialogCore {
 	static JTextField jtn=new JTextField();
 	//图片常用格式（提供预览图）和其余格式
 	static String[] compicfo={"jpg","jpeg","png","bmp","gif"};
-	static String[] othpicfo={"psd","ai","tiff","iff","jfif","svg","pcx","dxf","wmf","emf","lic","eps","tga","raw","ico","hdri","webp","heic","spr","mpo"};
+	static String[] othpicfo={"psd","tiff","iff","jfif","svg","pcx","dxf","wmf","emf","lic","eps","tga","raw","ico","hdri","webp","heic","spr","mpo"};
 	//音频文件格式
 	static String[] audfo={"mp3","mp2","aiff","wav","mid","wma","ogg","flac","amr","ra","rm","rmx","vqf","ape","aac","cda"};
 	//视频文件格式
@@ -26,9 +26,9 @@ public class DialogCore {
 	//文档格式
 	static String[] docfo={"doc","docx","xls","xlsx","ppt","ppts","pdf","txt"};
 	//压缩文件格式
-	static String[] zipfo={"zip","rar","7z","tar","gz","xz","uue","iso","apk"};
-	//代码文件格式
-	static String[] progfo={"c","o","cpp","py","java","jar","class","bat","go","js"};
+	static String[] zipfo={"zip","rar","7z","jar","tar","gz","xz","uue","iso","apk"};
+	//代码文件和可执行/二进制文件格式
+	static String[] progfo={"c","o","cpp","py","java","bat","go","js","html","css","dll","exe","class"};
 	
 	public final int ALL_FILES_ALLOW=0;
 	public final int FILE_ONLY=1;
