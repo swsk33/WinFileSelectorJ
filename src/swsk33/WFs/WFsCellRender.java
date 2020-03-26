@@ -7,7 +7,7 @@ import java.io.*;
 
 @SuppressWarnings("serial")
 
-public class WFsCellRender extends DefaultListCellRenderer {
+class WFsCellRender extends DefaultListCellRenderer {
 	
 	static String ftyp;		//文件类型
 	static int icox;
@@ -108,11 +108,28 @@ public class WFsCellRender extends DefaultListCellRenderer {
 				setIcon(ico);		//设置图标
 			} else {
 				if(this.isPic()) {
-					ImageIcon ico=new ImageIcon(WFsCellRender.class.getResource("res\\fileico\\pic\\"+ftyp+".png"));
-					Image img=ico.getImage();
-					img=img.getScaledInstance(icox,icoy,Image.SCALE_DEFAULT);
-					ico.setImage(img);
-					setIcon(ico);
+					if(DialogCore.viewop==2&&(ftyp.equalsIgnoreCase("jpg")||ftyp.equalsIgnoreCase("jpeg")||ftyp.equalsIgnoreCase("png")||ftyp.equalsIgnoreCase("bmp")||ftyp.equalsIgnoreCase("gif"))) {
+						int iw;
+						int ih;
+						ImageIcon ico=new ImageIcon(filepath);
+						if(ico.getIconWidth()>ico.getIconHeight()) {
+							iw=120;
+							ih=(int)(((float)120/ico.getIconWidth())*ico.getIconHeight());
+						} else {
+							ih=120;
+							iw=(int)(((float)120/ico.getIconHeight())*ico.getIconWidth());
+						}
+						Image img=ico.getImage();
+						img=img.getScaledInstance(iw,ih,Image.SCALE_AREA_AVERAGING);
+						ico.setImage(img);
+						setIcon(ico);
+					} else {
+						ImageIcon ico=new ImageIcon(WFsCellRender.class.getResource("res\\fileico\\pic\\"+ftyp+".png"));
+						Image img=ico.getImage();
+						img=img.getScaledInstance(icox,icoy,Image.SCALE_DEFAULT);
+						ico.setImage(img);
+						setIcon(ico);
+					}
 				} else if(this.isAu()) {
 					ImageIcon ico=new ImageIcon(WFsCellRender.class.getResource("res\\fileico\\aud\\"+ftyp+".png"));
 					Image img=ico.getImage();

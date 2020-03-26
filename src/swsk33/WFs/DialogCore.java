@@ -60,7 +60,7 @@ public class DialogCore {
 			cdpath=System.getProperty("user.home");
 			new FileRaWUtils().replaceLine(reidx.getAbsolutePath(),1,cdpath);
 		}
-		if(viewop!=0||viewop!=1||viewop!=2) {
+		if(viewop!=0&&viewop!=1&&viewop!=2) {
 			new FileRaWUtils().replaceLine(reidx.getAbsolutePath(),2,"0");
 			viewop=0;
 		}
@@ -278,6 +278,7 @@ public class DialogCore {
 					fls.setVisibleRowCount(7);		//设置总行数为7行
 				} else if(viewop==2) {
 					fls.setLayoutOrientation(JList.VERTICAL_WRAP);
+					fls.setVisibleRowCount(3);
 				}
 				try {
 					fru.replaceLine(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",2,""+viewop);
@@ -309,6 +310,7 @@ public class DialogCore {
 			fls.setVisibleRowCount(7);		//设置总行数为7行
 		} else if(viewop==2) {
 			fls.setLayoutOrientation(JList.VERTICAL_WRAP);
+			fls.setVisibleRowCount(3);
 		}
 		fls.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
