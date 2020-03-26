@@ -8,7 +8,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class NewDir {
+class NewDir {
 	
 	static int x;
 	static int y;

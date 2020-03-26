@@ -18,6 +18,7 @@ public class DialogCore {
 	static boolean isInaDisk;		//所在路径是否在一个磁盘里面
 	static boolean isMultiSelect;		//是否多选
 	static boolean doFliter;		//是否过滤
+	static boolean isfrShow=false;		//预览窗是否在显示
 	static JComboBox jcbidx=new JComboBox();
 	static JComboBox jcbtyp=new JComboBox();
 	static DefaultListModel dfl=new DefaultListModel();
@@ -313,9 +314,9 @@ public class DialogCore {
 			fls.setVisibleRowCount(3);
 		}
 		fls.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) {		//鼠标双击
 				if(e.getClickCount()==2) {
-					int index=fls.locationToIndex(e.getPoint());
+					int index=fls.locationToIndex(e.getPoint());		//获取鼠标所在的索引
 					if(!isInaDisk) {		//若当前在我的电脑下
 						cdpath=fls.getModel().getElementAt(index).toString();
 						new DialogCore().refreshfile();
@@ -327,6 +328,70 @@ public class DialogCore {
 							new DialogCore().refreshfile();
 						} else if(new File(cdpath).isFile()) {		//如果是文件
 							System.out.println("是文件！");
+						}
+					}
+				}
+			}
+			public void mouseEntered(MouseEvent e) {		//鼠标放上去
+				if(viewop==0||viewop==1) {
+					int index=fls.locationToIndex(e.getPoint());		//获取鼠标所在的索引
+					String imgpath=fls.getModel().getElementAt(index).toString();
+					String ft=new FileRaWUtils().getFileFormat(imgpath);
+					if(ft.equalsIgnoreCase("jpg")||ft.equalsIgnoreCase("jpeg")||ft.equalsIgnoreCase("png")||ft.equalsIgnoreCase("bmp")||ft.equalsIgnoreCase("gif")) {
+						int iw;
+						int ih;
+						ImageIcon preimg=new ImageIcon(imgpath);
+						if(preimg.getIconWidth()>preimg.getIconHeight()) {
+							iw=250;
+							ih=(int)(((float)250/preimg.getIconWidth())*preimg.getIconHeight());
+						} else {
+							ih=156;
+							iw=(int)(((float)156/preimg.getIconHeight())*preimg.getIconWidth());
+						}
+						Image img=preimg.getImage();
+						img=img.getScaledInstance(iw,ih,Image.SCALE_AREA_AVERAGING);
+						preimg.setImage(img);
+						PreFrame.imgp.setIcon(preimg);
+						PreFrame.jf.setLocation(e.getXOnScreen()-183,e.getYOnScreen()-197);
+						if(!isfrShow) {
+							new PreFrame().prefr();
+							isfrShow=true;
+						}
+					}
+				}
+			}
+			public void mouseExited(MouseEvent e) {		//鼠标移开事件
+				PreFrame.jf.dispose();
+				isfrShow=false;
+			}
+		});
+		fls.addMouseMotionListener(new MouseMotionAdapter() {
+			public void mouseMoved(MouseEvent e) {		//鼠标移动事件
+				if(viewop==0||viewop==1) {
+					int index=fls.locationToIndex(e.getPoint());		//获取鼠标所在的索引
+					String imgpath=fls.getModel().getElementAt(index).toString();
+					String ft=new FileRaWUtils().getFileFormat(imgpath);
+					if(ft.equalsIgnoreCase("jpg")||ft.equalsIgnoreCase("jpeg")||ft.equalsIgnoreCase("png")||ft.equalsIgnoreCase("bmp")||ft.equalsIgnoreCase("gif")) {
+						ImageIcon preimg=new ImageIcon(imgpath);
+						int iw;
+						int ih;
+						if(preimg.getIconWidth()>preimg.getIconHeight()) {
+							iw=250;
+							ih=(int)(((float)250/preimg.getIconWidth())*preimg.getIconHeight());
+						} else {
+							ih=156;
+							iw=(int)(((float)156/preimg.getIconHeight())*preimg.getIconWidth());
+						}
+						Image img=preimg.getImage();
+						img=img.getScaledInstance(iw,ih,Image.SCALE_AREA_AVERAGING);
+						preimg.setImage(img);
+						PreFrame.imgp.setIcon(preimg);
+						if(!isfrShow) {
+							PreFrame.jf.setLocation(e.getXOnScreen()-183,e.getYOnScreen()-197);
+							new PreFrame().prefr();
+							isfrShow=true;
+						} else {
+							PreFrame.jf.setLocation(e.getXOnScreen()-183,e.getYOnScreen()-197);
 						}
 					}
 				}
