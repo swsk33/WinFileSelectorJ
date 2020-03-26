@@ -12,17 +12,27 @@ public class DialogCore {
 	static int y;
 	static int viewop;		//视图参数
 	static int selectop;		//选择参数
+	//界面变量
 	static String oks="确定";
 	static String jdt="选择文件";
-	static String cdpath;		//所在路径
+	//常用路径索引
+	static String desktop;		//桌面路径
+	static String download;		//下载路径
+	static String document;		//文档路径
+	static String music;		//音乐路径
+	static String picture;		//图片路径
+	static String video;		//视频路径
+	static String appdata;		//应用数据
+	
+	static String cdpath;		//当前所在路径
 	static boolean isInaDisk;		//所在路径是否在一个磁盘里面
 	static boolean isMultiSelect;		//是否多选
 	static boolean doFliter;		//是否过滤
 	static boolean isfrShow=false;		//预览窗是否在显示
-	static JComboBox jcbidx=new JComboBox();
-	static JComboBox jcbtyp=new JComboBox();
-	static DefaultListModel dfl=new DefaultListModel();
-	static JList fls;
+	static JComboBox jcbidx=new JComboBox();		//快速索引
+	static JComboBox jcbtyp=new JComboBox();		//文件类型
+	static DefaultListModel dfl=new DefaultListModel();		//文件列表的模型
+	static JList fls;		//文件列表
 	static JTextField jtn=new JTextField();
 	//图片常用格式（提供预览图）和其余格式
 	static String[] compicfo={"jpg","jpeg","png","bmp","gif"};
@@ -76,6 +86,7 @@ public class DialogCore {
 		} else {
 			this.getdriveroot();
 		}
+		this.setcombobox();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -134,6 +145,25 @@ public class DialogCore {
 		for(File ss:dr) {
 			dfl.addElement(ss);
 		}
+	}
+	
+	void setcombobox() {		//初始化索引下拉菜单
+		jcbidx.removeAllItems();
+		desktop=System.getProperty("user.home")+"\\Desktop";
+		download=System.getProperty("user.home")+"\\Downloads";
+		document=System.getProperty("user.home")+"\\Documents";
+		picture=System.getProperty("user.home")+"\\Pictures";
+		music=System.getProperty("user.home")+"\\Music";
+		video=System.getProperty("user.home")+"\\Videos";
+		appdata=System.getProperty("user.home")+"\\AppData";
+		File[] dr=File.listRoots();
+		jcbidx.addItem(desktop);
+		jcbidx.addItem(download);
+		jcbidx.addItem(document);
+		jcbidx.addItem(picture);
+		jcbidx.addItem(music);
+		jcbidx.addItem(video);
+		jcbidx.addItem(appdata);
 	}
 	
 	/**
@@ -279,7 +309,7 @@ public class DialogCore {
 					fls.setVisibleRowCount(7);		//设置总行数为7行
 				} else if(viewop==2) {
 					fls.setLayoutOrientation(JList.VERTICAL_WRAP);
-					fls.setVisibleRowCount(3);
+					fls.setVisibleRowCount(2);
 				}
 				try {
 					fru.replaceLine(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",2,""+viewop);
@@ -311,7 +341,7 @@ public class DialogCore {
 			fls.setVisibleRowCount(7);		//设置总行数为7行
 		} else if(viewop==2) {
 			fls.setLayoutOrientation(JList.VERTICAL_WRAP);
-			fls.setVisibleRowCount(3);
+			fls.setVisibleRowCount(2);
 		}
 		fls.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {		//鼠标双击
@@ -403,7 +433,15 @@ public class DialogCore {
 		JScrollPane jsp=new JScrollPane();
 		jsp.setBounds(43, 108, 656, 278);
 		jsp.setViewportView(fls);
-		jcbidx.setBounds(113, 47, 289, 38);
+		jcbidx.setBounds(113, 41, 289, 45);
+		jcbidx.addActionListener(new ActionListener() {		//快速索引下拉菜单事件
+			public void actionPerformed(ActionEvent arg0) {
+				cdpath=jcbidx.getSelectedItem().toString();
+				isInaDisk=true;
+				new DialogCore().refreshfile();
+			}
+		});
+		jcbidx.setRenderer(new CoboBoxRender());
 		jcbtyp.setBounds(141, 448, 447, 35);
 		jtn.setBounds(141, 399, 447, 35);
 		JPanel jp=new JPanel();

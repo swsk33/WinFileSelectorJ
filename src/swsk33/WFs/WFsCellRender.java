@@ -89,7 +89,6 @@ class WFsCellRender extends DefaultListCellRenderer {
 		if(DialogCore.viewop==2) {		//设定图标大小
 			icox=120;
 			icoy=120;
-			setVerticalTextPosition(SwingConstants.CENTER); 
 		} else {
 			icox=35;
 			icoy=35;
@@ -189,6 +188,13 @@ class WFsCellRender extends DefaultListCellRenderer {
 				finaico.setImage(img);
 				setIcon(finaico);
 			}	
+		}
+		if(DialogCore.viewop==2) {
+			setHorizontalTextPosition(SwingConstants.CENTER);
+			setVerticalTextPosition(SwingConstants.BOTTOM);
+		} else {
+			setHorizontalTextPosition(SwingConstants.RIGHT);
+			setVerticalTextPosition(SwingConstants.CENTER);
 		}
 		if(isSelected) {		//当某个元素被选中时
 			setForeground(Color.BLACK);		//设置前景色（文字颜色）为黑色
