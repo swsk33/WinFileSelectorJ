@@ -89,6 +89,7 @@ public class WFsCellRender extends DefaultListCellRenderer {
 		if(DialogCore.viewop==2) {		//设定图标大小
 			icox=120;
 			icoy=120;
+			setVerticalTextPosition(SwingConstants.CENTER); 
 		} else {
 			icox=35;
 			icoy=35;

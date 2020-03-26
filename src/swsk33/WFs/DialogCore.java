@@ -10,11 +10,14 @@ public class DialogCore {
 	
 	static int x;
 	static int y;
-	static int viewop;
+	static int viewop;		//视图参数
+	static int selectop;		//选择参数
 	static String oks="确定";
 	static String jdt="选择文件";
 	static String cdpath;		//所在路径
 	static boolean isInaDisk;		//所在路径是否在一个磁盘里面
+	static boolean isMultiSelect;		//是否多选
+	static boolean doFliter;		//是否过滤
 	static JComboBox jcbidx=new JComboBox();
 	static JComboBox jcbtyp=new JComboBox();
 	static DefaultListModel dfl=new DefaultListModel();
@@ -28,7 +31,7 @@ public class DialogCore {
 	//视频文件格式
 	static String[] vedfo={"mp4","avi","flv","wmv","3gp","mov","mkv","mpg","asf","asx","rm","rmvb","m4v","dat","vob"};
 	//文档格式
-	static String[] docfo={"doc","docx","xls","xlsx","ppt","ppts","pdf","txt"};
+	static String[] docfo={"doc","docx","xls","xlsx","ppt","pptx","pdf","txt"};
 	//压缩文件格式
 	static String[] zipfo={"zip","rar","7z","jar","tar","gz","xz","uue","iso","apk"};
 	//代码文件和可执行/二进制文件格式
@@ -40,6 +43,7 @@ public class DialogCore {
 	public final int DRIVE_ONLY=3;
 	
 	void idxfileexa() throws Exception {		//路径记录文件自检及初始化
+		//文件自检
 		File appdir=new File(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ");
 		File reidx=new File(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs");
 		if(!reidx.exists()) {
@@ -48,16 +52,28 @@ public class DialogCore {
 			new FileRaWUtils().writeText(reidx.getAbsolutePath(),System.getProperty("user.home"));
 			new FileRaWUtils().writeText(reidx.getAbsolutePath(),"0");
 		}
+		//全局赋值
 		cdpath=new FileRaWUtils().ReadText(reidx.getAbsolutePath(),1);
 		viewop=Integer.parseInt(new FileRaWUtils().ReadText(reidx.getAbsolutePath(),2));
+		//判断值是否有误
 		if(!cdpath.equals("root")&&!new File(cdpath).exists()) {
 			cdpath=System.getProperty("user.home");
 			new FileRaWUtils().replaceLine(reidx.getAbsolutePath(),1,cdpath);
 		}
+		if(viewop!=0||viewop!=1||viewop!=2) {
+			new FileRaWUtils().replaceLine(reidx.getAbsolutePath(),2,"0");
+			viewop=0;
+		}
+		//进入初始化
 		if(cdpath.equals("root")) {
 			isInaDisk=false;
 		} else {
 			isInaDisk=true;
+		}
+		if(isInaDisk) {
+			this.refreshfile();
+		} else {
+			this.getdriveroot();
 		}
 	}
 	
@@ -65,15 +81,19 @@ public class DialogCore {
 	void refreshfile() {		//获取文件列表(无过滤)
 		dfl.removeAllElements();
 		File[] filels=new File(cdpath).listFiles();
-		for(File adddirs:filels) {
-			if(adddirs.isDirectory()) {
-				dfl.addElement(adddirs);
+		try {	
+			for(File adddirs:filels) {
+				if(adddirs.isDirectory()) {
+					dfl.addElement(adddirs);
+				}
 			}
-		}
-		for(File addfiles:filels) {
-			if(addfiles.isFile()) {
-				dfl.addElement(addfiles);
+			for(File addfiles:filels) {
+				if(addfiles.isFile()) {
+					dfl.addElement(addfiles);
+				}
 			}
+		} catch(Exception e) {
+			System.out.println("目录异常！");
 		}
 	}
 	
@@ -81,25 +101,29 @@ public class DialogCore {
 	void refreshfile(String[] hidefiles) {		//获取文件列表(设置过滤)
 		dfl.removeAllElements();
 		File[] filels=new File(cdpath).listFiles();
-		for(File adddirs:filels) {
-			if(adddirs.isDirectory()) {
-				dfl.addElement(adddirs);
+		try {
+			for(File adddirs:filels) {
+				if(adddirs.isDirectory()) {
+					dfl.addElement(adddirs);
+				}
 			}
-		}
-		for(File addfile:filels) {
-			boolean shouldadd=true;
-			if(addfile.isFile()) {
-				String ft=new FileRaWUtils().getFileFormat(addfile.getAbsolutePath());
-				for(String cft:hidefiles) {
-					if(cft.equals(ft)) {
-						shouldadd=false;
-						break;
+			for(File addfile:filels) {
+				boolean shouldadd=true;
+				if(addfile.isFile()) {
+					String ft=new FileRaWUtils().getFileFormat(addfile.getAbsolutePath());
+					for(String cft:hidefiles) {
+						if(cft.equals(ft)) {
+							shouldadd=false;
+							break;
+						}
+					}
+					if(shouldadd) {
+						dfl.addElement(addfile);
 					}
 				}
-				if(shouldadd) {
-					dfl.addElement(addfile);
-				}
 			}
+		} catch(Exception e) {
+			System.out.println("目录异常！");
 		}
 	}
 	
@@ -118,11 +142,6 @@ public class DialogCore {
 	@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	public void df() throws Exception {
 		this.idxfileexa();
-		if(isInaDisk) {
-			this.refreshfile();
-		} else {
-			this.getdriveroot();
-		}
 		Toolkit kit=Toolkit.getDefaultToolkit();
 		Dimension sc=kit.getScreenSize();
 		JDialog jd=new JDialog();
@@ -170,31 +189,103 @@ public class DialogCore {
 		close.setContentAreaFilled(false);
 		close.setToolTipText("关闭窗口");
 		JButton computer=new JButton(new ImageIcon(DialogCore.class.getResource("res\\bt-computer.png")));
+		computer.addActionListener(new ActionListener() {		//进入“我的电脑”
+			public void actionPerformed(ActionEvent e) {
+				cdpath="root";
+				isInaDisk=false;
+				new DialogCore().getdriveroot();
+			}
+		});
 		computer.setBounds(511, 47, 38, 38);
 		computer.setBorderPainted(false);
 		computer.setContentAreaFilled(false);
 		computer.setToolTipText("进入\"我的电脑\"");
 		JButton home=new JButton(new ImageIcon(DialogCore.class.getResource("res\\bt-home.png")));
+		home.addActionListener(new ActionListener() {		//进入用户主目录
+			public void actionPerformed(ActionEvent e) {
+				cdpath=System.getProperty("user.home");
+				isInaDisk=true;
+				new DialogCore().refreshfile();
+			}
+		});
 		home.setBounds(561, 47, 38, 38);
 		home.setBorderPainted(false);
 		home.setContentAreaFilled(false);
 		home.setToolTipText("进入用户目录");
-		JButton delete=new JButton(new ImageIcon(DialogCore.class.getResource("res\\bt-delete.png")));
-		delete.setBounds(611, 47, 38, 38);
-		delete.setBorderPainted(false);
-		delete.setContentAreaFilled(false);
-		delete.setToolTipText("删除选中文件/文件夹");
+		JButton newDir=new JButton(new ImageIcon(DialogCore.class.getResource("res\\bt-newdir.png")));
+		newDir.addActionListener(new ActionListener() {		//新建文件夹按钮
+			public void actionPerformed(ActionEvent e) {
+				if(isInaDisk) {
+					new NewDir().ndfr();
+					if(!NewDir.name.equals("")) {
+						new File(cdpath+"\\"+NewDir.name).mkdir();
+						new DialogCore().refreshfile();
+					}
+				}
+			}
+		});
+		newDir.setBounds(611, 47, 38, 38);
+		newDir.setBorderPainted(false);
+		newDir.setContentAreaFilled(false);
+		newDir.setToolTipText("新建文件夹");
 		JButton front=new JButton(new ImageIcon(DialogCore.class.getResource("res\\bt-front.png")));
+		front.addActionListener(new ActionListener() {		//上一级目录按钮
+			public void actionPerformed(ActionEvent arg0) {
+				if(isInaDisk) {
+					cdpath=new File(cdpath).getParent();
+					if(cdpath==null) {
+						cdpath="root";
+						isInaDisk=false;
+						new DialogCore().getdriveroot();
+					} else {
+						isInaDisk=true;
+						new DialogCore().refreshfile();
+					}
+				}
+			}
+		});
 		front.setBounds(411, 47, 38, 38);
 		front.setContentAreaFilled(false);
 		front.setBorderPainted(false);
 		front.setToolTipText("进入上一级目录");
 		JButton refresh=new JButton(new ImageIcon(DialogCore.class.getResource("res\\bt-refresh.png")));
+		refresh.addActionListener(new ActionListener() {		//刷新按钮
+			public void actionPerformed(ActionEvent arg0) {
+				if(isInaDisk) {
+					new DialogCore().refreshfile();
+				} else {
+					new DialogCore().getdriveroot();
+				}
+			}
+		});
 		refresh.setBounds(461, 47, 38, 38);
 		refresh.setContentAreaFilled(false);
 		refresh.setBorderPainted(false);
 		refresh.setToolTipText("刷新列表");
 		JButton view=new JButton(new ImageIcon(DialogCore.class.getResource("res\\bt-view.png")));
+		view.addActionListener(new ActionListener() {		//切换视图
+			public void actionPerformed(ActionEvent e) {
+				FileRaWUtils fru=new FileRaWUtils();
+				if(viewop==2) {
+					viewop=0;
+				} else {
+					viewop++;
+				}
+				if(viewop==0) {
+					fls.setLayoutOrientation(JList.VERTICAL);		//设置竖着排列
+				} else if(viewop==1) {
+					fls.setLayoutOrientation(JList.HORIZONTAL_WRAP);		//设置表格分栏排列元素
+					fls.setVisibleRowCount(7);		//设置总行数为7行
+				} else if(viewop==2) {
+					fls.setLayoutOrientation(JList.VERTICAL_WRAP);
+				}
+				try {
+					fru.replaceLine(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",2,""+viewop);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		view.setBounds(661, 47, 38, 38);
 		view.setContentAreaFilled(false);
 		view.setBorderPainted(false);
@@ -211,6 +302,14 @@ public class DialogCore {
 		cancel.setContentAreaFilled(false);
 		fls=new JList(dfl);
 		fls.setCellRenderer(new WFsCellRender());
+		if(viewop==0) {
+			fls.setLayoutOrientation(JList.VERTICAL);		//设置竖着排列
+		} else if(viewop==1) {
+			fls.setLayoutOrientation(JList.HORIZONTAL_WRAP);		//设置表格分栏排列元素
+			fls.setVisibleRowCount(7);		//设置总行数为7行
+		} else if(viewop==2) {
+			fls.setLayoutOrientation(JList.VERTICAL_WRAP);
+		}
 		fls.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount()==2) {
@@ -247,7 +346,7 @@ public class DialogCore {
 		jp.add(close);
 		jp.add(computer);
 		jp.add(home);
-		jp.add(delete);
+		jp.add(newDir);
 		jp.add(front);
 		jp.add(refresh);
 		jp.add(view);
