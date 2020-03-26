@@ -357,7 +357,7 @@ public class DialogCore {
 							new PreFrame().prefr();
 							isfrShow=true;
 						}
-					}
+					} 
 				}
 			}
 			public void mouseExited(MouseEvent e) {		//鼠标移开事件
@@ -393,6 +393,9 @@ public class DialogCore {
 						} else {
 							PreFrame.jf.setLocation(e.getXOnScreen()-183,e.getYOnScreen()-197);
 						}
+					} else {		//移到别的文件
+						PreFrame.jf.dispose();
+						isfrShow=false;
 					}
 				}
 			}
