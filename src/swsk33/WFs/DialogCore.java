@@ -48,7 +48,7 @@ public class DialogCore {
 	//音频文件格式
 	static String[] audfo={"mp3","mp2","aiff","wav","mid","wma","m4a","ogg","flac","amr","ra","rm","rmx","vqf","ape","aac","cda"};
 	//视频文件格式
-	static String[] vedfo={"mp4","avi","flv","wmv","3gp","mov","mkv","mpg","asf","asx","rm","rmvb","m4v","dat","vob"};
+	static String[] vedfo={"mp4","avi","flv","wmv","3gp","mov","mkv","mpg","asf","asx","rm","rmvb","m4v","vob"};
 	//文档格式
 	static String[] docfo={"doc","docx","xls","xlsx","ppt","pptx","pdf","txt"};
 	//压缩文件格式
