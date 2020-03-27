@@ -5,6 +5,7 @@ import javax.swing.filechooser.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.net.*;
 import java.util.*;
 
 public class DialogCore {
@@ -201,7 +202,8 @@ public class DialogCore {
 		jd.setLocation(sc.width/2-375,sc.height/2-250);
 		jd.setUndecorated(true);
 		jd.setModal(true);
-		JLabel bl=new JLabel(new ImageIcon(DialogCore.class.getResource("res\\bg.png")));          // 把上面的图片对象加到一个名为bl的标签里  
+		URL bg=DialogCore.class.getResource("res/bg.png");
+		JLabel bl=new JLabel(new ImageIcon(bg));          // 把上面的图片对象加到一个名为bl的标签里  
 		bl.setBounds(0,0,jd.getWidth(),jd.getHeight());        //设置标签大小
 		JPanel imagePanel=(JPanel)jd.getContentPane();        // 把内容窗格转化为JPanel，否则不能用方法setOpaque()来使内容窗格透明 ，使内容窗格透明后才能显示背景图片 
 		imagePanel.setOpaque(false);          // 把背景图片添加到分层窗格的最底层作为背景  
@@ -230,7 +232,8 @@ public class DialogCore {
 		JLabel type=new JLabel("文件类型：");
 		type.setFont(new Font("等线", Font.BOLD, 20));
 		type.setBounds(33, 456, 100, 18);
-		JButton close=new JButton(new ImageIcon(DialogCore.class.getResource("res\\bt-close.png")));
+		URL cb=DialogCore.class.getResource("res/bt-close.png");
+		JButton close=new JButton(new ImageIcon(cb));
 		close.addActionListener(new ActionListener() {		//关闭窗口
 			public void actionPerformed(ActionEvent arg0) {
 				jd.dispose();
@@ -240,7 +243,8 @@ public class DialogCore {
 		close.setBorderPainted(false);
 		close.setContentAreaFilled(false);
 		close.setToolTipText("关闭窗口");
-		JButton computer=new JButton(new ImageIcon(DialogCore.class.getResource("res\\bt-computer.png")));
+		URL cmb=DialogCore.class.getResource("res/bt-computer.png");
+		JButton computer=new JButton(new ImageIcon(cmb));
 		computer.addActionListener(new ActionListener() {		//进入“我的电脑”
 			public void actionPerformed(ActionEvent e) {
 				cdpath="root";
@@ -252,7 +256,8 @@ public class DialogCore {
 		computer.setBorderPainted(false);
 		computer.setContentAreaFilled(false);
 		computer.setToolTipText("进入\"我的电脑\"");
-		JButton home=new JButton(new ImageIcon(DialogCore.class.getResource("res\\bt-home.png")));
+		URL hmb=DialogCore.class.getResource("res/bt-home.png");
+		JButton home=new JButton(new ImageIcon(hmb));
 		home.addActionListener(new ActionListener() {		//进入用户主目录
 			public void actionPerformed(ActionEvent e) {
 				cdpath=System.getProperty("user.home");
@@ -264,7 +269,8 @@ public class DialogCore {
 		home.setBorderPainted(false);
 		home.setContentAreaFilled(false);
 		home.setToolTipText("进入用户目录");
-		JButton newDir=new JButton(new ImageIcon(DialogCore.class.getResource("res\\bt-newdir.png")));
+		URL ndb=DialogCore.class.getResource("res/bt-newdir.png");
+		JButton newDir=new JButton(new ImageIcon(ndb));
 		newDir.addActionListener(new ActionListener() {		//新建文件夹按钮
 			public void actionPerformed(ActionEvent e) {
 				if(isInaDisk) {
@@ -280,7 +286,8 @@ public class DialogCore {
 		newDir.setBorderPainted(false);
 		newDir.setContentAreaFilled(false);
 		newDir.setToolTipText("新建文件夹");
-		JButton front=new JButton(new ImageIcon(DialogCore.class.getResource("res\\bt-front.png")));
+		URL frb=DialogCore.class.getResource("res/bt-front.png");
+		JButton front=new JButton(new ImageIcon(frb));
 		front.addActionListener(new ActionListener() {		//上一级目录按钮
 			public void actionPerformed(ActionEvent arg0) {
 				if(isInaDisk) {
@@ -300,7 +307,8 @@ public class DialogCore {
 		front.setContentAreaFilled(false);
 		front.setBorderPainted(false);
 		front.setToolTipText("进入上一级目录");
-		JButton refresh=new JButton(new ImageIcon(DialogCore.class.getResource("res\\bt-refresh.png")));
+		URL rfb=DialogCore.class.getResource("res/bt-refresh.png");
+		JButton refresh=new JButton(new ImageIcon(rfb));
 		refresh.addActionListener(new ActionListener() {		//刷新按钮
 			public void actionPerformed(ActionEvent arg0) {
 				if(isInaDisk) {
@@ -314,7 +322,8 @@ public class DialogCore {
 		refresh.setContentAreaFilled(false);
 		refresh.setBorderPainted(false);
 		refresh.setToolTipText("刷新列表");
-		JButton view=new JButton(new ImageIcon(DialogCore.class.getResource("res\\bt-view.png")));
+		URL vib=DialogCore.class.getResource("res/bt-view.png");
+		JButton view=new JButton(new ImageIcon(vib));
 		view.addActionListener(new ActionListener() {		//切换视图
 			public void actionPerformed(ActionEvent e) {
 				FileRaWUtils fru=new FileRaWUtils();

@@ -2,11 +2,8 @@ package swsk33.WFs;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
+import java.net.*;
 
 class NewDir {
 	
@@ -26,7 +23,8 @@ class NewDir {
 		jd.setLocation(sc.width/2-160,sc.height/2-73);
 		jd.setUndecorated(true);
 		jd.setModal(true);
-		JLabel bl=new JLabel(new ImageIcon(DialogCore.class.getResource("res\\bg-newdirdf.png")));          // 把上面的图片对象加到一个名为bl的标签里  
+		URL bg=NewDir.class.getResource("res/bg-newdirdf.png");
+		JLabel bl=new JLabel(new ImageIcon(bg));          // 把上面的图片对象加到一个名为bl的标签里  
 		bl.setBounds(0,0,jd.getWidth(),jd.getHeight());        //设置标签大小
 		JPanel imagePanel=(JPanel)jd.getContentPane();        // 把内容窗格转化为JPanel，否则不能用方法setOpaque()来使内容窗格透明 ，使内容窗格透明后才能显示背景图片 
 		imagePanel.setOpaque(false);          // 把背景图片添加到分层窗格的最底层作为背景  
