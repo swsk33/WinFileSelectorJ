@@ -31,12 +31,14 @@ public class DialogCore {
 	static boolean isMultiSelect;		//是否多选
 	static boolean doFliter;		//是否过滤
 	static boolean isfrShow=false;		//预览窗是否在显示
+	
 	static JComboBox jcbidx=new JComboBox();		//快速索引
 	static JComboBox jcbtyp=new JComboBox();		//文件类型
 	static DefaultListModel dfl=new DefaultListModel();		//文件列表的模型
 	static JList fls;		//文件列表
 	static JCheckBox isShowPre=new JCheckBox("显示图片预览悬浮窗");
 	static JTextField jtn=new JTextField();
+	
 	//用于主视图列表的驱动器信息列表
 	static ArrayList<String> driname=new ArrayList<String>();
 	static ArrayList<String> dritype=new ArrayList<String>();
@@ -55,6 +57,10 @@ public class DialogCore {
 	static String[] zipfo={"zip","rar","7z","jar","tar","gz","xz","uue","iso","apk"};
 	//代码文件和可执行/二进制文件格式
 	static String[] progfo={"c","o","cpp","py","java","bat","go","js","html","css","dll","exe","class"};
+	
+	//单选、多选获取的文件路径
+	static String selectpath;
+	static Object[] multiselectpath;
 	
 	public final int ALL_FILES_ALLOW=0;
 	public final int FILE_ONLY=1;
@@ -89,12 +95,19 @@ public class DialogCore {
 		} else {
 			isInaDisk=true;
 		}
+		this.setcombobox();
+		if(selectop==3) {
+			jcbidx.setEnabled(false);
+			jcbtyp.setEnabled(false);
+			jtn.setEnabled(false);
+			isInaDisk=false;
+			cdpath="root";
+		}
 		if(isInaDisk) {
 			this.refreshfile();
 		} else {
 			this.getdriveroot();
 		}
-		this.setcombobox();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -188,12 +201,15 @@ public class DialogCore {
 		}
 	}
 	
+	
 	/**
 	 * @throws Exception 
 	 * @wbp.parser.entryPoint
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	public void df() throws Exception {
+		selectop=1;
+		isMultiSelect=false;
 		this.idxfileexa();
 		Toolkit kit=Toolkit.getDefaultToolkit();
 		Dimension sc=kit.getScreenSize();
@@ -265,6 +281,9 @@ public class DialogCore {
 				new DialogCore().refreshfile();
 			}
 		});
+		if(selectop==3) {
+			home.setEnabled(false);
+		}
 		home.setBounds(561, 47, 38, 38);
 		home.setBorderPainted(false);
 		home.setContentAreaFilled(false);
@@ -353,11 +372,58 @@ public class DialogCore {
 		view.setBorderPainted(false);
 		view.setToolTipText("更改视图");
 		JButton ok=new JButton(oks);
+		ok.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FileRaWUtils fru=new FileRaWUtils();
+				if(!isMultiSelect) {		//单选时
+					if(selectop==0||selectop==2) {
+						if(isInaDisk) {
+							try {
+								fru.replaceLine(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",1,cdpath);
+								selectpath=fls.getSelectedValue().toString();
+								jd.dispose();
+							} catch(Exception e1) {
+								e1.printStackTrace();
+							}
+						} else {
+							cdpath=fls.getSelectedValue().toString();
+							new DialogCore().refreshfile();
+							isInaDisk=true;
+						}
+					} else if(selectop==1) {
+						if(isInaDisk) {
+							cdpath=fls.getSelectedValue().toString();
+							if(new File(cdpath).isDirectory()) {
+								new DialogCore().refreshfile();
+							} else {
+								try {
+									selectpath=cdpath;
+									cdpath=new File(cdpath).getParent();
+									fru.replaceLine(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",1,cdpath);
+									jd.dispose();
+								} catch(Exception e1) {
+									e1.printStackTrace();
+								}
+							}
+						} else {
+							cdpath=fls.getSelectedValue().toString();
+							new DialogCore().refreshfile();
+							isInaDisk=true;
+						}
+					}
+				}
+			}
+		});
 		ok.setForeground(new Color(255, 0, 153));
 		ok.setFont(new Font("黑体", Font.BOLD, 20));
 		ok.setBounds(605, 398, 88, 35);
 		ok.setContentAreaFilled(false);
 		JButton cancel=new JButton("取消");
+		cancel.addActionListener(new ActionListener() {		//取消按钮
+			public void actionPerformed(ActionEvent arg0) {
+				jd.dispose();
+			}
+		});
 		cancel.setForeground(new Color(255, 102, 0));
 		cancel.setFont(new Font("黑体", Font.BOLD, 20));
 		cancel.setBounds(605, 448, 88, 35);
@@ -373,22 +439,50 @@ public class DialogCore {
 			fls.setLayoutOrientation(JList.VERTICAL_WRAP);
 			fls.setVisibleRowCount(2);
 		}
+		if(isMultiSelect) {		//单选/多选判断
+			fls.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		} else {
+			fls.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		}
 		fls.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {		//鼠标双击
-				if(e.getClickCount()==2) {
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount()==1) {		//鼠标单击
+					if(isInaDisk) {
+						if(!isMultiSelect) {
+							String gfn=new File(fls.getSelectedValue().toString()).getName();
+							jtn.setText(gfn);
+						}
+					}
+				}
+				if(e.getClickCount()==2) {		//鼠标双击
 					int index=fls.locationToIndex(e.getPoint());		//获取鼠标所在的索引
 					if(!isInaDisk) {		//若当前在我的电脑下
-						cdpath=fls.getModel().getElementAt(index).toString();
-						new DialogCore().refreshfile();
-						isInaDisk=true;
+						if(selectop==3) {		//当只允许选择磁盘时
+							selectpath=fls.getSelectedValue().toString();
+							jd.dispose();
+						} else {
+							cdpath=fls.getModel().getElementAt(index).toString();
+							new DialogCore().refreshfile();
+							isInaDisk=true;
+						}
 					} else {		//若当前在磁盘里面
 						cdpath=fls.getModel().getElementAt(index).toString();
 						if(new File(cdpath).isDirectory()) {		//若双击文件夹，则进入		
 							cdpath=fls.getModel().getElementAt(index).toString();
 							new DialogCore().refreshfile();
 						} else if(new File(cdpath).isFile()) {		//如果是文件
-							cdpath=new File(cdpath).getParent();
-							System.out.println("是文件！");
+							try {
+								FileRaWUtils fru=new FileRaWUtils();
+								cdpath=new File(cdpath).getParent();
+								selectpath=fls.getSelectedValue().toString();
+								fru.replaceLine(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",1,cdpath);
+								jd.dispose();
+								if(isfrShow) {
+									PreFrame.jf.dispose();
+								}
+							} catch(Exception e1) {
+								e1.printStackTrace();
+							}
 						}
 					}
 				}
