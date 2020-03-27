@@ -168,27 +168,31 @@ class WFsCellRender extends DefaultListCellRenderer {
 				}
 			}
 		} else {		//在我的电脑里面的时候
-			File disk=new File(value.toString());
-			FileSystemView fsv=FileSystemView.getFileSystemView();
-			setText(fsv.getSystemDisplayName(disk));
-			String disktype=fsv.getSystemTypeDescription(disk);
-			if(disktype.startsWith("本")||disktype.startsWith("Local")) {		// 当磁盘为本地磁盘时
-				ImageIcon finaico=new ImageIcon(WFsCellRender.class.getResource("res\\diskico\\disk.png"));
-				Image img=finaico.getImage().getScaledInstance(icox,icoy,Image.SCALE_DEFAULT);
-				finaico.setImage(img);
-				setIcon(finaico);
-			} else if(disktype.startsWith("U")||disktype.startsWith("Removable")) {		//为可移动磁盘时
-				ImageIcon finaico=new ImageIcon(WFsCellRender.class.getResource("res\\diskico\\udisk.png"));
-				Image img=finaico.getImage().getScaledInstance(icox,icoy,Image.SCALE_DEFAULT);
-				finaico.setImage(img);
-				setIcon(finaico);
-			} else if(disktype.startsWith("CD")) {		//为CD驱动器时
-				ImageIcon finaico=new ImageIcon(WFsCellRender.class.getResource("res\\diskico\\cd.png"));
-				Image img=finaico.getImage().getScaledInstance(icox,icoy,Image.SCALE_DEFAULT);
-				finaico.setImage(img);
-				setIcon(finaico);
-			}	
-		}
+			String[] drina=DialogCore.driname.toArray(new String[DialogCore.driname.size()]);
+			String[] drity=DialogCore.dritype.toArray(new String[DialogCore.dritype.size()]);
+			try {
+				setText(drina[index]);
+				String disktype=drity[index];
+				if(disktype.startsWith("本")||disktype.startsWith("Local")) {		// 当磁盘为本地磁盘时
+					ImageIcon finaico=new ImageIcon(WFsCellRender.class.getResource("res\\diskico\\disk.png"));
+					Image img=finaico.getImage().getScaledInstance(icox,icoy,Image.SCALE_DEFAULT);
+					finaico.setImage(img);
+					setIcon(finaico);
+				} else if(disktype.startsWith("U")||disktype.startsWith("Removable")) {		//为可移动磁盘时
+					ImageIcon finaico=new ImageIcon(WFsCellRender.class.getResource("res\\diskico\\udisk.png"));
+					Image img=finaico.getImage().getScaledInstance(icox,icoy,Image.SCALE_DEFAULT);
+					finaico.setImage(img);
+					setIcon(finaico);
+				} else if(disktype.startsWith("CD")) {		//为CD驱动器时
+					ImageIcon finaico=new ImageIcon(WFsCellRender.class.getResource("res\\diskico\\cd.png"));
+					Image img=finaico.getImage().getScaledInstance(icox,icoy,Image.SCALE_DEFAULT);
+					finaico.setImage(img);
+					setIcon(finaico);
+				}
+			} catch(Exception e) {
+				//do nothing
+			}
+		} 
 		if(DialogCore.viewop==2) {
 			setHorizontalTextPosition(SwingConstants.CENTER);
 			setVerticalTextPosition(SwingConstants.BOTTOM);

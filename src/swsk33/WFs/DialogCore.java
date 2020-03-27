@@ -5,6 +5,7 @@ import javax.swing.filechooser.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.*;
 
 public class DialogCore {
 	
@@ -33,7 +34,13 @@ public class DialogCore {
 	static JComboBox jcbtyp=new JComboBox();		//文件类型
 	static DefaultListModel dfl=new DefaultListModel();		//文件列表的模型
 	static JList fls;		//文件列表
+	static JCheckBox isShowPre=new JCheckBox("显示图片预览悬浮窗");
 	static JTextField jtn=new JTextField();
+	//用于主视图列表的驱动器信息列表
+	static ArrayList<String> driname=new ArrayList<String>();
+	static ArrayList<String> dritype=new ArrayList<String>();
+	//用于下拉菜单的驱动器信息列表
+	static ArrayList<String> cbbdriname=new ArrayList<String>();
 	//图片常用格式（提供预览图）和其余格式
 	static String[] compicfo={"jpg","jpeg","png","bmp","gif"};
 	static String[] othpicfo={"psd","tiff","iff","jfif","svg","pcx","dxf","wmf","emf","lic","eps","tga","raw","ico","webp","heic","spr","mpo"};
@@ -109,7 +116,7 @@ public class DialogCore {
 		}
 	}
 	
-	@SuppressWarnings({ "unchecked", "unlikely-arg-type" })
+	@SuppressWarnings({ "unchecked" })
 	void refreshfile(String[] hidefiles) {		//获取文件列表(设置过滤)
 		dfl.removeAllElements();
 		File[] filels=new File(cdpath).listFiles();
@@ -141,14 +148,20 @@ public class DialogCore {
 	
 	void getdriveroot() {		//获取所有驱动器
 		dfl.removeAllElements();
+		driname.clear();
+		dritype.clear();
 		File[] dr=File.listRoots();
+		FileSystemView fsv=FileSystemView.getFileSystemView();
 		for(File ss:dr) {
 			dfl.addElement(ss);
+			driname.add(fsv.getSystemDisplayName(ss));
+			dritype.add(fsv.getSystemTypeDescription(ss));
 		}
 	}
 	
 	void setcombobox() {		//初始化索引下拉菜单
 		jcbidx.removeAllItems();
+		cbbdriname.clear();
 		desktop=System.getProperty("user.home")+"\\Desktop";
 		download=System.getProperty("user.home")+"\\Downloads";
 		document=System.getProperty("user.home")+"\\Documents";
@@ -157,6 +170,7 @@ public class DialogCore {
 		video=System.getProperty("user.home")+"\\Videos";
 		appdata=System.getProperty("user.home")+"\\AppData";
 		File[] dr=File.listRoots();
+		FileSystemView fsv=FileSystemView.getFileSystemView();
 		jcbidx.addItem(desktop);
 		jcbidx.addItem(download);
 		jcbidx.addItem(document);
@@ -164,6 +178,13 @@ public class DialogCore {
 		jcbidx.addItem(music);
 		jcbidx.addItem(video);
 		jcbidx.addItem(appdata);
+		for(int i=0;i<7;i++) {		//对齐渲染器的数组
+			cbbdriname.add("用户文件夹"+(i+1));
+		}
+		for(File ss:dr) {
+			jcbidx.addItem(ss.getAbsolutePath());
+			cbbdriname.add(fsv.getSystemDisplayName(ss));
+		}
 	}
 	
 	/**
@@ -357,75 +378,82 @@ public class DialogCore {
 							cdpath=fls.getModel().getElementAt(index).toString();
 							new DialogCore().refreshfile();
 						} else if(new File(cdpath).isFile()) {		//如果是文件
+							cdpath=new File(cdpath).getParent();
 							System.out.println("是文件！");
 						}
 					}
 				}
 			}
 			public void mouseEntered(MouseEvent e) {		//鼠标放上去
-				if(viewop==0||viewop==1) {
-					int index=fls.locationToIndex(e.getPoint());		//获取鼠标所在的索引
-					String imgpath=fls.getModel().getElementAt(index).toString();
-					String ft=new FileRaWUtils().getFileFormat(imgpath);
-					if(ft.equalsIgnoreCase("jpg")||ft.equalsIgnoreCase("jpeg")||ft.equalsIgnoreCase("png")||ft.equalsIgnoreCase("bmp")||ft.equalsIgnoreCase("gif")) {
-						int iw;
-						int ih;
-						ImageIcon preimg=new ImageIcon(imgpath);
-						if(preimg.getIconWidth()>preimg.getIconHeight()) {
-							iw=250;
-							ih=(int)(((float)250/preimg.getIconWidth())*preimg.getIconHeight());
-						} else {
-							ih=156;
-							iw=(int)(((float)156/preimg.getIconHeight())*preimg.getIconWidth());
-						}
-						Image img=preimg.getImage();
-						img=img.getScaledInstance(iw,ih,Image.SCALE_AREA_AVERAGING);
-						preimg.setImage(img);
-						PreFrame.imgp.setIcon(preimg);
-						PreFrame.jf.setLocation(e.getXOnScreen()-183,e.getYOnScreen()-197);
-						if(!isfrShow) {
-							new PreFrame().prefr();
-							isfrShow=true;
-						}
-					} 
+				if(isShowPre.isSelected()) {
+					if(viewop==0||viewop==1) {
+						int index=fls.locationToIndex(e.getPoint());		//获取鼠标所在的索引
+						String imgpath=fls.getModel().getElementAt(index).toString();
+						String ft=new FileRaWUtils().getFileFormat(imgpath);
+						if(ft.equalsIgnoreCase("jpg")||ft.equalsIgnoreCase("jpeg")||ft.equalsIgnoreCase("png")||ft.equalsIgnoreCase("bmp")||ft.equalsIgnoreCase("gif")) {
+							int iw;
+							int ih;
+							ImageIcon preimg=new ImageIcon(imgpath);
+							if(preimg.getIconWidth()>preimg.getIconHeight()) {
+								iw=250;
+								ih=(int)(((float)250/preimg.getIconWidth())*preimg.getIconHeight());
+							} else {
+								ih=156;
+								iw=(int)(((float)156/preimg.getIconHeight())*preimg.getIconWidth());
+							}
+							Image img=preimg.getImage();
+							img=img.getScaledInstance(iw,ih,Image.SCALE_AREA_AVERAGING);
+							preimg.setImage(img);
+							PreFrame.imgp.setIcon(preimg);
+							PreFrame.jf.setLocation(e.getXOnScreen()-183,e.getYOnScreen()-197);
+							if(!isfrShow) {
+								new PreFrame().prefr();
+								isfrShow=true;
+							}
+						} 
+					}
 				}
 			}
 			public void mouseExited(MouseEvent e) {		//鼠标移开事件
-				PreFrame.jf.dispose();
-				isfrShow=false;
+				if(isShowPre.isSelected()) {
+					PreFrame.jf.dispose();
+					isfrShow=false;
+				}
 			}
 		});
 		fls.addMouseMotionListener(new MouseMotionAdapter() {
 			public void mouseMoved(MouseEvent e) {		//鼠标移动事件
-				if(viewop==0||viewop==1) {
-					int index=fls.locationToIndex(e.getPoint());		//获取鼠标所在的索引
-					String imgpath=fls.getModel().getElementAt(index).toString();
-					String ft=new FileRaWUtils().getFileFormat(imgpath);
-					if(ft.equalsIgnoreCase("jpg")||ft.equalsIgnoreCase("jpeg")||ft.equalsIgnoreCase("png")||ft.equalsIgnoreCase("bmp")||ft.equalsIgnoreCase("gif")) {
-						ImageIcon preimg=new ImageIcon(imgpath);
-						int iw;
-						int ih;
-						if(preimg.getIconWidth()>preimg.getIconHeight()) {
-							iw=250;
-							ih=(int)(((float)250/preimg.getIconWidth())*preimg.getIconHeight());
-						} else {
-							ih=156;
-							iw=(int)(((float)156/preimg.getIconHeight())*preimg.getIconWidth());
+				if(isShowPre.isSelected()) {
+					if(viewop==0||viewop==1) {
+						int index=fls.locationToIndex(e.getPoint());		//获取鼠标所在的索引
+						String imgpath=fls.getModel().getElementAt(index).toString();
+						String ft=new FileRaWUtils().getFileFormat(imgpath);
+						if(ft.equalsIgnoreCase("jpg")||ft.equalsIgnoreCase("jpeg")||ft.equalsIgnoreCase("png")||ft.equalsIgnoreCase("bmp")||ft.equalsIgnoreCase("gif")) {
+							ImageIcon preimg=new ImageIcon(imgpath);
+							int iw;
+							int ih;
+							if(preimg.getIconWidth()>preimg.getIconHeight()) {
+								iw=250;
+								ih=(int)(((float)250/preimg.getIconWidth())*preimg.getIconHeight());
+							} else {
+								ih=156;
+								iw=(int)(((float)156/preimg.getIconHeight())*preimg.getIconWidth());
+							}
+							Image img=preimg.getImage();
+							img=img.getScaledInstance(iw,ih,Image.SCALE_AREA_AVERAGING);
+							preimg.setImage(img);
+							PreFrame.imgp.setIcon(preimg);
+							if(!isfrShow) {
+								PreFrame.jf.setLocation(e.getXOnScreen()-183,e.getYOnScreen()-197);
+								new PreFrame().prefr();
+								isfrShow=true;
+							} else {
+								PreFrame.jf.setLocation(e.getXOnScreen()-183,e.getYOnScreen()-197);
+							}
+						} else {		//移到别的文件
+							PreFrame.jf.dispose();
+							isfrShow=false;
 						}
-						Image img=preimg.getImage();
-						img=img.getScaledInstance(iw,ih,Image.SCALE_AREA_AVERAGING);
-						preimg.setImage(img);
-						PreFrame.imgp.setIcon(preimg);
-						if(!isfrShow) {
-							PreFrame.jf.setLocation(e.getXOnScreen()-183,e.getYOnScreen()-197);
-							new PreFrame().prefr();
-							isfrShow=true;
-						} else {
-							PreFrame.jf.setLocation(e.getXOnScreen()-183,e.getYOnScreen()-197);
-						}
-					} else {		//移到别的文件
-						PreFrame.jf.dispose();
-						isfrShow=false;
 					}
 				}
 			}
@@ -444,6 +472,10 @@ public class DialogCore {
 		jcbidx.setRenderer(new CoboBoxRender());
 		jcbtyp.setBounds(141, 448, 447, 35);
 		jtn.setBounds(141, 399, 447, 35);
+		isShowPre.setFont(new Font("等线", Font.BOLD, 15));
+		isShowPre.setSelected(true);
+		isShowPre.setBounds(20, 88, 160, 18);
+		isShowPre.setOpaque(false);
 		JPanel jp=new JPanel();
 		jp.setOpaque(false);
 		jp.setLayout(null);
@@ -464,6 +496,7 @@ public class DialogCore {
 		jp.add(jcbidx);
 		jp.add(jcbtyp);
 		jp.add(jtn);
+		jp.add(isShowPre);
 		jd.getContentPane().add(jp);
 		jd.show();
 	}

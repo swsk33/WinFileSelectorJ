@@ -28,10 +28,18 @@ class CoboBoxRender extends JLabel implements ListCellRenderer {
 		} else if(value.toString().equals(DialogCore.appdata)) {
 			setText("应用数据");
 			setIcon(new ImageIcon(CoboBoxRender.class.getResource("res\\jcbico\\apd.png")));
+		} else {
+			String[] cbbdrina=DialogCore.cbbdriname.toArray(new String[DialogCore.cbbdriname.size()]);
+			try {
+				setText(cbbdrina[index]);
+				setIcon(new ImageIcon(CoboBoxRender.class.getResource("res\\jcbico\\disk.png")));
+			} catch(Exception e) {
+				//do nothing
+			}
 		}
 		list.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
-            	 list.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            	list.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
             public void mouseExited(MouseEvent e) {
                 list.setCursor(Cursor.getDefaultCursor());
