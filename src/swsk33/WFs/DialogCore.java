@@ -10,10 +10,9 @@ import java.util.*;
 
 public class DialogCore {
 	
+	//窗口位置
 	static int x;
 	static int y;
-	static int viewop;		//视图参数
-	static int selectop;		//选择参数
 	//界面变量
 	static String oks="确定";
 	static String jdt="选择文件";
@@ -27,6 +26,9 @@ public class DialogCore {
 	static String appdata;		//应用数据
 	
 	static String cdpath;		//当前所在路径
+	static int viewop;		//视图参数
+	static int selectop;		//选择参数
+	static boolean isaSaveDg;		//是否为保存对话框
 	static boolean isInaDisk;		//所在路径是否在一个磁盘里面
 	static boolean isMultiSelect;		//是否多选
 	static boolean doFliter;		//是否过滤
@@ -96,9 +98,17 @@ public class DialogCore {
 			isInaDisk=true;
 		}
 		this.setcombobox();
+		if(!isaSaveDg) {
+			jtn.setEditable(false);
+		}
+		if(!doFliter) {
+			jcbtyp.removeAllItems();
+			jcbtyp.addItem("所有文件(*.*)");
+		}
 		if(selectop==3) {
+			jcbtyp.removeAllItems();
+			jcbtyp.addItem("磁盘驱动器(disk)");
 			jcbidx.setEnabled(false);
-			jcbtyp.setEnabled(false);
 			jtn.setEnabled(false);
 			isInaDisk=false;
 			cdpath="root";
@@ -160,6 +170,20 @@ public class DialogCore {
 		}
 	}
 	
+	void refreshdironly() {		//只获取文件夹列表
+		dfl.removeAllElements();
+		File[] filels=new File(cdpath).listFiles();
+		try {
+			for(File dirs:filels) {
+				if(dirs.isDirectory()) {
+					dfl.addElement(dirs);
+				}
+			}
+		} catch(Exception e) {
+			System.out.println("目录异常！");
+		}
+	}
+	
 	void getdriveroot() {		//获取所有驱动器
 		dfl.removeAllElements();
 		driname.clear();
@@ -208,8 +232,10 @@ public class DialogCore {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	public void df() throws Exception {
-		selectop=1;
+		selectop=0;
 		isMultiSelect=false;
+		isaSaveDg=false;
+		doFliter=false;
 		this.idxfileexa();
 		Toolkit kit=Toolkit.getDefaultToolkit();
 		Dimension sc=kit.getScreenSize();
