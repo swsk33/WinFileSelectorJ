@@ -27,12 +27,14 @@ public class DialogCore {
 	
 	static String cdpath;		//当前所在路径
 	static int viewop;		//视图参数
-	static int selectop;		//选择参数
-	static boolean isaSaveDg;		//是否为保存对话框
 	static boolean isInaDisk;		//所在路径是否在一个磁盘里面
+	static boolean isfrShow=false;		//预览窗是否在显示
+	//下面四个为用户决定性参数
+	static boolean isaSaveDg;		//是否为保存对话框
 	static boolean isMultiSelect;		//是否多选
 	static boolean doFliter;		//是否过滤
-	static boolean isfrShow=false;		//预览窗是否在显示
+	static int selectop;		//选择参数
+	static String[] fliter;		//过滤文件（只显示的文件类型的列表）
 	
 	static JComboBox jcbidx=new JComboBox();		//快速索引
 	static JComboBox jcbtyp=new JComboBox();		//文件类型
@@ -92,95 +94,101 @@ public class DialogCore {
 			viewop=0;
 		}
 		//进入初始化
-		if(cdpath.equals("root")) {
+		if(cdpath.equals("root")) {		//初始化路径状态
 			isInaDisk=false;
 		} else {
 			isInaDisk=true;
 		}
 		this.setcombobox();
-		if(!isaSaveDg) {
+		if(!isaSaveDg) {		//判断是否为保存对话框
 			jtn.setEditable(false);
 		}
-		if(!doFliter) {
-			jcbtyp.removeAllItems();
-			jcbtyp.addItem("所有文件(*.*)");
-		}
-		if(selectop==3) {
-			jcbtyp.removeAllItems();
-			jcbtyp.addItem("磁盘驱动器(disk)");
-			jcbidx.setEnabled(false);
-			jtn.setEnabled(false);
-			isInaDisk=false;
-			cdpath="root";
-		}
-		if(isInaDisk) {
+		if(isInaDisk) {		//在磁盘里面时
 			this.refreshfile();
+			if(selectop==3) {		//特殊情况：只能选择驱动器时
+				jcbtyp.removeAllItems();
+				jcbtyp.addItem("磁盘驱动器(disk)");
+				jcbidx.setEnabled(false);
+				jtn.setEnabled(false);
+				isInaDisk=false;
+				cdpath="root";
+				this.getdriveroot();
+			}
 		} else {
 			this.getdriveroot();
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
-	void refreshfile() {		//获取文件列表(无过滤)
-		dfl.removeAllElements();
-		File[] filels=new File(cdpath).listFiles();
-		try {	
-			for(File adddirs:filels) {
-				if(adddirs.isDirectory()) {
-					dfl.addElement(adddirs);
+	void refreshfile() {		//获取文件列表
+		if(selectop==2) {		//只能选择文件夹时
+			dfl.removeAllElements();
+			File[] filels=new File(cdpath).listFiles();
+			try {
+				for(File dirs:filels) {
+					if(dirs.isDirectory()) {
+						dfl.addElement(dirs);
+					}
 				}
+			} catch(Exception e) {
+				System.out.println("目录异常！");
 			}
-			for(File addfiles:filels) {
-				if(addfiles.isFile()) {
-					dfl.addElement(addfiles);
-				}
-			}
-		} catch(Exception e) {
-			System.out.println("目录异常！");
-		}
-	}
-	
-	@SuppressWarnings({ "unchecked" })
-	void refreshfile(String[] hidefiles) {		//获取文件列表(设置过滤)
-		dfl.removeAllElements();
-		File[] filels=new File(cdpath).listFiles();
-		try {
-			for(File adddirs:filels) {
-				if(adddirs.isDirectory()) {
-					dfl.addElement(adddirs);
-				}
-			}
-			for(File addfile:filels) {
-				boolean shouldadd=true;
-				if(addfile.isFile()) {
-					String ft=new FileRaWUtils().getFileFormat(addfile.getAbsolutePath());
-					for(String cft:hidefiles) {
-						if(cft.equals(ft)) {
-							shouldadd=false;
-							break;
+			jcbtyp.removeAllItems();
+			jcbtyp.addItem("文件夹(dir)");
+		} else {
+			if(!doFliter) {		//不做过滤时
+				dfl.removeAllElements();
+				File[] filels=new File(cdpath).listFiles();
+				try {	
+					for(File adddirs:filels) {
+						if(adddirs.isDirectory()) {
+							dfl.addElement(adddirs);
 						}
 					}
-					if(shouldadd) {
-						dfl.addElement(addfile);
+					for(File addfiles:filels) {
+						if(addfiles.isFile()) {
+							dfl.addElement(addfiles);
+						}
 					}
+				} catch(Exception e) {
+					System.out.println("目录异常！");
 				}
-			}
-		} catch(Exception e) {
-			System.out.println("目录异常！");
-		}
-	}
-	
-	void refreshdironly() {		//只获取文件夹列表
-		dfl.removeAllElements();
-		File[] filels=new File(cdpath).listFiles();
-		try {
-			for(File dirs:filels) {
-				if(dirs.isDirectory()) {
-					dfl.addElement(dirs);
+				jcbtyp.removeAllItems();
+				jcbtyp.addItem("所有文件(*.*)");
+			} else {		//过滤时
+				dfl.removeAllElements();
+				File[] filels=new File(cdpath).listFiles();
+				try {
+					for(File adddirs:filels) {
+						if(adddirs.isDirectory()) {
+							dfl.addElement(adddirs);
+						}
+					}
+					for(File addfile:filels) {
+						boolean shouldadd=false;
+						if(addfile.isFile()) {
+							String ft=new FileRaWUtils().getFileFormat(addfile.getAbsolutePath());
+							for(String cft:fliter) {
+								if(cft.equals(ft)) {
+									shouldadd=true;
+									break;
+								}
+							}
+							if(shouldadd) {
+								dfl.addElement(addfile);
+							}
+						}
+					}
+				} catch(Exception e) {
+					System.out.println("目录异常！");
 				}
+				jcbtyp.removeAllItems();
+				String text="可选文件：";
+				for(String st:fliter) {
+					text=text+"*."+st+";";
+				}
+				jcbtyp.addItem(text);
 			}
-		} catch(Exception e) {
-			System.out.println("目录异常！");
 		}
 	}
 	
@@ -236,6 +244,8 @@ public class DialogCore {
 		isMultiSelect=false;
 		isaSaveDg=false;
 		doFliter=false;
+		String[] a={"png","jpg","exe"};
+		fliter=a;
 		this.idxfileexa();
 		Toolkit kit=Toolkit.getDefaultToolkit();
 		Dimension sc=kit.getScreenSize();
@@ -398,11 +408,11 @@ public class DialogCore {
 		view.setBorderPainted(false);
 		view.setToolTipText("更改视图");
 		JButton ok=new JButton(oks);
-		ok.addActionListener(new ActionListener() {
+		ok.addActionListener(new ActionListener() {		//确定
 			public void actionPerformed(ActionEvent e) {
 				FileRaWUtils fru=new FileRaWUtils();
 				if(!isMultiSelect) {		//单选时
-					if(selectop==0||selectop==2) {
+					if(selectop==0||selectop==2) {		//都可以选择时或者是选择文件夹时
 						if(isInaDisk) {
 							try {
 								fru.replaceLine(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",1,cdpath);
@@ -416,7 +426,7 @@ public class DialogCore {
 							new DialogCore().refreshfile();
 							isInaDisk=true;
 						}
-					} else if(selectop==1) {
+					} else if(selectop==1) {		//只能选择文件时
 						if(isInaDisk) {
 							cdpath=fls.getSelectedValue().toString();
 							if(new File(cdpath).isDirectory()) {
@@ -436,6 +446,9 @@ public class DialogCore {
 							new DialogCore().refreshfile();
 							isInaDisk=true;
 						}
+					} else {		//只能选择驱动器时
+						selectpath=fls.getSelectedValue().toString();
+						jd.dispose();
 					}
 				}
 			}
