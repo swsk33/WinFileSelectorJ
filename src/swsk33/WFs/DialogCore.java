@@ -65,7 +65,7 @@ public class DialogCore {
 	//单选、多选获取的文件路径
 	static String selectpath;
 	static Object[] multiselectpath;
-	
+	//选择对象常数
 	public final int ALL_FILES_ALLOW=0;
 	public final int FILE_ONLY=1;
 	public final int DIR_ONLY=2;
@@ -241,7 +241,7 @@ public class DialogCore {
 	@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	public void df() throws Exception {
 		selectop=0;
-		isMultiSelect=false;
+		isMultiSelect=true;
 		isaSaveDg=false;
 		doFliter=false;
 		String[] a={"png","jpg","exe"};
@@ -450,6 +450,51 @@ public class DialogCore {
 						selectpath=fls.getSelectedValue().toString();
 						jd.dispose();
 					}
+				} else {		//多选时
+					if(selectop==0||selectop==2) {		//都可以选择时或者是选择文件夹时
+						if(isInaDisk) {
+							try {
+								fru.replaceLine(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",1,cdpath);
+								Object[] msl=fls.getSelectedValues();
+								multiselectpath=msl;
+								jd.dispose();
+							} catch(Exception e1) {
+								e1.printStackTrace();
+							}
+						} else {
+							if(fls.getSelectedValues().length==1) {		//如果选择的对象只有一个
+								cdpath=fls.getSelectedValues()[0].toString();
+								new DialogCore().refreshfile();
+								isInaDisk=true;
+							} else {		//有多个被选中时
+								fls.setSelectedIndex(0);
+							}
+						}
+					} else if(selectop==1) {		//只能选择文件时
+						if(isInaDisk) {
+							cdpath=fls.getSelectedValue().toString();
+							if(new File(cdpath).isDirectory()) {
+								new DialogCore().refreshfile();
+							} else {
+								try {
+									selectpath=cdpath;
+									cdpath=new File(cdpath).getParent();
+									fru.replaceLine(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",1,cdpath);
+									jd.dispose();
+								} catch(Exception e1) {
+									e1.printStackTrace();
+								}
+							}
+						} else {
+							cdpath=fls.getSelectedValue().toString();
+							new DialogCore().refreshfile();
+							isInaDisk=true;
+						}
+					} else {		//只能选择驱动器时
+						selectpath=fls.getSelectedValue().toString();
+						jd.dispose();
+					}
+					
 				}
 			}
 		});
@@ -487,9 +532,16 @@ public class DialogCore {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount()==1) {		//鼠标单击
 					if(isInaDisk) {
-						if(!isMultiSelect) {
+						if(!isMultiSelect) {		//单选时
 							String gfn=new File(fls.getSelectedValue().toString()).getName();
 							jtn.setText(gfn);
+						} else {
+							String gfnn="";
+							for(Object n:fls.getSelectedValues()) {
+								String fn=new File(n.toString()).getName();
+								gfnn=gfnn+fn+" ";
+							}
+							jtn.setText(gfnn);
 						}
 					}
 				}
@@ -497,7 +549,12 @@ public class DialogCore {
 					int index=fls.locationToIndex(e.getPoint());		//获取鼠标所在的索引
 					if(!isInaDisk) {		//若当前在我的电脑下
 						if(selectop==3) {		//当只允许选择磁盘时
-							selectpath=fls.getSelectedValue().toString();
+							if(!isMultiSelect) {		//单选时
+								selectpath=fls.getSelectedValue().toString();
+							} else {
+								Object[] asp={fls.getSelectedValue()};
+								multiselectpath=asp;
+							}
 							jd.dispose();
 						} else {
 							cdpath=fls.getModel().getElementAt(index).toString();
@@ -506,14 +563,18 @@ public class DialogCore {
 						}
 					} else {		//若当前在磁盘里面
 						cdpath=fls.getModel().getElementAt(index).toString();
-						if(new File(cdpath).isDirectory()) {		//若双击文件夹，则进入		
-							cdpath=fls.getModel().getElementAt(index).toString();
+						if(new File(cdpath).isDirectory()) {		//若双击文件夹，则进入
 							new DialogCore().refreshfile();
 						} else if(new File(cdpath).isFile()) {		//如果是文件
 							try {
 								FileRaWUtils fru=new FileRaWUtils();
 								cdpath=new File(cdpath).getParent();
-								selectpath=fls.getSelectedValue().toString();
+								if(!isMultiSelect) {		//单选时
+									selectpath=fls.getSelectedValue().toString();
+								} else {
+									Object[] asp={fls.getSelectedValue()};
+									multiselectpath=asp;
+								}
 								fru.replaceLine(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",1,cdpath);
 								jd.dispose();
 								if(isfrShow) {
