@@ -24,7 +24,7 @@ public class DialogCore {
 	static String picture;		//图片路径
 	static String video;		//视频路径
 	static String appdata;		//应用数据
-	
+	//程序运行时参数
 	static String cdpath;		//当前所在路径
 	static int viewop;		//视图参数
 	static boolean isInaDisk;		//所在路径是否在一个磁盘里面
@@ -34,15 +34,14 @@ public class DialogCore {
 	static boolean isMultiSelect;		//是否多选
 	static boolean doFliter;		//是否过滤
 	static int selectop;		//选择参数
-	static String[] fliter;		//过滤文件（只显示的文件类型的列表）
-	
+	static String[] fliter;		//过滤文件（只显示被允许的文件类型的列表）
+	//组件
 	static JComboBox jcbidx=new JComboBox();		//快速索引
 	static JComboBox jcbtyp=new JComboBox();		//文件类型
 	static DefaultListModel dfl=new DefaultListModel();		//文件列表的模型
 	static JList fls;		//文件列表
 	static JCheckBox isShowPre=new JCheckBox("显示图片预览悬浮窗");
 	static JTextField jtn=new JTextField();
-	
 	//用于主视图列表的驱动器信息列表
 	static ArrayList<String> driname=new ArrayList<String>();
 	static ArrayList<String> dritype=new ArrayList<String>();
@@ -61,7 +60,6 @@ public class DialogCore {
 	static String[] zipfo={"zip","rar","7z","jar","tar","gz","xz","uue","iso","apk"};
 	//代码文件和可执行/二进制文件格式
 	static String[] progfo={"c","o","cpp","py","java","bat","go","js","html","css","dll","exe","class"};
-	
 	//单选、多选获取的文件路径
 	static String selectpath;
 	static Object[] multiselectpath;
@@ -116,6 +114,20 @@ public class DialogCore {
 			}
 		} else {
 			this.getdriveroot();
+		}
+		jcbtyp.removeAllItems();		//文件类型的对话框初始化
+		if(!isaSaveDg) {		//不是保存对话框时
+			String text="可选文件：";
+			for(String st:fliter) {
+				text=text+"*."+st+";";
+			}
+			jcbtyp.addItem(text);
+		} else {
+			jcbtyp.addItem("*.*(所有类型文件)");
+			for(String st:fliter) {
+				String typ="*."+st;
+				jcbtyp.addItem(typ);
+			}
 		}
 	}
 	
@@ -182,12 +194,6 @@ public class DialogCore {
 				} catch(Exception e) {
 					System.out.println("目录异常！");
 				}
-				jcbtyp.removeAllItems();
-				String text="可选文件：";
-				for(String st:fliter) {
-					text=text+"*."+st+";";
-				}
-				jcbtyp.addItem(text);
 			}
 		}
 	}
@@ -240,10 +246,11 @@ public class DialogCore {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	public void df() throws Exception {
+		//暂存的参数
 		selectop=0;
 		isMultiSelect=false;
-		isaSaveDg=false;
-		doFliter=false;
+		isaSaveDg=true;
+		doFliter=true;
 		String[] a={"png","jpg","exe"};
 		fliter=a;
 		this.idxfileexa();
@@ -701,6 +708,38 @@ public class DialogCore {
 		});
 		jcbidx.setRenderer(new CoboBoxRender());
 		jcbtyp.setBounds(141, 448, 447, 35);
+		jcbtyp.addActionListener(new ActionListener() {		//为保存对话框时，实现选择一个类型只显示该类型文件
+			public void actionPerformed(ActionEvent arg0) {
+				dfl.removeAllElements();
+				File[] fl=new File(cdpath).listFiles();
+				for(File dirs:fl) {		//先添加文件夹对象
+					if(dirs.isDirectory()) {
+						dfl.addElement(dirs);
+					}
+				}
+				if(jcbtyp.getSelectedIndex()==0) {		//再根据选择的东西来添加相关文件至容器
+					for(File files:fl) {		//先添加文件夹对象
+						if(files.isFile()) {
+							dfl.addElement(files);
+						}
+					}
+				} else {
+					try {
+						for(File addfile:fl) {
+							if(addfile.isFile()) {
+								String ft=new FileRaWUtils().getFileFormat(addfile.getAbsolutePath());		//文件类型
+								String getIt=jcbtyp.getSelectedItem().toString();
+								if(ft.equalsIgnoreCase(getIt.substring(getIt.lastIndexOf(".")+1))) {
+									dfl.addElement(addfile);
+								}
+							}
+						}
+					} catch(Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
 		jtn.setBounds(141, 399, 447, 35);
 		isShowPre.setFont(new Font("等线", Font.BOLD, 15));
 		isShowPre.setSelected(true);
