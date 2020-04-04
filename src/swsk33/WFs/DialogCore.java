@@ -29,7 +29,7 @@ public class DialogCore {
 	static int viewop;		//视图参数
 	static boolean isInaDisk;		//所在路径是否在一个磁盘里面
 	static boolean isfrShow=false;		//预览窗是否在显示
-	//下面四个为用户决定性参数
+	//下面几个为用户决定性参数
 	static boolean isaSaveDg;		//是否为保存对话框
 	static boolean isMultiSelect;		//是否多选
 	static boolean doFliter;		//是否过滤
@@ -241,7 +241,7 @@ public class DialogCore {
 	@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	public void df() throws Exception {
 		selectop=0;
-		isMultiSelect=true;
+		isMultiSelect=false;
 		isaSaveDg=false;
 		doFliter=false;
 		String[] a={"png","jpg","exe"};
@@ -472,29 +472,56 @@ public class DialogCore {
 						}
 					} else if(selectop==1) {		//只能选择文件时
 						if(isInaDisk) {
-							cdpath=fls.getSelectedValue().toString();
-							if(new File(cdpath).isDirectory()) {
-								new DialogCore().refreshfile();
-							} else {
-								try {
-									selectpath=cdpath;
-									cdpath=new File(cdpath).getParent();
-									fru.replaceLine(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",1,cdpath);
-									jd.dispose();
-								} catch(Exception e1) {
-									e1.printStackTrace();
+							Object[] seit=fls.getSelectedValues();
+							if(seit.length==1) {		//如果选择的对象只有一个
+								if(new File(seit[0].toString()).isDirectory()) {
+									cdpath=seit[0].toString();
+									new DialogCore().refreshfile();
+								} else {
+									try {
+										fru.replaceLine(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",1,cdpath);
+										Object[] msl=fls.getSelectedValues();
+										multiselectpath=msl;
+										jd.dispose();
+									} catch(Exception e1) {
+										e1.printStackTrace();
+									}
+								}
+							} else {		//有多个被选中时
+								boolean isicldir=false;
+								for(Object o:seit) {
+									if(new File(o.toString()).isDirectory()) {
+										isicldir=true;
+										break;
+									}
+								}
+								if(isicldir) {		//多选的内容包含文件夹，但是这不被允许此时
+									fls.setSelectedIndex(0);
+								} else {
+									try {
+										fru.replaceLine(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",1,cdpath);
+										Object[] msl=fls.getSelectedValues();
+										multiselectpath=msl;
+										jd.dispose();
+									} catch(Exception e1) {
+										e1.printStackTrace();
+									}
 								}
 							}
 						} else {
-							cdpath=fls.getSelectedValue().toString();
-							new DialogCore().refreshfile();
-							isInaDisk=true;
+							if(fls.getSelectedValues().length==1) {		//如果选择的对象只有一个
+								cdpath=fls.getSelectedValues()[0].toString();
+								new DialogCore().refreshfile();
+								isInaDisk=true;
+							} else {		//有多个被选中时
+								fls.setSelectedIndex(0);
+							}
 						}
 					} else {		//只能选择驱动器时
-						selectpath=fls.getSelectedValue().toString();
+						Object[] msl=fls.getSelectedValues();
+						multiselectpath=msl;
 						jd.dispose();
 					}
-					
 				}
 			}
 		});
