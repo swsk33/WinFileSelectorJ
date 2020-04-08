@@ -98,14 +98,9 @@ public class DialogCore {
 			isInaDisk=true;
 		}
 		this.setcombobox();
-		if(!isaSaveDg) {		//判断是否为保存对话框
-			jtn.setEditable(false);
-		}
 		if(isInaDisk) {		//在磁盘里面时
 			this.refreshfile();
 			if(selectop==3) {		//特殊情况：只能选择驱动器时
-				jcbtyp.removeAllItems();
-				jcbtyp.addItem("磁盘驱动器(disk)");
 				jcbidx.setEnabled(false);
 				jtn.setEnabled(false);
 				isInaDisk=false;
@@ -115,19 +110,28 @@ public class DialogCore {
 		} else {
 			this.getdriveroot();
 		}
-		jcbtyp.removeAllItems();		//文件类型的对话框初始化
-		if(!isaSaveDg) {		//不是保存对话框时
-			String text="可选文件：";
-			for(String st:fliter) {
-				text=text+"*."+st+";";
+		jcbtyp.removeAllItems();
+		if(selectop==3) {
+			jcbtyp.addItem("磁盘驱动器(disk)");
+		} else if(selectop==2) {		//只显示文件夹时
+			jcbtyp.addItem("文件夹(dir)");
+		} else if(doFliter) {		//如果过滤则要重新设置文件类型下拉菜单
+			if(!isaSaveDg) {		//不是保存对话框时
+				jtn.setEditable(false);
+				String text="可选文件：";
+				for(String st:fliter) {
+					text=text+"*."+st+";";
+				}
+				jcbtyp.addItem(text);
+			} else {
+				jcbtyp.addItem("*.*(所有类型文件)");
+				for(String st:fliter) {
+					String typ="*."+st;
+					jcbtyp.addItem(typ);
+				}
 			}
-			jcbtyp.addItem(text);
-		} else {
-			jcbtyp.addItem("*.*(所有类型文件)");
-			for(String st:fliter) {
-				String typ="*."+st;
-				jcbtyp.addItem(typ);
-			}
+		} else {		//不做任何过滤
+			jcbtyp.addItem("所有文件(*.*)");
 		}
 	}
 	
@@ -145,8 +149,6 @@ public class DialogCore {
 			} catch(Exception e) {
 				System.out.println("目录异常！");
 			}
-			jcbtyp.removeAllItems();
-			jcbtyp.addItem("文件夹(dir)");
 		} else {
 			if(!doFliter) {		//不做过滤时
 				dfl.removeAllElements();
@@ -165,8 +167,6 @@ public class DialogCore {
 				} catch(Exception e) {
 					System.out.println("目录异常！");
 				}
-				jcbtyp.removeAllItems();
-				jcbtyp.addItem("所有文件(*.*)");
 			} else {		//过滤时
 				dfl.removeAllElements();
 				File[] filels=new File(cdpath).listFiles();
@@ -247,10 +247,10 @@ public class DialogCore {
 	@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	public void df() throws Exception {
 		//暂存的参数
-		selectop=0;
+		selectop=2;
 		isMultiSelect=false;
-		isaSaveDg=true;
-		doFliter=true;
+		isaSaveDg=false;
+		doFliter=false;
 		String[] a={"png","jpg","exe"};
 		fliter=a;
 		this.idxfileexa();
@@ -710,32 +710,34 @@ public class DialogCore {
 		jcbtyp.setBounds(141, 448, 447, 35);
 		jcbtyp.addActionListener(new ActionListener() {		//为保存对话框时，实现选择一个类型只显示该类型文件
 			public void actionPerformed(ActionEvent arg0) {
-				dfl.removeAllElements();
-				File[] fl=new File(cdpath).listFiles();
-				for(File dirs:fl) {		//先添加文件夹对象
-					if(dirs.isDirectory()) {
-						dfl.addElement(dirs);
-					}
-				}
-				if(jcbtyp.getSelectedIndex()==0) {		//再根据选择的东西来添加相关文件至容器
-					for(File files:fl) {		//先添加文件夹对象
-						if(files.isFile()) {
-							dfl.addElement(files);
+				if(isaSaveDg) {
+					dfl.removeAllElements();
+					File[] fl=new File(cdpath).listFiles();
+					for(File dirs:fl) {		//先添加文件夹对象
+						if(dirs.isDirectory()) {
+							dfl.addElement(dirs);
 						}
 					}
-				} else {
-					try {
-						for(File addfile:fl) {
-							if(addfile.isFile()) {
-								String ft=new FileRaWUtils().getFileFormat(addfile.getAbsolutePath());		//文件类型
-								String getIt=jcbtyp.getSelectedItem().toString();
-								if(ft.equalsIgnoreCase(getIt.substring(getIt.lastIndexOf(".")+1))) {
-									dfl.addElement(addfile);
-								}
+					if(jcbtyp.getSelectedIndex()==0) {		//再根据选择的东西来添加相关文件至容器
+						for(File files:fl) {		//先添加文件夹对象
+							if(files.isFile()) {
+								dfl.addElement(files);
 							}
 						}
-					} catch(Exception e1) {
-						e1.printStackTrace();
+					} else {
+						try {
+							for(File addfile:fl) {
+								if(addfile.isFile()) {
+									String ft=new FileRaWUtils().getFileFormat(addfile.getAbsolutePath());		//文件类型
+									String getIt=jcbtyp.getSelectedItem().toString();
+									if(ft.equalsIgnoreCase(getIt.substring(getIt.lastIndexOf(".")+1))) {
+										dfl.addElement(addfile);
+									}
+								}
+							}
+						} catch(Exception e1) {
+							e1.printStackTrace();
+						}
 					}
 				}
 			}
