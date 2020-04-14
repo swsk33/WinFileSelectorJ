@@ -110,12 +110,16 @@ public class DialogCore {
 		} else {
 			this.getdriveroot();
 		}
+		this.setupjcbtyp();
+	}
+	
+	void setupjcbtyp() {		//初始化下拉菜单
 		jcbtyp.removeAllItems();
 		if(selectop==3) {
 			jcbtyp.addItem("磁盘驱动器(disk)");
 		} else if(selectop==2) {		//只显示文件夹时
 			jcbtyp.addItem("文件夹(dir)");
-		} else if(doFliter) {		//如果过滤则要重新设置文件类型下拉菜单
+		} else if(doFliter&&selectop!=2&&selectop!=3) {		//如果过滤则要重新设置文件类型下拉菜单
 			if(!isaSaveDg) {		//不是保存对话框时
 				jtn.setEditable(false);
 				String text="可选文件：";
@@ -137,45 +141,24 @@ public class DialogCore {
 	
 	@SuppressWarnings("unchecked")
 	void refreshfile() {		//获取文件列表
-		if(selectop==2) {		//只能选择文件夹时
-			dfl.removeAllElements();
-			File[] filels=new File(cdpath).listFiles();
-			try {
-				for(File dirs:filels) {
-					if(dirs.isDirectory()) {
-						dfl.addElement(dirs);
-					}
+		dfl.removeAllElements();
+		File[] filels=new File(cdpath).listFiles();
+		try {
+			for(File dirs:filels) {		//先获取文件夹列表
+				if(dirs.isDirectory()) {
+					dfl.addElement(dirs);
 				}
-			} catch(Exception e) {
-				System.out.println("目录异常！");
 			}
-		} else {
-			if(!doFliter) {		//不做过滤时
-				dfl.removeAllElements();
-				File[] filels=new File(cdpath).listFiles();
-				try {	
-					for(File adddirs:filels) {
-						if(adddirs.isDirectory()) {
-							dfl.addElement(adddirs);
-						}
-					}
+			if(selectop==2) {		//只选择文件夹时
+				//什么也不干
+			} else {		//要获取文件时
+				if(!doFliter) {		//不做过滤时,获取所有类型文件
 					for(File addfiles:filels) {
 						if(addfiles.isFile()) {
 							dfl.addElement(addfiles);
 						}
 					}
-				} catch(Exception e) {
-					System.out.println("目录异常！");
-				}
-			} else {		//过滤时
-				dfl.removeAllElements();
-				File[] filels=new File(cdpath).listFiles();
-				try {
-					for(File adddirs:filels) {
-						if(adddirs.isDirectory()) {
-							dfl.addElement(adddirs);
-						}
-					}
+				} else {		//过滤时，获取过滤类型文件
 					for(File addfile:filels) {
 						boolean shouldadd=false;
 						if(addfile.isFile()) {
@@ -191,10 +174,10 @@ public class DialogCore {
 							}
 						}
 					}
-				} catch(Exception e) {
-					System.out.println("目录异常！");
 				}
 			}
+		} catch(Exception e) {
+			System.out.println("目录异常！");
 		}
 	}
 	
@@ -249,8 +232,8 @@ public class DialogCore {
 		//暂存的参数
 		selectop=2;
 		isMultiSelect=false;
-		isaSaveDg=false;
-		doFliter=false;
+		isaSaveDg=true;
+		doFliter=true;
 		String[] a={"png","jpg","exe"};
 		fliter=a;
 		this.idxfileexa();
@@ -719,7 +702,7 @@ public class DialogCore {
 						}
 					}
 					if(jcbtyp.getSelectedIndex()==0) {		//再根据选择的东西来添加相关文件至容器
-						for(File files:fl) {		//先添加文件夹对象
+						for(File files:fl) {		//添加文件对象
 							if(files.isFile()) {
 								dfl.addElement(files);
 							}
