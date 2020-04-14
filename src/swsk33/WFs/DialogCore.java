@@ -98,6 +98,7 @@ public class DialogCore {
 			isInaDisk=true;
 		}
 		this.setcombobox();
+		this.setupjcbtyp();
 		if(isInaDisk) {		//在磁盘里面时
 			this.refreshfile();
 			if(selectop==3) {		//特殊情况：只能选择驱动器时
@@ -110,7 +111,6 @@ public class DialogCore {
 		} else {
 			this.getdriveroot();
 		}
-		this.setupjcbtyp();
 	}
 	
 	void setupjcbtyp() {		//初始化下拉菜单
@@ -137,6 +137,7 @@ public class DialogCore {
 		} else {		//不做任何过滤
 			jcbtyp.addItem("所有文件(*.*)");
 		}
+		jcbtyp.setSelectedIndex(0);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -159,18 +160,48 @@ public class DialogCore {
 						}
 					}
 				} else {		//过滤时，获取过滤类型文件
-					for(File addfile:filels) {
-						boolean shouldadd=false;
-						if(addfile.isFile()) {
-							String ft=new FileRaWUtils().getFileFormat(addfile.getAbsolutePath());
-							for(String cft:fliter) {
-								if(cft.equals(ft)) {
-									shouldadd=true;
-									break;
+					if(!isaSaveDg) {		//如果不是保存对话框
+						for(File addfile:filels) {
+							boolean shouldadd=false;
+							if(addfile.isFile()) {
+								String ft=new FileRaWUtils().getFileFormat(addfile.getAbsolutePath());
+								for(String cft:fliter) {
+									if(cft.equalsIgnoreCase(ft)) {
+										shouldadd=true;
+										break;
+									}
+								}
+								if(shouldadd) {
+									dfl.addElement(addfile);
 								}
 							}
-							if(shouldadd) {
-								dfl.addElement(addfile);
+						}
+					} else {		//如果是保存对话框，就要根据下拉菜单内容实时刷新
+						if(jcbtyp.getSelectedIndex()==0) {		//下拉菜单选择显示全部时
+							for(File addfile:filels) {
+								boolean shouldadd=false;
+								if(addfile.isFile()) {
+									String ft=new FileRaWUtils().getFileFormat(addfile.getAbsolutePath());
+									for(String cft:fliter) {
+										if(cft.equalsIgnoreCase(ft)) {
+											shouldadd=true;
+											break;
+										}
+									}
+									if(shouldadd) {
+										dfl.addElement(addfile);
+									}
+								}
+							}
+						} else {		//否则按需获取文件
+							for(File addfile:filels) {
+								if(addfile.isFile()) {
+									String ft=new FileRaWUtils().getFileFormat(addfile.getAbsolutePath());		//文件类型
+									String getIt=jcbtyp.getSelectedItem().toString();
+									if(ft.equalsIgnoreCase(getIt.substring(getIt.lastIndexOf(".")+1))) {
+										dfl.addElement(addfile);
+									}
+								}
 							}
 						}
 					}
@@ -230,10 +261,10 @@ public class DialogCore {
 	@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	public void df() throws Exception {
 		//暂存的参数
-		selectop=2;
+		selectop=1;
 		isMultiSelect=false;
 		isaSaveDg=true;
-		doFliter=true;
+		doFliter=false;
 		String[] a={"png","jpg","exe"};
 		fliter=a;
 		this.idxfileexa();
@@ -691,40 +722,13 @@ public class DialogCore {
 		});
 		jcbidx.setRenderer(new CoboBoxRender());
 		jcbtyp.setBounds(141, 448, 447, 35);
-		jcbtyp.addActionListener(new ActionListener() {		//为保存对话框时，实现选择一个类型只显示该类型文件
-			public void actionPerformed(ActionEvent arg0) {
-				if(isaSaveDg) {
-					dfl.removeAllElements();
-					File[] fl=new File(cdpath).listFiles();
-					for(File dirs:fl) {		//先添加文件夹对象
-						if(dirs.isDirectory()) {
-							dfl.addElement(dirs);
-						}
-					}
-					if(jcbtyp.getSelectedIndex()==0) {		//再根据选择的东西来添加相关文件至容器
-						for(File files:fl) {		//添加文件对象
-							if(files.isFile()) {
-								dfl.addElement(files);
-							}
-						}
-					} else {
-						try {
-							for(File addfile:fl) {
-								if(addfile.isFile()) {
-									String ft=new FileRaWUtils().getFileFormat(addfile.getAbsolutePath());		//文件类型
-									String getIt=jcbtyp.getSelectedItem().toString();
-									if(ft.equalsIgnoreCase(getIt.substring(getIt.lastIndexOf(".")+1))) {
-										dfl.addElement(addfile);
-									}
-								}
-							}
-						} catch(Exception e1) {
-							e1.printStackTrace();
-						}
-					}
+		if(isaSaveDg&&doFliter&&selectop!=2&&selectop!=3) {		//为保存对话框且有过滤时，实现选择一个类型只显示该类型文件
+			jcbtyp.addActionListener(new ActionListener() {		
+				public void actionPerformed(ActionEvent arg0) {
+					new DialogCore().refreshfile();
 				}
-			}
-		});
+			});
+		}
 		jtn.setBounds(141, 399, 447, 35);
 		isShowPre.setFont(new Font("等线", Font.BOLD, 15));
 		isShowPre.setSelected(true);
