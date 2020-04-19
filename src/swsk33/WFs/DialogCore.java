@@ -98,12 +98,12 @@ public class DialogCore {
 			isInaDisk=true;
 		}
 		this.setcombobox();
+		this.setupjtn();
 		this.setupjcbtyp();
 		if(isInaDisk) {		//在磁盘里面时
 			this.refreshfile();
 			if(selectop==3) {		//特殊情况：只能选择驱动器时
 				jcbidx.setEnabled(false);
-				jtn.setEnabled(false);
 				isInaDisk=false;
 				cdpath="root";
 				this.getdriveroot();
@@ -113,15 +113,24 @@ public class DialogCore {
 		}
 	}
 	
+	void setupjtn() {		//初始化文件名文本框
+		if(isaSaveDg) {
+			jtn.setEditable(true);
+		} else {
+			jtn.setEditable(false);
+		}
+	}
+	
 	void setupjcbtyp() {		//初始化下拉菜单
 		jcbtyp.removeAllItems();
 		if(selectop==3) {
 			jcbtyp.addItem("磁盘驱动器(disk)");
 		} else if(selectop==2) {		//只显示文件夹时
 			jcbtyp.addItem("文件夹(dir)");
-		} else if(doFliter&&selectop!=2&&selectop!=3) {		//如果过滤则要重新设置文件类型下拉菜单
-			if(!isaSaveDg) {		//不是保存对话框时
-				jtn.setEditable(false);
+		} 
+		if(doFliter) {		//如果过滤则要重新设置文件类型下拉菜单
+			jcbtyp.removeAllItems();
+			if(!isaSaveDg&&(selectop==0||selectop==1)) {		//不是保存对话框且只能选择文件时
 				String text="可选文件：";
 				for(String st:fliter) {
 					text=text+"*."+st+";";
@@ -261,10 +270,10 @@ public class DialogCore {
 	@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	public void df() throws Exception {
 		//暂存的参数
-		selectop=0;
+		selectop=1;
 		isMultiSelect=false;
 		isaSaveDg=true;
-		doFliter=false;
+		doFliter=true;
 		String[] a={"png","jpg","exe"};
 		fliter=a;
 		this.idxfileexa();
@@ -584,6 +593,18 @@ public class DialogCore {
 							} else {
 								if(isInaDisk) {
 									String sfl=cdpath+"\\"+jtn.getText();
+									if(doFliter&&jcbtyp.getSelectedIndex()!=0) {		//保存对话框且做过滤时，检查并自动补全文件名正确性		
+										String jcbsel=jcbtyp.getSelectedItem().toString();		//获取的列表选择项
+										String jcbselx=jcbsel.substring(jcbsel.lastIndexOf(".")+1);		//获取的列表相对应扩展名
+										if(sfl.contains(".")) {		//文件有尾缀时，检查其正确性
+											String fty=sfl.substring(sfl.lastIndexOf(".")+1);		//获取文件扩展名
+											if(!fty.equalsIgnoreCase(jcbselx)) {		//扩展名不对时
+												sfl=sfl+"."+jcbselx;
+											}
+										} else {		//没有尾缀，就加上去
+											sfl=sfl+"."+jcbselx;
+										}
+									}
 									if(new File(sfl).exists()) {		//如果文件存在
 										new OverwriteTip().fr();
 										if(OverwriteTip.isOvt) {
@@ -599,7 +620,11 @@ public class DialogCore {
 										fru.replaceLine(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",1,cdpath);
 									}
 								} else {
-									Process tip=Runtime.getRuntime().exec("cmd /c echo msgbox \"请选择一个项目！\",64,\"错误\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
+									String sflr=fls.getSelectedValue().toString()+jtn.getText();
+									selectpath=sflr;
+									jd.dispose();
+									fru.replaceLine(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",1,cdpath);
+									System.out.println(sflr);
 								}
 							}
 						} catch(Exception e1) {
@@ -691,7 +716,20 @@ public class DialogCore {
 								FileRaWUtils fru=new FileRaWUtils();
 								cdpath=new File(cdpath).getParent();
 								if(!isMultiSelect) {		//单选时
-									selectpath=fls.getSelectedValue().toString();
+									if(isaSaveDg) {		//保存对话框时
+										new OverwriteTip().fr();
+										if(OverwriteTip.isOvt) {		//提示覆盖的选项
+											selectpath=fls.getSelectedValue().toString();
+											fru.replaceLine(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",1,cdpath);
+											jd.dispose();
+										} else {		//不然
+											//什么都不做
+										}
+									} else {
+										selectpath=fls.getSelectedValue().toString();
+										fru.replaceLine(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",1,cdpath);
+										jd.dispose();
+									}
 								} else {
 									Object[] asp={fls.getSelectedValue()};
 									multiselectpath=asp;
