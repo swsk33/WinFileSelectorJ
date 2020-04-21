@@ -8,14 +8,14 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class DialogCore {
+class DialogCore {		//对话框处理核心
 	
 	//窗口位置
 	static int x;
 	static int y;
 	//界面变量
 	static String oks="确定";
-	static String jdt="选择文件";
+	static String jdt;
 	//常用路径索引
 	static String desktop;		//桌面路径
 	static String download;		//下载路径
@@ -64,10 +64,10 @@ public class DialogCore {
 	static String selectpath;
 	static Object[] multiselectpath;
 	//选择对象常数
-	public final int ALL_FILES_ALLOW=0;
-	public final int FILE_ONLY=1;
-	public final int DIR_ONLY=2;
-	public final int DRIVE_ONLY=3;
+	public static final int ALL_FILES_ALLOW=0;
+	public static final int FILE_ONLY=1;
+	public static final int DIR_ONLY=2;
+	public static final int DRIVE_ONLY=3;
 	
 	void idxfileexa() throws Exception {		//路径记录文件自检及初始化
 		//文件自检
@@ -269,13 +269,6 @@ public class DialogCore {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	public void df() throws Exception {
-		//暂存的参数
-		selectop=0;
-		isMultiSelect=false;
-		isaSaveDg=true;
-		doFliter=true;
-		String[] a={"png","jpg","exe"};
-		fliter=a;
 		this.idxfileexa();
 		Toolkit kit=Toolkit.getDefaultToolkit();
 		Dimension sc=kit.getScreenSize();
@@ -591,7 +584,12 @@ public class DialogCore {
 							if(jtn.getText().equals("")) {
 								Process tip=Runtime.getRuntime().exec("cmd /c echo msgbox \"请输入文件名！\",64,\"错误\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
 							} else {
-								String sfl=cdpath+"\\"+jtn.getText();
+								String sfl="";		//最后获取的完整文件路径
+								if(cdpath.endsWith("\\")) {
+									sfl=cdpath+jtn.getText();
+								} else {
+									sfl=cdpath+"\\"+jtn.getText();
+								}
 								if(doFliter&&jcbtyp.getSelectedIndex()!=0) {		//保存对话框且做过滤时，检查并自动补全文件名正确性		
 									String jcbsel=jcbtyp.getSelectedItem().toString();		//获取的列表选择项
 									String jcbselx=jcbsel.substring(jcbsel.lastIndexOf(".")+1);		//获取的列表相对应扩展名
@@ -618,7 +616,6 @@ public class DialogCore {
 									jd.dispose();
 									fru.replaceLine(System.getProperty("user.home")+"\\AppData\\Local\\WinFileSelectorJ\\repath.wfs",1,cdpath);
 								}
-								System.out.println(sfl);
 							}
 						} catch(Exception e1) {
 							e1.printStackTrace();
