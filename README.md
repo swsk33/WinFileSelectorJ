@@ -6,12 +6,12 @@
 3，带有图片预览功能。<br>
 4，自己重写了扁平化的界面。<br>
 5，支持可以选择文件或者文件夹、只能选择文件、只能选择文件夹和只能选择驱动器四种选择模式。<br>
-### 下载地址:[点击进入下载jar包]()
+### 下载地址:[点击进入下载jar包](https://gitee.com/swsk33/WinFileSelectorJ/releases)
 #### 一、界面说明
 通过相应的代码即可唤出文件选择器，语法（用法）将会在下面说明。界面如下：<br>
 ![主界面](https://file.moetu.org/images/2020/04/22/167dfe41f67dbe32f.jpg)
 ![快速索引](https://file.moetu.org/images/2020/04/22/2e0c0a878f4b3929c.jpg)
-![图片预览]()
+![图片预览](https://file.moetu.org/images/2020/04/22/342e94d0172982875.jpg)
 选择文件很简单，选择文件点击确定或者直接双击该文件即可。可以多选时，按住ctrl即可多选。<br>
 #### 二、开发用法
 ### 1，先把这个包导入到IDE里面，例如eclipse。不知道如何导入请查看教程：[eclipse导入外部jar包](https://blog.csdn.net/czbqoo01/article/details/72803450)
