@@ -79,6 +79,10 @@ class DialogCore {		//对话框处理核心
 			new FileRaWUtils().writeText(reidx.getAbsolutePath(),System.getProperty("user.home"));
 			new FileRaWUtils().writeText(reidx.getAbsolutePath(),"0");
 		}
+		//进入初始化
+		this.setcombobox();
+		this.setupjtn();
+		this.setupjcbtyp();
 		//全局赋值
 		cdpath=new FileRaWUtils().ReadText(reidx.getAbsolutePath(),1);
 		viewop=Integer.parseInt(new FileRaWUtils().ReadText(reidx.getAbsolutePath(),2));
@@ -91,23 +95,19 @@ class DialogCore {		//对话框处理核心
 			new FileRaWUtils().replaceLine(reidx.getAbsolutePath(),2,"0");
 			viewop=0;
 		}
-		//进入初始化
 		if(cdpath.equals("root")) {		//初始化路径状态
 			isInaDisk=false;
 		} else {
 			isInaDisk=true;
 		}
-		this.setcombobox();
-		this.setupjtn();
-		this.setupjcbtyp();
 		if(isInaDisk) {		//在磁盘里面时
-			this.refreshfile();
 			if(selectop==3) {		//特殊情况：只能选择驱动器时
 				jcbidx.setEnabled(false);
 				isInaDisk=false;
 				cdpath="root";
 				this.getdriveroot();
 			} else {
+				this.refreshfile();
 				jcbidx.setEnabled(true);
 			}
 		} else {
@@ -243,6 +243,7 @@ class DialogCore {		//对话框处理核心
 			jcbidx.addItem(ss.getAbsolutePath());
 			cbbdriname.add(fsv.getSystemDisplayName(ss));
 		}
+		jcbidx.setSelectedIndex(0);
 	}
 	
 	
