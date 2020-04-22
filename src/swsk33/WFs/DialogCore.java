@@ -107,6 +107,8 @@ class DialogCore {		//对话框处理核心
 				isInaDisk=false;
 				cdpath="root";
 				this.getdriveroot();
+			} else {
+				jcbidx.setEnabled(true);
 			}
 		} else {
 			this.getdriveroot();
@@ -137,7 +139,6 @@ class DialogCore {		//对话框处理核心
 				}
 				jcbtyp.addItem(text);
 			} else {
-				jcbtyp.addItem("*.*(所有类型文件)");
 				for(String st:fliter) {
 					String typ="*."+st;
 					jcbtyp.addItem(typ);
@@ -169,7 +170,7 @@ class DialogCore {		//对话框处理核心
 						}
 					}
 				} else {		//过滤时，获取过滤类型文件
-					if(!isaSaveDg) {		//如果不是保存对话框
+					if(!isaSaveDg) {		//如果不是保存对话框，同时显示所有指定类型文件
 						for(File addfile:filels) {
 							boolean shouldadd=false;
 							if(addfile.isFile()) {
@@ -186,30 +187,12 @@ class DialogCore {		//对话框处理核心
 							}
 						}
 					} else {		//如果是保存对话框，就要根据下拉菜单内容实时刷新
-						if(jcbtyp.getSelectedIndex()==0) {		//下拉菜单选择显示全部时
-							for(File addfile:filels) {
-								boolean shouldadd=false;
-								if(addfile.isFile()) {
-									String ft=new FileRaWUtils().getFileFormat(addfile.getAbsolutePath());
-									for(String cft:fliter) {
-										if(cft.equalsIgnoreCase(ft)) {
-											shouldadd=true;
-											break;
-										}
-									}
-									if(shouldadd) {
-										dfl.addElement(addfile);
-									}
-								}
-							}
-						} else {		//否则按需获取文件
-							for(File addfile:filels) {
-								if(addfile.isFile()) {
-									String ft=new FileRaWUtils().getFileFormat(addfile.getAbsolutePath());		//文件类型
-									String getIt=jcbtyp.getSelectedItem().toString();
-									if(ft.equalsIgnoreCase(getIt.substring(getIt.lastIndexOf(".")+1))) {
-										dfl.addElement(addfile);
-									}
+						for(File addfile:filels) {
+							if(addfile.isFile()) {
+								String ft=new FileRaWUtils().getFileFormat(addfile.getAbsolutePath());		//文件类型
+								String getIt=jcbtyp.getSelectedItem().toString();
+								if(ft.equalsIgnoreCase(getIt.substring(getIt.lastIndexOf(".")+1))) {
+									dfl.addElement(addfile);
 								}
 							}
 						}
@@ -342,6 +325,8 @@ class DialogCore {		//对话框处理核心
 		});
 		if(selectop==3) {
 			home.setEnabled(false);
+		} else {
+			home.setEnabled(true);
 		}
 		home.setBounds(561, 47, 38, 38);
 		home.setBorderPainted(false);
@@ -590,7 +575,7 @@ class DialogCore {		//对话框处理核心
 								} else {
 									sfl=cdpath+"\\"+jtn.getText();
 								}
-								if(doFliter&&jcbtyp.getSelectedIndex()!=0) {		//保存对话框且做过滤时，检查并自动补全文件名正确性		
+								if(doFliter) {		//保存对话框且做过滤时，检查并自动补全文件名正确性		
 									String jcbsel=jcbtyp.getSelectedItem().toString();		//获取的列表选择项
 									String jcbselx=jcbsel.substring(jcbsel.lastIndexOf(".")+1);		//获取的列表相对应扩展名
 									if(sfl.contains(".")) {		//文件有尾缀时，检查其正确性
