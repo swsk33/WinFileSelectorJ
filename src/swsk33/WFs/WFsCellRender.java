@@ -95,7 +95,7 @@ class WFsCellRender extends DefaultListCellRenderer {
 		}
 		if(DialogCore.isInaDisk) {		//在一个磁盘里面时
 			String filepath=new File(value.toString()).getAbsolutePath();
-			ftyp=new FileRaWUtils().getFileFormat(filepath);
+			ftyp=new FileRaWUtils().getFileFormat(filepath).toLowerCase();
 			Boolean isfile=new File(filepath).isFile();		//是文件还是文件夹
 			setText(new File(value.toString()).getName());		//设置文字为文件名
 			//文件图标的设定
