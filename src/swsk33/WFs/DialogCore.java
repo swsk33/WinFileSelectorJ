@@ -812,9 +812,13 @@ class DialogCore {		//对话框处理核心
 		jcbidx.setBounds(113, 41, 289, 45);
 		jcbidx.addActionListener(new ActionListener() {		//快速索引下拉菜单事件
 			public void actionPerformed(ActionEvent arg0) {
-				cdpath=jcbidx.getSelectedItem().toString();
-				isInaDisk=true;
-				new DialogCore().refreshfile();
+				try {
+					cdpath=jcbidx.getSelectedItem().toString();
+					isInaDisk=true;
+					new DialogCore().refreshfile();
+				} catch(Exception e1) {
+					//什么都不做
+				}
 			}
 		});
 		jcbidx.setRenderer(new CoboBoxRender());
