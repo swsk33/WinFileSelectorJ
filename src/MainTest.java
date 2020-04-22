@@ -4,7 +4,9 @@ import javax.swing.*;
 import swsk33.WFs.*;
 public class MainTest {
 	public static void main(String[] args) throws Exception {
-		String s=new FileSelectorDialog().createSingleElectionDialog("选择文件啊",FileSelectorDialog.FILE_ONLY);
+		String[] fl={"png","jpg","exe"};
+		FileSaveDialog fsd=new FileSaveDialog();
+		String s=fsd.createSaveDialog("选择保存路径啊",fsd.ALL_FILES_ALLOW,fl);
 		System.out.println(s);
 	}
 }
