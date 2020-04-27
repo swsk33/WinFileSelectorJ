@@ -295,6 +295,9 @@ class DialogCore {		//对话框处理核心
 		JButton close=new JButton(new ImageIcon(cb));
 		close.addActionListener(new ActionListener() {		//关闭窗口
 			public void actionPerformed(ActionEvent arg0) {
+				selectpath="";
+				String[] mnul={"null"};
+				multiselectpath=mnul;
 				jd.dispose();
 			}
 		});
@@ -617,6 +620,9 @@ class DialogCore {		//对话框处理核心
 		JButton cancel=new JButton("取消");
 		cancel.addActionListener(new ActionListener() {		//取消按钮
 			public void actionPerformed(ActionEvent arg0) {
+				selectpath="";
+				String[] mnul={"null"};
+				multiselectpath=mnul;
 				jd.dispose();
 			}
 		});

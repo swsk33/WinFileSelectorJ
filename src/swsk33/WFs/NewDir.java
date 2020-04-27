@@ -16,6 +16,7 @@ class NewDir {
 	 * @wbp.parser.entryPoint
 	 */
 	public void ndfr() {
+		name="";
 		Toolkit kit=Toolkit.getDefaultToolkit();
 		Dimension sc=kit.getScreenSize();
 		JDialog jd=new JDialog();
