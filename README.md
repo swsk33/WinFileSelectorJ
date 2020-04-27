@@ -7,20 +7,13 @@
 4，自己重写了扁平化的界面。<br>
 5，支持可以选择文件或者文件夹、只能选择文件、只能选择文件夹和只能选择驱动器四种选择模式。<br>
 ### 下载地址:[点击进入下载jar包](https://gitee.com/swsk33/WinFileSelectorJ/releases)
-#### 〇、更新日志
-**v1.1(2020.4.22)**<br>
-1，修复了static变量初始化问题。<br>
-2，优化了保存对话框选项。<br>
-3，修复了因为下拉菜单导致的抛出异常。<br>
-**v1.0(2020.4.22)**<br>
-初版。<br>
 #### 一、界面说明
 通过相应的代码即可唤出文件选择器，语法（用法）将会在下面说明。界面如下：<br>
 ![主界面](https://file.moetu.org/images/2020/04/22/167dfe41f67dbe32f.jpg)<br>
 ![快速索引](https://file.moetu.org/images/2020/04/22/2e0c0a878f4b3929c.jpg)<br>
 ![图片预览](https://file.moetu.org/images/2020/04/22/342e94d0172982875.jpg)<br>
 选择文件很简单，选择文件点击确定或者直接双击该文件即可。可以多选时，按住ctrl即可多选。<br>
-每次选择完成文件之后会记录上一次的位置，配置文件生成于用户文件夹的AppData\Local\WinFileSelectorJ目录下（C:\Users\%username%\AppData\Local\WinFileSelectorJ）。
+每次选择完成文件之后会记录上一次的位置，配置文件生成于用户文件夹的AppData\Local\WinFileSelectorJ目录下（```C:\Users\%username%\AppData\Local\WinFileSelectorJ```）。
 #### 二、开发用法
 ### 1，先把这个包导入到IDE里面，例如eclipse。不知道如何导入请查看教程：[eclipse导入外部jar包](https://blog.csdn.net/czbqoo01/article/details/72803450)
 ### 2，导入swsk33.WFs下所有类或者需要的类。（import swsk33.WFs.*;）
@@ -34,7 +27,7 @@
 ```new A().af();```<br>
 **上述方式一、二效果相同，都是执行了A类里的af方法。只是方法一先生成了对象。下面示例基本上用方法二进行演示。**<br>
 --------------------------------------------------------------------------------------------------------------------
-**文件选择器的方法返回值基本上就是String或者Object[],单选窗口的返回值就是所选的文件路径，多选窗口的返回值是多个被选中的文件路径被存放在一个Object数组。**<br>
+**文件选择器的方法返回值基本上就是String或者Object[],单选窗口的返回值就是所选的文件路径，多选窗口的返回值是多个被选中的文件路径被存放在一个Object数组。如果是点击了“取消”按钮或者是关闭按钮，也会有返回值，其中单选时会返回一个空字符串（""），多选时会返回一个长度为1的Object数组，里面只有一个为"null"的值（{"null"}）。**<br>
 1，创建一个不带过滤的文件选择器单选窗口(返回值String):<br>
 ```new FileSelectDialog().createSingleSelectionDialog("窗口的标题",文件选择模式);```<br>
 **文件选择模式有四个内容如下：**<br>
@@ -54,7 +47,7 @@
 ```String s=new FileSelectDialog().createSingleSelectionDialog("选择文件",FileSelectDialog.FILE_ONLY,type);```<br>
 ```System.out.println(s);```<br>
 3，创建一个不带过滤的文件选择器多选窗口(返回值Object[]):<br>
-```new FileSelectDialog().createMultipleSelectionDialog("窗口标题",文件选择模式)```<br>
+```new FileSelectDialog().createMultipleSelectionDialog("窗口标题",文件选择模式);```<br>
 **例如：创建一个标题为“选择文件”、只能选择文件的多选文件选择器对话框，并逐个输出其选择的文件路径**<br>
 ```Object[] o=new FileSelectDialog().createMultipleSelectionDialog("选择文件",FileSelectDialog.FILE_ONLY);```<br>
 ```for(Object name:o) {```<br>
@@ -79,3 +72,12 @@
 ```new FileSaveDialog().createSaveDialog("对话框标题",文件选择模式,指定显示的文件类型数组);```<br>
 参数以及使用和上面文件选择窗口类似。<br>
 ##### 这就是所有的说明，感谢观看！
+#### ->更新日志
+**v1.2**<br>
+1，优化了退出/取消时的值。<br>
+**v1.1(2020.4.22)**<br>
+1，修复了static变量初始化问题。<br>
+2，优化了保存对话框选项。<br>
+3，修复了因为下拉菜单导致的抛出异常。<br>
+**v1.0(2020.4.22)**<br>
+初版。<br>
