@@ -1,7 +1,6 @@
 package swsk33.WFs;
 
 import java.io.*;
-
 class LineScanner {
 	public int GetLinage(String filepath) throws Exception {		//获取文本文档行数
 		int linage=0;

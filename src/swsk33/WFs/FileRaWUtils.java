@@ -1,9 +1,6 @@
 package swsk33.WFs;
 
 import java.io.*;
-import java.math.*;
-import java.security.*;
-
 class FileRaWUtils {
 	public String getFileFormat(String filepath) {		//获取文件格式
 		String ffr="";

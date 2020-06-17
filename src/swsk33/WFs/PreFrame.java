@@ -3,7 +3,6 @@ package swsk33.WFs;
 import java.awt.*;
 import javax.swing.*;
 import java.net.*;
-
 class PreFrame {
 	
 	static int x;

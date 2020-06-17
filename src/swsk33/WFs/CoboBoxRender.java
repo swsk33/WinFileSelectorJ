@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.*;
-
 @SuppressWarnings({ "serial", "rawtypes" })
 class CoboBoxRender extends JLabel implements ListCellRenderer {
 	public Component getListCellRendererComponent(JList list,Object value,int index,boolean isSelected,boolean cellHasFocus) {

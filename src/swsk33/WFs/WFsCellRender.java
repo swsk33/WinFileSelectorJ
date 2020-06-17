@@ -4,15 +4,11 @@ import java.awt.*;
 import javax.swing.*;
 import java.net.*;
 import java.io.*;
-
 @SuppressWarnings("serial")
-
 class WFsCellRender extends DefaultListCellRenderer {
-	
 	static String ftyp;		//文件类型
 	static int icox;
 	static int icoy;
-	
 	boolean isPic() {		//判断是不是图片文件
 		boolean res=false;
 		for(String ftt:DialogCore.compicfo) {

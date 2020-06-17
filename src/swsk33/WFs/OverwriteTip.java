@@ -3,9 +3,7 @@ package swsk33.WFs;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.URL;
-
 import javax.swing.*;
-
 class OverwriteTip {
 	static int dx;
 	static int dy;
