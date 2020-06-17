@@ -7,6 +7,7 @@
 4，自己重写了扁平化的界面。<br>
 5，支持可以选择文件或者文件夹、只能选择文件、只能选择文件夹和只能选择驱动器四种选择模式。<br>
 ### 下载地址:[点击进入下载jar包](https://gitee.com/swsk33/WinFileSelectorJ/releases)
+#### 适用于Linux的java文件选择器包：[LinuxFileSelectorJ](https://gitee.com/swsk33/LinuxFileSelectorJ)已经完成开发，欢迎使用。
 #### 一、界面说明
 通过相应的代码即可唤出文件选择器，语法（用法）将会在下面说明。界面如下：<br>
 ![主界面](https://file.moetu.org/images/2020/04/22/167dfe41f67dbe32f.jpg)<br>
@@ -34,7 +35,7 @@
 ```FileSelectDialog.ALL_FILES_ALLOW```:既可以选择文件也可以选择文件夹。<br>
 ```FileSelectDialog.FILE_ONLY```:只能选择文件。<br>
 ```FileSelectDialog.DIR_ONLY```:只能选择文件夹。<br>
-```FileSelectDialog.DRIVE_ONLY```:只能选择文件夹。<br>
+```FileSelectDialog.DRIVE_ONLY```:只能选择驱动器。<br>
 **例如：创建一个标题为“选择文件”、只能选择文件的文件选择器对话框并输出其选择的文件路径**<br>
 ```String s=new FileSelectDialog().createSingleSelectionDialog("选择文件",FileSelectDialog.FILE_ONLY);```<br>
 ```System.out.println(s);```<br>
@@ -64,16 +65,19 @@
 5，创建一个不带过滤的文件保存路径选择对话框(返回值String):<br>
 ```new FileSaveDialog().createSaveDialog("对话框标题",文件选择模式);```<br>
 *和上述的选择对话框不同，文件保存路径选择的对话框只能单选，并且可以在文件类型下拉菜单选择相应的文件类型，选择相应的文件类型时只会显示文件夹和选中的相应类型的文件，当前目录下存在输入的文件名时会提示是否覆盖。方法返回值即为文件保存的完整路径。*<br>
-**文件选择模式有三个内容如下：**<br>
-```FileSaveDialog.ALL_FILES_ALLOW```:既可以选择文件也可以选择文件夹。<br>
-```FileSaveDialog.FILE_ONLY```:只能选择文件。<br>
-```FileSaveDialog.DIR_ONLY```:只能选择文件夹。<br>
+**文件选择模式有两个内容如下：**<br>
+```FileSaveDialog.FILE_ONLY```:指定保存的文件夹及其文件名。<br>
+```FileSaveDialog.DIR_ONLY```:只指定保存的文件夹。<br>
 6，创建一个带过滤的文件保存路径选择对话框(返回值String):<br>
 ```new FileSaveDialog().createSaveDialog("对话框标题",文件选择模式,指定显示的文件类型数组);```<br>
 参数以及使用和上面文件选择窗口类似。<br>
 ##### 这就是所有的说明，感谢观看！
 #### ->更新日志
-**v1.2**<br>
+**v1.2(2020.6.17)**<br>
+1，修复了保存对话框双击文件时的判断错误。<br>
+2，修复了配置文件异常导致无法唤出窗口的问题。<br>
+3，优化了一些参数。<br>
+**v1.2(2020.4.22)**<br>
 1，优化了退出/取消时的值。<br>
 **v1.1(2020.4.22)**<br>
 1，修复了static变量初始化问题。<br>
