@@ -84,9 +84,11 @@ class DialogCore {		//对话框处理核心
 			viewop=0;
 		}
 		//进入初始化
+		String cdt=cdpath;		//下面初始化快速索引菜单的时候会导致路径被选择至索引第一个，故在此创建临时变量后面再设置一次当前路径，保证是上一次记录路径。
 		this.setcombobox();
 		this.setupjtn();
 		this.setupjcbtyp();
+		cdpath=cdt;
 		if(cdpath.equals("root")) {		//初始化路径状态
 			isInaDisk=false;
 		} else {
