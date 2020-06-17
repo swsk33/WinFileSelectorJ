@@ -265,9 +265,13 @@ class DialogCore {		//对话框处理核心
 		        x=e.getPoint().x;
 		        y=e.getPoint().y;
 		    }
+		    public void mouseReleased(MouseEvent e) {
+				jd.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			}
 		});      
 		jd.addMouseMotionListener(new MouseMotionAdapter() {        //设置拖拽后，窗口的位置
 		    public void mouseDragged(MouseEvent e) {
+		    	jd.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
 		        jd.setLocation(e.getXOnScreen()-x,e.getYOnScreen()-y);		
 		    }
 		});

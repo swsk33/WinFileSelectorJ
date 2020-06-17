@@ -30,9 +30,13 @@ class OverwriteTip {
 		        dx=e.getPoint().x;
 		        dy=e.getPoint().y;
 		    }
+		    public void mouseReleased(MouseEvent e) {
+				jdt.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			}
 		});      
 		jdt.addMouseMotionListener(new MouseMotionAdapter() {        //设置拖拽后，窗口的位置
 		    public void mouseDragged(MouseEvent e) {
+		    	jdt.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
 		        jdt.setLocation(e.getXOnScreen()-dx,e.getYOnScreen()-dy);		
 		    }
 		});
