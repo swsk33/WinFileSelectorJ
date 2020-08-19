@@ -249,8 +249,7 @@ class DialogCore { // 对话框处理核心
 	}
 
 	/**
-	 * @throws Exception
-	 * @wbp.parser.entryPoint
+	 * @throws Exception 文件存在错误或者资源不存在抛出异常
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	public void df() throws Exception {

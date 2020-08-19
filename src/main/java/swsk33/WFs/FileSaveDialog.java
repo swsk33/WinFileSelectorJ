@@ -22,7 +22,7 @@ public class FileSaveDialog extends DialogCore {
 	 * @param title        窗口标题
 	 * @param selectoption 选择模式参数
 	 * @return String 字符串 选择保存的文件/文件夹路径（直接取消或者关闭窗口将返回空字符串""）
-	 * @throws Exception
+	 * @throws Exception 文件存在错误或者资源不存在抛出异常
 	 */
 	public String createSaveDialog(String title, int selectoption) throws Exception {
 		jdt = title;
@@ -43,7 +43,7 @@ public class FileSaveDialog extends DialogCore {
 	 * @param selectoption 选择模式参数
 	 * @param sfliter      指定显示的文件类型（传入String数组）
 	 * @return String 字符串 选择保存的文件/文件夹路径（直接取消或者关闭窗口将返回空字符串""）
-	 * @throws Exception
+	 * @throws Exception 文件存在错误或者资源不存在抛出异常
 	 */
 	public String createSaveDialog(String title, int selectoption, String[] sfliter) throws Exception {
 		jdt = title;
