@@ -24,7 +24,7 @@
 <dependency>
     <groupId>com.gitee.swsk33</groupId>
     <artifactId>WinFileSelectorJ</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
 </dependency>
 ```
 ### 2，导入swsk33.WFs下所有类或者需要的类。（import swsk33.WFs.*;）
@@ -83,6 +83,8 @@
 参数以及使用和上面文件选择窗口类似。<br>
 ##### 这就是所有的说明，感谢观看！
 #### ->更新日志
+**v1.0.6(2020.8.19)**<br>
+1，修复了资源文件缺失问题。<br>
 **v1.0.5(2020.8.19)**<br>
 1，加入了Javadoc。<br>
 2，添加了Maven支持。<br>
