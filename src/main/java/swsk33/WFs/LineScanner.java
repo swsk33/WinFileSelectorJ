@@ -3,7 +3,7 @@ package swsk33.WFs;
 import java.io.*;
 
 class LineScanner {
-	public int GetLinage(String filepath) throws Exception { // 获取文本文档行数
+	public int GetLinage(String filepath) throws Exception { // 鑾峰彇鏂囨湰鏂囨。琛屾暟
 		int linage = 0;
 		File f = new File(filepath);
 		FileInputStream fis = new FileInputStream(f);

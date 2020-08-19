@@ -8,11 +8,11 @@ import java.io.*;
 
 @SuppressWarnings("serial")
 class WFsCellRender extends DefaultListCellRenderer {
-	static String ftyp; // ÎÄ¼şÀàĞÍ
+	static String ftyp; // æ–‡ä»¶ç±»å‹
 	static int icox;
 	static int icoy;
 
-	boolean isPic() { // ÅĞ¶ÏÊÇ²»ÊÇÍ¼Æ¬ÎÄ¼ş
+	boolean isPic() { // åˆ¤æ–­æ˜¯ä¸æ˜¯å›¾ç‰‡æ–‡ä»¶
 		boolean res = false;
 		for (String ftt : DialogCore.COMPICFO) {
 			if (ftt.equalsIgnoreCase(ftyp)) {
@@ -29,7 +29,7 @@ class WFsCellRender extends DefaultListCellRenderer {
 		return res;
 	}
 
-	boolean isAu() { // ÅĞ¶ÏÊÇ²»ÊÇÒôÆµÎÄ¼ş
+	boolean isAu() { // åˆ¤æ–­æ˜¯ä¸æ˜¯éŸ³é¢‘æ–‡ä»¶
 		boolean res = false;
 		for (String ftt : DialogCore.AUDFO) {
 			if (ftt.equalsIgnoreCase(ftyp)) {
@@ -40,7 +40,7 @@ class WFsCellRender extends DefaultListCellRenderer {
 		return res;
 	}
 
-	boolean isVe() { // ÅĞ¶ÏÊÇ²»ÊÇÊÓÆµÎÄ¼ş
+	boolean isVe() { // åˆ¤æ–­æ˜¯ä¸æ˜¯è§†é¢‘æ–‡ä»¶
 		boolean res = false;
 		for (String ftt : DialogCore.VEDFO) {
 			if (ftt.equalsIgnoreCase(ftyp)) {
@@ -51,7 +51,7 @@ class WFsCellRender extends DefaultListCellRenderer {
 		return res;
 	}
 
-	boolean isDoc() { // ÅĞ¶ÏÊÇ²»ÊÇÎÄµµÎÄ¼ş
+	boolean isDoc() { // åˆ¤æ–­æ˜¯ä¸æ˜¯æ–‡æ¡£æ–‡ä»¶
 		boolean res = false;
 		for (String ftt : DialogCore.DOCFO) {
 			if (ftt.equalsIgnoreCase(ftyp)) {
@@ -62,7 +62,7 @@ class WFsCellRender extends DefaultListCellRenderer {
 		return res;
 	}
 
-	boolean isZip() { // ÅĞ¶ÏÊÇ²»ÊÇÑ¹ËõÎÄ¼ş
+	boolean isZip() { // åˆ¤æ–­æ˜¯ä¸æ˜¯å‹ç¼©æ–‡ä»¶
 		boolean res = false;
 		for (String ftt : DialogCore.ZIPFO) {
 			if (ftt.equalsIgnoreCase(ftyp)) {
@@ -73,7 +73,7 @@ class WFsCellRender extends DefaultListCellRenderer {
 		return res;
 	}
 
-	boolean isProg() { // ÅĞ¶ÏÊÇ²»ÊÇ´úÂë¼°¶ş½øÖÆÎÄ¼ş
+	boolean isProg() { // åˆ¤æ–­æ˜¯ä¸æ˜¯ä»£ç åŠäºŒè¿›åˆ¶æ–‡ä»¶
 		boolean res = false;
 		for (String ftt : DialogCore.PROGFO) {
 			if (ftt.equalsIgnoreCase(ftyp)) {
@@ -86,26 +86,26 @@ class WFsCellRender extends DefaultListCellRenderer {
 
 	public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,
 			boolean isSelected, boolean cellHasFocus) {
-		if (DialogCore.viewop == 2) { // Éè¶¨Í¼±ê´óĞ¡
+		if (DialogCore.viewop == 2) { // è®¾å®šå›¾æ ‡å¤§å°
 			icox = 120;
 			icoy = 120;
 		} else {
 			icox = 35;
 			icoy = 35;
 		}
-		if (DialogCore.isInaDisk) { // ÔÚÒ»¸ö´ÅÅÌÀïÃæÊ±
+		if (DialogCore.isInaDisk) { // åœ¨ä¸€ä¸ªç£ç›˜é‡Œé¢æ—¶
 			String filepath = new File(value.toString()).getAbsolutePath();
 			ftyp = new FileRaWUtils().getFileFormat(filepath).toLowerCase();
-			Boolean isfile = new File(filepath).isFile(); // ÊÇÎÄ¼ş»¹ÊÇÎÄ¼ş¼Ğ
-			setText(new File(value.toString()).getName()); // ÉèÖÃÎÄ×ÖÎªÎÄ¼şÃû
-			// ÎÄ¼şÍ¼±êµÄÉè¶¨
+			Boolean isfile = new File(filepath).isFile(); // æ˜¯æ–‡ä»¶è¿˜æ˜¯æ–‡ä»¶å¤¹
+			setText(new File(value.toString()).getName()); // è®¾ç½®æ–‡å­—ä¸ºæ–‡ä»¶å
+			// æ–‡ä»¶å›¾æ ‡çš„è®¾å®š
 			if (!isfile) {
 				URL icp = WFsCellRender.class.getResource("res/fileico/common-dir.png");
-				ImageIcon ico = new ImageIcon(icp); // ÊµÀı»¯Ò»¸öImageIcon¶ÔÏó
-				Image img = ico.getImage(); // ÊµÀı»¯Image¶ÔÏó»ñÈ¡ico¶ÔÏóµÄÄÚÈİ
-				img = img.getScaledInstance(icox, icoy, Image.SCALE_DEFAULT); // Ëõ·ÅÏÔÊ¾Í¼Æ¬
-				ico.setImage(img); // ImageIcon¶ÔÏóÖØĞÂ»ñÈ¡Ëõ·ÅºóÍ¼±ê
-				setIcon(ico); // ÉèÖÃÍ¼±ê
+				ImageIcon ico = new ImageIcon(icp); // å®ä¾‹åŒ–ä¸€ä¸ªImageIconå¯¹è±¡
+				Image img = ico.getImage(); // å®ä¾‹åŒ–Imageå¯¹è±¡è·å–icoå¯¹è±¡çš„å†…å®¹
+				img = img.getScaledInstance(icox, icoy, Image.SCALE_DEFAULT); // ç¼©æ”¾æ˜¾ç¤ºå›¾ç‰‡
+				ico.setImage(img); // ImageIconå¯¹è±¡é‡æ–°è·å–ç¼©æ”¾åå›¾æ ‡
+				setIcon(ico); // è®¾ç½®å›¾æ ‡
 			} else {
 				if (this.isPic()) {
 					if (DialogCore.viewop == 2 && (ftyp.equalsIgnoreCase("jpg") || ftyp.equalsIgnoreCase("jpeg")
@@ -177,25 +177,25 @@ class WFsCellRender extends DefaultListCellRenderer {
 					setIcon(ico);
 				}
 			}
-		} else { // ÔÚÎÒµÄµçÄÔÀïÃæµÄÊ±ºò
+		} else { // åœ¨æˆ‘çš„ç”µè„‘é‡Œé¢çš„æ—¶å€™
 			String[] drina = DialogCore.driname.toArray(new String[DialogCore.driname.size()]);
 			String[] drity = DialogCore.dritype.toArray(new String[DialogCore.dritype.size()]);
 			try {
 				setText(drina[index]);
 				String disktype = drity[index];
-				if (disktype.startsWith("±¾") || disktype.startsWith("Local")) { // µ±´ÅÅÌÎª±¾µØ´ÅÅÌÊ±
+				if (disktype.startsWith("æœ¬") || disktype.startsWith("Local")) { // å½“ç£ç›˜ä¸ºæœ¬åœ°ç£ç›˜æ—¶
 					URL icp = WFsCellRender.class.getResource("res/diskico/disk.png");
 					ImageIcon finaico = new ImageIcon(icp);
 					Image img = finaico.getImage().getScaledInstance(icox, icoy, Image.SCALE_DEFAULT);
 					finaico.setImage(img);
 					setIcon(finaico);
-				} else if (disktype.startsWith("U") || disktype.startsWith("Removable")) { // Îª¿ÉÒÆ¶¯´ÅÅÌÊ±
+				} else if (disktype.startsWith("U") || disktype.startsWith("Removable")) { // ä¸ºå¯ç§»åŠ¨ç£ç›˜æ—¶
 					URL icp = WFsCellRender.class.getResource("res/diskico/udisk.png");
 					ImageIcon finaico = new ImageIcon(icp);
 					Image img = finaico.getImage().getScaledInstance(icox, icoy, Image.SCALE_DEFAULT);
 					finaico.setImage(img);
 					setIcon(finaico);
-				} else if (disktype.startsWith("CD")) { // ÎªCDÇı¶¯Æ÷Ê±
+				} else if (disktype.startsWith("CD")) { // ä¸ºCDé©±åŠ¨å™¨æ—¶
 					URL icp = WFsCellRender.class.getResource("res/diskico/cd.png");
 					ImageIcon finaico = new ImageIcon(icp);
 					Image img = finaico.getImage().getScaledInstance(icox, icoy, Image.SCALE_DEFAULT);
@@ -213,12 +213,12 @@ class WFsCellRender extends DefaultListCellRenderer {
 			setHorizontalTextPosition(SwingConstants.RIGHT);
 			setVerticalTextPosition(SwingConstants.CENTER);
 		}
-		if (isSelected) { // µ±Ä³¸öÔªËØ±»Ñ¡ÖĞÊ±
-			setForeground(Color.BLACK); // ÉèÖÃÇ°¾°É«£¨ÎÄ×ÖÑÕÉ«£©ÎªºÚÉ«
-			setBackground(new Color(111, 217, 229)); // ÉèÖÃ±³¾°É«ÎªÀ¶É«
-		} else { // Ä³¸öÔªËØÎ´±»Ñ¡ÖĞÊ±£¨È¡ÏûÑ¡ÖĞ£©
-			setForeground(Color.BLACK); // ÉèÖÃÇ°¾°É«£¨ÎÄ×ÖÑÕÉ«£©ÎªºÚÉ«
-			setBackground(Color.WHITE); // ÉèÖÃ±³¾°É«Îª°×É«
+		if (isSelected) { // å½“æŸä¸ªå…ƒç´ è¢«é€‰ä¸­æ—¶
+			setForeground(Color.BLACK); // è®¾ç½®å‰æ™¯è‰²ï¼ˆæ–‡å­—é¢œè‰²ï¼‰ä¸ºé»‘è‰²
+			setBackground(new Color(111, 217, 229)); // è®¾ç½®èƒŒæ™¯è‰²ä¸ºè“è‰²
+		} else { // æŸä¸ªå…ƒç´ æœªè¢«é€‰ä¸­æ—¶ï¼ˆå–æ¶ˆé€‰ä¸­ï¼‰
+			setForeground(Color.BLACK); // è®¾ç½®å‰æ™¯è‰²ï¼ˆæ–‡å­—é¢œè‰²ï¼‰ä¸ºé»‘è‰²
+			setBackground(Color.WHITE); // è®¾ç½®èƒŒæ™¯è‰²ä¸ºç™½è‰²
 		}
 		return this;
 	}

@@ -26,13 +26,13 @@ class NewDir {
 		jd.setUndecorated(true);
 		jd.setModal(true);
 		URL bg = NewDir.class.getResource("res/bg-newdirdf.png");
-		JLabel bl = new JLabel(new ImageIcon(bg)); // °ÑÉÏÃæµÄÍ¼Æ¬¶ÔÏó¼Óµ½Ò»¸öÃûÎªblµÄ±êÇ©Àï
-		bl.setBounds(0, 0, jd.getWidth(), jd.getHeight()); // ÉèÖÃ±êÇ©´óĞ¡
-		JPanel imagePanel = (JPanel) jd.getContentPane(); // °ÑÄÚÈİ´°¸ñ×ª»¯ÎªJPanel£¬·ñÔò²»ÄÜÓÃ·½·¨setOpaque()À´Ê¹ÄÚÈİ´°¸ñÍ¸Ã÷ £¬Ê¹ÄÚÈİ´°¸ñÍ¸Ã÷ºó²ÅÄÜÏÔÊ¾±³¾°Í¼Æ¬
-		imagePanel.setOpaque(false); // °Ñ±³¾°Í¼Æ¬Ìí¼Óµ½·Ö²ã´°¸ñµÄ×îµ×²ã×÷Îª±³¾°
+		JLabel bl = new JLabel(new ImageIcon(bg)); // æŠŠä¸Šé¢çš„å›¾ç‰‡å¯¹è±¡åŠ åˆ°ä¸€ä¸ªåä¸ºblçš„æ ‡ç­¾é‡Œ
+		bl.setBounds(0, 0, jd.getWidth(), jd.getHeight()); // è®¾ç½®æ ‡ç­¾å¤§å°
+		JPanel imagePanel = (JPanel) jd.getContentPane(); // æŠŠå†…å®¹çª—æ ¼è½¬åŒ–ä¸ºJPanelï¼Œå¦åˆ™ä¸èƒ½ç”¨æ–¹æ³•setOpaque()æ¥ä½¿å†…å®¹çª—æ ¼é€æ˜ ï¼Œä½¿å†…å®¹çª—æ ¼é€æ˜åæ‰èƒ½æ˜¾ç¤ºèƒŒæ™¯å›¾ç‰‡
+		imagePanel.setOpaque(false); // æŠŠèƒŒæ™¯å›¾ç‰‡æ·»åŠ åˆ°åˆ†å±‚çª—æ ¼çš„æœ€åº•å±‚ä½œä¸ºèƒŒæ™¯
 		jd.getLayeredPane().add(bl, new Integer(Integer.MIN_VALUE));
-		jd.addMouseListener(new MouseAdapter() { // ÉèÖÃ´°¿Ú¿ÉÍÏ¶¯£¬Ìí¼Ó¼àÌıÆ÷
-			public void mousePressed(MouseEvent e) { // »ñÈ¡µã»÷Êó±êÊ±µÄ×ø±ê
+		jd.addMouseListener(new MouseAdapter() { // è®¾ç½®çª—å£å¯æ‹–åŠ¨ï¼Œæ·»åŠ ç›‘å¬å™¨
+			public void mousePressed(MouseEvent e) { // è·å–ç‚¹å‡»é¼ æ ‡æ—¶çš„åæ ‡
 				x = e.getPoint().x;
 				y = e.getPoint().y;
 			}
@@ -41,31 +41,31 @@ class NewDir {
 				jd.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			}
 		});
-		jd.addMouseMotionListener(new MouseMotionAdapter() { // ÉèÖÃÍÏ×§ºó£¬´°¿ÚµÄÎ»ÖÃ
+		jd.addMouseMotionListener(new MouseMotionAdapter() { // è®¾ç½®æ‹–æ‹½åï¼Œçª—å£çš„ä½ç½®
 			public void mouseDragged(MouseEvent e) {
 				jd.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
 				jd.setLocation(e.getXOnScreen() - x, e.getYOnScreen() - y);
 			}
 		});
-		JLabel title = new JLabel("ĞÂ½¨ÎÄ¼ş¼Ğ");
+		JLabel title = new JLabel("æ–°å»ºæ–‡ä»¶å¤¹");
 		title.setBackground(Color.YELLOW);
-		title.setFont(new Font("ºÚÌå", Font.BOLD, 16));
+		title.setFont(new Font("é»‘ä½“", Font.BOLD, 16));
 		title.setBounds(5, 5, 91, 18);
-		JLabel na = new JLabel("Ãû×Ö£º");
-		na.setFont(new Font("ºÚÌå", Font.BOLD, 15));
+		JLabel na = new JLabel("åå­—ï¼š");
+		na.setFont(new Font("é»‘ä½“", Font.BOLD, 15));
 		na.setBounds(23, 66, 48, 22);
-		JButton ok = new JButton("È·¶¨");
+		JButton ok = new JButton("ç¡®å®š");
 		ok.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if (jt.getText().equals("")) {
 						Process tip = Runtime.getRuntime().exec(
-								"cmd /c echo msgbox \"ÇëÊäÈëÃû³Æ£¡\",64,\"ERROR\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
+								"cmd /c echo msgbox \"è¯·è¾“å…¥åç§°ï¼\",64,\"ERROR\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
 					} else if (jt.getText().contains("\\") || jt.getText().contains("/") || jt.getText().contains(":")
 							|| jt.getText().contains("*") || jt.getText().contains("?") || jt.getText().contains("\"")
 							|| jt.getText().contains("<") || jt.getText().contains(">") || jt.getText().contains("|")) {
 						Process tip = Runtime.getRuntime().exec(
-								"cmd /c echo msgbox \"ÎÄ¼ş¼ĞÃû³Æ²»ÄÜ°üº¬·Ç·¨×Ö·û£¨\\/:*?\"<>|£©£¡\",64,\"ERROR\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
+								"cmd /c echo msgbox \"æ–‡ä»¶å¤¹åç§°ä¸èƒ½åŒ…å«éæ³•å­—ç¬¦ï¼ˆ\\/:*?\"<>|ï¼‰ï¼\",64,\"ERROR\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
 					} else {
 						name = jt.getText().toString();
 						jd.dispose();
@@ -77,9 +77,9 @@ class NewDir {
 		});
 		ok.setContentAreaFilled(false);
 		ok.setForeground(new Color(0, 191, 255));
-		ok.setFont(new Font("µÈÏß", Font.BOLD, 15));
+		ok.setFont(new Font("ç­‰çº¿", Font.BOLD, 15));
 		ok.setBounds(71, 104, 71, 27);
-		JButton cancel = new JButton("È¡Ïû");
+		JButton cancel = new JButton("å–æ¶ˆ");
 		cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				jd.dispose();
@@ -87,7 +87,7 @@ class NewDir {
 		});
 		cancel.setContentAreaFilled(false);
 		cancel.setForeground(new Color(255, 165, 0));
-		cancel.setFont(new Font("µÈÏß", Font.BOLD, 15));
+		cancel.setFont(new Font("ç­‰çº¿", Font.BOLD, 15));
 		cancel.setBounds(189, 104, 71, 27);
 		jt.setBounds(71, 65, 222, 27);
 		JPanel jp = new JPanel();

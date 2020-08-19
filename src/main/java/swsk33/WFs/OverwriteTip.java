@@ -22,14 +22,14 @@ class OverwriteTip {
 		jdt.setModal(true);
 		jdt.setLocation(sc.width / 2 - 192, sc.height / 2 - 90);
 		URL bg = DialogCore.class.getResource("res/bg-ovt.png");
-		JLabel bl = new JLabel(new ImageIcon(bg)); // °ÑÉÏÃæµÄÍ¼Æ¬¶ÔÏó¼Óµ½Ò»¸öÃûÎªblµÄ±êÇ©Àï
-		bl.setBounds(0, 0, jdt.getWidth(), jdt.getHeight()); // ÉèÖÃ±êÇ©´óĞ¡
-		JPanel imagePanel = (JPanel) jdt.getContentPane(); // °ÑÄÚÈİ´°¸ñ×ª»¯ÎªJPanel£¬·ñÔò²»ÄÜÓÃ·½·¨setOpaque()À´Ê¹ÄÚÈİ´°¸ñÍ¸Ã÷
-															// £¬Ê¹ÄÚÈİ´°¸ñÍ¸Ã÷ºó²ÅÄÜÏÔÊ¾±³¾°Í¼Æ¬
-		imagePanel.setOpaque(false); // °Ñ±³¾°Í¼Æ¬Ìí¼Óµ½·Ö²ã´°¸ñµÄ×îµ×²ã×÷Îª±³¾°
+		JLabel bl = new JLabel(new ImageIcon(bg)); // æŠŠä¸Šé¢çš„å›¾ç‰‡å¯¹è±¡åŠ åˆ°ä¸€ä¸ªåä¸ºblçš„æ ‡ç­¾é‡Œ
+		bl.setBounds(0, 0, jdt.getWidth(), jdt.getHeight()); // è®¾ç½®æ ‡ç­¾å¤§å°
+		JPanel imagePanel = (JPanel) jdt.getContentPane(); // æŠŠå†…å®¹çª—æ ¼è½¬åŒ–ä¸ºJPanelï¼Œå¦åˆ™ä¸èƒ½ç”¨æ–¹æ³•setOpaque()æ¥ä½¿å†…å®¹çª—æ ¼é€æ˜
+															// ï¼Œä½¿å†…å®¹çª—æ ¼é€æ˜åæ‰èƒ½æ˜¾ç¤ºèƒŒæ™¯å›¾ç‰‡
+		imagePanel.setOpaque(false); // æŠŠèƒŒæ™¯å›¾ç‰‡æ·»åŠ åˆ°åˆ†å±‚çª—æ ¼çš„æœ€åº•å±‚ä½œä¸ºèƒŒæ™¯
 		jdt.getLayeredPane().add(bl, new Integer(Integer.MIN_VALUE));
-		jdt.addMouseListener(new MouseAdapter() { // ÉèÖÃ´°¿Ú¿ÉÍÏ¶¯£¬Ìí¼Ó¼àÌıÆ÷
-			public void mousePressed(MouseEvent e) { // »ñÈ¡µã»÷Êó±êÊ±µÄ×ø±ê
+		jdt.addMouseListener(new MouseAdapter() { // è®¾ç½®çª—å£å¯æ‹–åŠ¨ï¼Œæ·»åŠ ç›‘å¬å™¨
+			public void mousePressed(MouseEvent e) { // è·å–ç‚¹å‡»é¼ æ ‡æ—¶çš„åæ ‡
 				dx = e.getPoint().x;
 				dy = e.getPoint().y;
 			}
@@ -38,22 +38,22 @@ class OverwriteTip {
 				jdt.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			}
 		});
-		jdt.addMouseMotionListener(new MouseMotionAdapter() { // ÉèÖÃÍÏ×§ºó£¬´°¿ÚµÄÎ»ÖÃ
+		jdt.addMouseMotionListener(new MouseMotionAdapter() { // è®¾ç½®æ‹–æ‹½åï¼Œçª—å£çš„ä½ç½®
 			public void mouseDragged(MouseEvent e) {
 				jdt.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
 				jdt.setLocation(e.getXOnScreen() - dx, e.getYOnScreen() - dy);
 			}
 		});
-		JLabel title = new JLabel("¾¯¸æ");
+		JLabel title = new JLabel("è­¦å‘Š");
 		title.setForeground(new Color(255, 69, 0));
-		title.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 18));
+		title.setFont(new Font("å¾®è½¯é›…é»‘", Font.BOLD, 18));
 		title.setBounds(5, 3, 42, 24);
-		JLabel cont = new JLabel("<html>Äã¶¨ÒåµÄÎÄ¼şÃûÒÑ¾­´æÔÚ£¬ÊÇ·ñ¸²¸Ç£¿<html>");
+		JLabel cont = new JLabel("<html>ä½ å®šä¹‰çš„æ–‡ä»¶åå·²ç»å­˜åœ¨ï¼Œæ˜¯å¦è¦†ç›–ï¼Ÿ<html>");
 		cont.setForeground(new Color(148, 0, 211));
 		cont.setBackground(Color.WHITE);
-		cont.setFont(new Font("ºÚÌå", Font.BOLD, 18));
+		cont.setFont(new Font("é»‘ä½“", Font.BOLD, 18));
 		cont.setBounds(27, 54, 323, 34);
-		JButton ok = new JButton("ÊÇ");
+		JButton ok = new JButton("æ˜¯");
 		ok.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				isOvt = true;
@@ -61,12 +61,12 @@ class OverwriteTip {
 			}
 		});
 		ok.setForeground(new Color(255, 20, 147));
-		ok.setFont(new Font("ºÚÌå", Font.BOLD, 18));
+		ok.setFont(new Font("é»‘ä½“", Font.BOLD, 18));
 		ok.setBounds(91, 121, 59, 34);
 		ok.setContentAreaFilled(false);
-		JButton no = new JButton("·ñ");
+		JButton no = new JButton("å¦");
 		no.setForeground(new Color(34, 139, 34));
-		no.setFont(new Font("ºÚÌå", Font.BOLD, 18));
+		no.setFont(new Font("é»‘ä½“", Font.BOLD, 18));
 		no.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				isOvt = false;

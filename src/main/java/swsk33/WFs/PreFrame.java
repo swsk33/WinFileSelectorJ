@@ -18,12 +18,12 @@ class PreFrame {
 		jf.setUndecorated(true);
 		jf.setSize(260, 195);
 		jf.setAlwaysOnTop(true);
-		jf.setType(JFrame.Type.UTILITY); // Òş²ØÈÎÎñÀ¸Í¼±ê
+		jf.setType(JFrame.Type.UTILITY); // éšè—ä»»åŠ¡æ å›¾æ ‡
 		URL bg = PreFrame.class.getResource("res/thbfr.png");
-		JLabel bl = new JLabel(new ImageIcon(bg)); // °ÑÉÏÃæµÄÍ¼Æ¬¶ÔÏó¼Óµ½Ò»¸öÃûÎªblµÄ±êÇ©Àï
-		bl.setBounds(0, 0, jf.getWidth(), jf.getHeight()); // ÉèÖÃ±êÇ©´óĞ¡
-		JPanel imagePanel = (JPanel) jf.getContentPane(); // °ÑÄÚÈİ´°¸ñ×ª»¯ÎªJPanel£¬·ñÔò²»ÄÜÓÃ·½·¨setOpaque()À´Ê¹ÄÚÈİ´°¸ñÍ¸Ã÷ £¬Ê¹ÄÚÈİ´°¸ñÍ¸Ã÷ºó²ÅÄÜÏÔÊ¾±³¾°Í¼Æ¬
-		imagePanel.setOpaque(false); // °Ñ±³¾°Í¼Æ¬Ìí¼Óµ½·Ö²ã´°¸ñµÄ×îµ×²ã×÷Îª±³¾°
+		JLabel bl = new JLabel(new ImageIcon(bg)); // æŠŠä¸Šé¢çš„å›¾ç‰‡å¯¹è±¡åŠ åˆ°ä¸€ä¸ªåä¸ºblçš„æ ‡ç­¾é‡Œ
+		bl.setBounds(0, 0, jf.getWidth(), jf.getHeight()); // è®¾ç½®æ ‡ç­¾å¤§å°
+		JPanel imagePanel = (JPanel) jf.getContentPane(); // æŠŠå†…å®¹çª—æ ¼è½¬åŒ–ä¸ºJPanelï¼Œå¦åˆ™ä¸èƒ½ç”¨æ–¹æ³•setOpaque()æ¥ä½¿å†…å®¹çª—æ ¼é€æ˜ ï¼Œä½¿å†…å®¹çª—æ ¼é€æ˜åæ‰èƒ½æ˜¾ç¤ºèƒŒæ™¯å›¾ç‰‡
+		imagePanel.setOpaque(false); // æŠŠèƒŒæ™¯å›¾ç‰‡æ·»åŠ åˆ°åˆ†å±‚çª—æ ¼çš„æœ€åº•å±‚ä½œä¸ºèƒŒæ™¯
 		jf.getLayeredPane().add(bl, new Integer(Integer.MIN_VALUE));
 		jf.setBackground(new Color(0, 0, 0, 0));
 		imgp.setBounds(5, 5, 250, 156);

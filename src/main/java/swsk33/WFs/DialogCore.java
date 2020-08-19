@@ -8,69 +8,69 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
-	// ´°¿ÚÎ»ÖÃ
+class DialogCore { // å¯¹è¯æ¡†å¤„ç†æ ¸å¿ƒ
+	// çª—å£ä½ç½®
 	static int x;
 	static int y;
-	// ½çÃæ±äÁ¿
+	// ç•Œé¢å˜é‡
 	static String jdt;
-	// ³£ÓÃÂ·¾¶Ë÷Òı
-	static String desktop; // ×ÀÃæÂ·¾¶
-	static String download; // ÏÂÔØÂ·¾¶
-	static String document; // ÎÄµµÂ·¾¶
-	static String music; // ÒôÀÖÂ·¾¶
-	static String picture; // Í¼Æ¬Â·¾¶
-	static String video; // ÊÓÆµÂ·¾¶
-	static String appdata; // Ó¦ÓÃÊı¾İ
-	// ³ÌĞòÔËĞĞÊ±²ÎÊı
-	static String cdpath; // µ±Ç°ËùÔÚÂ·¾¶
-	static int viewop; // ÊÓÍ¼²ÎÊı
-	static boolean isInaDisk; // ËùÔÚÂ·¾¶ÊÇ·ñÔÚÒ»¸ö´ÅÅÌÀïÃæ
-	static boolean isfrShow = false; // Ô¤ÀÀ´°ÊÇ·ñÔÚÏÔÊ¾
-	// ÏÂÃæ¼¸¸öÎªÓÃ»§¾ö¶¨ĞÔ²ÎÊı
-	static boolean isaSaveDg; // ÊÇ·ñÎª±£´æ¶Ô»°¿ò
-	static boolean isMultiSelect; // ÊÇ·ñ¶àÑ¡
-	static boolean doFliter; // ÊÇ·ñ¹ıÂË
-	static int selectop; // Ñ¡Ôñ²ÎÊı
-	static String[] fliter; // ¹ıÂËÎÄ¼ş£¨Ö»ÏÔÊ¾±»ÔÊĞíµÄÎÄ¼şÀàĞÍµÄÁĞ±í£©
-	// ×é¼ş
-	static JComboBox jcbidx = new JComboBox(); // ¿ìËÙË÷Òı
-	static JComboBox jcbtyp = new JComboBox(); // ÎÄ¼şÀàĞÍ
-	static DefaultListModel dfl = new DefaultListModel(); // ÎÄ¼şÁĞ±íµÄÄ£ĞÍ
-	static JList fls; // ÎÄ¼şÁĞ±í
-	static JCheckBox isShowPre = new JCheckBox("ÏÔÊ¾Í¼Æ¬Ô¤ÀÀĞü¸¡´°");
+	// å¸¸ç”¨è·¯å¾„ç´¢å¼•
+	static String desktop; // æ¡Œé¢è·¯å¾„
+	static String download; // ä¸‹è½½è·¯å¾„
+	static String document; // æ–‡æ¡£è·¯å¾„
+	static String music; // éŸ³ä¹è·¯å¾„
+	static String picture; // å›¾ç‰‡è·¯å¾„
+	static String video; // è§†é¢‘è·¯å¾„
+	static String appdata; // åº”ç”¨æ•°æ®
+	// ç¨‹åºè¿è¡Œæ—¶å‚æ•°
+	static String cdpath; // å½“å‰æ‰€åœ¨è·¯å¾„
+	static int viewop; // è§†å›¾å‚æ•°
+	static boolean isInaDisk; // æ‰€åœ¨è·¯å¾„æ˜¯å¦åœ¨ä¸€ä¸ªç£ç›˜é‡Œé¢
+	static boolean isfrShow = false; // é¢„è§ˆçª—æ˜¯å¦åœ¨æ˜¾ç¤º
+	// ä¸‹é¢å‡ ä¸ªä¸ºç”¨æˆ·å†³å®šæ€§å‚æ•°
+	static boolean isaSaveDg; // æ˜¯å¦ä¸ºä¿å­˜å¯¹è¯æ¡†
+	static boolean isMultiSelect; // æ˜¯å¦å¤šé€‰
+	static boolean doFliter; // æ˜¯å¦è¿‡æ»¤
+	static int selectop; // é€‰æ‹©å‚æ•°
+	static String[] fliter; // è¿‡æ»¤æ–‡ä»¶ï¼ˆåªæ˜¾ç¤ºè¢«å…è®¸çš„æ–‡ä»¶ç±»å‹çš„åˆ—è¡¨ï¼‰
+	// ç»„ä»¶
+	static JComboBox jcbidx = new JComboBox(); // å¿«é€Ÿç´¢å¼•
+	static JComboBox jcbtyp = new JComboBox(); // æ–‡ä»¶ç±»å‹
+	static DefaultListModel dfl = new DefaultListModel(); // æ–‡ä»¶åˆ—è¡¨çš„æ¨¡å‹
+	static JList fls; // æ–‡ä»¶åˆ—è¡¨
+	static JCheckBox isShowPre = new JCheckBox("æ˜¾ç¤ºå›¾ç‰‡é¢„è§ˆæ‚¬æµ®çª—");
 	static JTextField jtn = new JTextField();
-	// ÓÃÓÚÖ÷ÊÓÍ¼ÁĞ±íµÄÇı¶¯Æ÷ĞÅÏ¢ÁĞ±í
+	// ç”¨äºä¸»è§†å›¾åˆ—è¡¨çš„é©±åŠ¨å™¨ä¿¡æ¯åˆ—è¡¨
 	static ArrayList<String> driname = new ArrayList<String>();
 	static ArrayList<String> dritype = new ArrayList<String>();
-	// ÓÃÓÚÏÂÀ­²Ëµ¥µÄÇı¶¯Æ÷ĞÅÏ¢ÁĞ±í
+	// ç”¨äºä¸‹æ‹‰èœå•çš„é©±åŠ¨å™¨ä¿¡æ¯åˆ—è¡¨
 	static ArrayList<String> cbbdriname = new ArrayList<String>();
-	// µ¥Ñ¡¡¢¶àÑ¡»ñÈ¡µÄÎÄ¼şÂ·¾¶
+	// å•é€‰ã€å¤šé€‰è·å–çš„æ–‡ä»¶è·¯å¾„
 	static String selectpath;
 	static Object[] multiselectpath;
-	// Í¼Æ¬³£ÓÃ¸ñÊ½£¨Ìá¹©Ô¤ÀÀÍ¼£©ºÍÆäÓà¸ñÊ½
+	// å›¾ç‰‡å¸¸ç”¨æ ¼å¼ï¼ˆæä¾›é¢„è§ˆå›¾ï¼‰å’Œå…¶ä½™æ ¼å¼
 	final static String[] COMPICFO = { "jpg", "jpeg", "png", "bmp", "gif" };
 	final static String[] OTHPICFO = { "psd", "tiff", "iff", "jfif", "svg", "pcx", "dxf", "wmf", "emf", "lic", "eps",
 			"tga", "raw", "ico", "webp", "heic", "spr", "mpo" };
-	// ÒôÆµÎÄ¼ş¸ñÊ½
+	// éŸ³é¢‘æ–‡ä»¶æ ¼å¼
 	final static String[] AUDFO = { "mp3", "mp2", "aiff", "wav", "mid", "wma", "m4a", "ogg", "flac", "amr", "ra", "rm",
 			"rmx", "vqf", "ape", "aac", "cda" };
-	// ÊÓÆµÎÄ¼ş¸ñÊ½
+	// è§†é¢‘æ–‡ä»¶æ ¼å¼
 	final static String[] VEDFO = { "mp4", "avi", "flv", "wmv", "3gp", "mov", "mkv", "mpg", "asf", "asx", "rm", "rmvb",
 			"m4v", "vob" };
-	// ÎÄµµ¸ñÊ½
+	// æ–‡æ¡£æ ¼å¼
 	final static String[] DOCFO = { "doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "txt" };
-	// Ñ¹ËõÎÄ¼ş¸ñÊ½
+	// å‹ç¼©æ–‡ä»¶æ ¼å¼
 	final static String[] ZIPFO = { "zip", "rar", "7z", "jar", "tar", "gz", "xz", "uue", "iso", "apk" };
-	// ´úÂëÎÄ¼şºÍ¿ÉÖ´ĞĞ/¶ş½øÖÆÎÄ¼ş¸ñÊ½
+	// ä»£ç æ–‡ä»¶å’Œå¯æ‰§è¡Œ/äºŒè¿›åˆ¶æ–‡ä»¶æ ¼å¼
 	final static String[] PROGFO = { "c", "o", "cpp", "py", "java", "bat", "go", "js", "html", "css", "dll", "exe",
 			"class" };
-	// ³ÌĞòÅäÖÃÎÄ¼şÂ·¾¶
+	// ç¨‹åºé…ç½®æ–‡ä»¶è·¯å¾„
 	final static String WKDIR = System.getProperty("user.home") + "\\AppData\\Local\\WinFileSelectorJ";
 	final static String WKFILE = System.getProperty("user.home") + "\\AppData\\Local\\WinFileSelectorJ\\repath.wfs";
 
-	void idxfileexa() throws Exception { // Â·¾¶¼ÇÂ¼ÎÄ¼ş×Ô¼ì¼°³õÊ¼»¯
-		// ÎÄ¼ş×Ô¼ì
+	void idxfileexa() throws Exception { // è·¯å¾„è®°å½•æ–‡ä»¶è‡ªæ£€åŠåˆå§‹åŒ–
+		// æ–‡ä»¶è‡ªæ£€
 		File appdir = new File(WKDIR);
 		File reidx = new File(WKFILE);
 		if (!reidx.exists()) {
@@ -79,10 +79,10 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 			new FileRaWUtils().writeText(reidx.getAbsolutePath(), System.getProperty("user.home"));
 			new FileRaWUtils().writeText(reidx.getAbsolutePath(), "0");
 		}
-		// È«¾Ö¸³Öµ
+		// å…¨å±€èµ‹å€¼
 		cdpath = new FileRaWUtils().ReadText(reidx.getAbsolutePath(), 1);
 		viewop = Integer.parseInt(new FileRaWUtils().ReadText(reidx.getAbsolutePath(), 2));
-		// ÅĞ¶ÏÖµÊÇ·ñÓĞÎó
+		// åˆ¤æ–­å€¼æ˜¯å¦æœ‰è¯¯
 		if (!cdpath.equals("root") && !new File(cdpath).exists()) {
 			cdpath = System.getProperty("user.home");
 			new FileRaWUtils().replaceLine(reidx.getAbsolutePath(), 1, cdpath);
@@ -91,24 +91,24 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 			new FileRaWUtils().replaceLine(reidx.getAbsolutePath(), 2, "0");
 			viewop = 0;
 		}
-		// ½øÈë³õÊ¼»¯
-		String cdt = cdpath; // ÏÂÃæ³õÊ¼»¯¿ìËÙË÷Òı²Ëµ¥µÄÊ±ºò»áµ¼ÖÂÂ·¾¶±»Ñ¡ÔñÖÁË÷ÒıµÚÒ»¸ö£¬¹ÊÔÚ´Ë´´½¨ÁÙÊ±±äÁ¿ºóÃæÔÙÉèÖÃÒ»´Îµ±Ç°Â·¾¶£¬±£Ö¤ÊÇÉÏÒ»´Î¼ÇÂ¼Â·¾¶¡£
+		// è¿›å…¥åˆå§‹åŒ–
+		String cdt = cdpath; // ä¸‹é¢åˆå§‹åŒ–å¿«é€Ÿç´¢å¼•èœå•çš„æ—¶å€™ä¼šå¯¼è‡´è·¯å¾„è¢«é€‰æ‹©è‡³ç´¢å¼•ç¬¬ä¸€ä¸ªï¼Œæ•…åœ¨æ­¤åˆ›å»ºä¸´æ—¶å˜é‡åé¢å†è®¾ç½®ä¸€æ¬¡å½“å‰è·¯å¾„ï¼Œä¿è¯æ˜¯ä¸Šä¸€æ¬¡è®°å½•è·¯å¾„ã€‚
 		this.setcombobox();
 		this.setupjtn();
 		this.setupjcbtyp();
 		cdpath = cdt;
-		if (cdpath.equals("root")) { // ³õÊ¼»¯Â·¾¶×´Ì¬
+		if (cdpath.equals("root")) { // åˆå§‹åŒ–è·¯å¾„çŠ¶æ€
 			isInaDisk = false;
 		} else {
 			isInaDisk = true;
 		}
-		// ¿ªÊ¼»ñÈ¡ÎÄ¼şÒÔ¼°Çı¶¯Æ÷ÁĞ±í
-		if (selectop == 3) { // ÌØÊâÇé¿ö£ºÖ»ÄÜÑ¡ÔñÇı¶¯Æ÷Ê±
+		// å¼€å§‹è·å–æ–‡ä»¶ä»¥åŠé©±åŠ¨å™¨åˆ—è¡¨
+		if (selectop == 3) { // ç‰¹æ®Šæƒ…å†µï¼šåªèƒ½é€‰æ‹©é©±åŠ¨å™¨æ—¶
 			jcbidx.setEnabled(false);
 			isInaDisk = false;
 			cdpath = "root";
 			this.getdriveroot();
-		} else if (isInaDisk) { // ÔÚ´ÅÅÌÀïÃæÊ±
+		} else if (isInaDisk) { // åœ¨ç£ç›˜é‡Œé¢æ—¶
 			jcbidx.setEnabled(true);
 			this.refreshfile();
 		} else {
@@ -117,7 +117,7 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 		}
 	}
 
-	void setupjtn() { // ³õÊ¼»¯ÎÄ¼şÃûÎÄ±¾¿ò
+	void setupjtn() { // åˆå§‹åŒ–æ–‡ä»¶åæ–‡æœ¬æ¡†
 		if (isaSaveDg && selectop != 2) {
 			jtn.setEditable(true);
 		} else {
@@ -125,17 +125,17 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 		}
 	}
 
-	void setupjcbtyp() { // ³õÊ¼»¯ÏÂÀ­²Ëµ¥
+	void setupjcbtyp() { // åˆå§‹åŒ–ä¸‹æ‹‰èœå•
 		jcbtyp.removeAllItems();
 		if (selectop == 3) {
-			jcbtyp.addItem("´ÅÅÌÇı¶¯Æ÷(disk)");
-		} else if (selectop == 2) { // Ö»ÏÔÊ¾ÎÄ¼ş¼ĞÊ±
-			jcbtyp.addItem("ÎÄ¼ş¼Ğ(dir)");
+			jcbtyp.addItem("ç£ç›˜é©±åŠ¨å™¨(disk)");
+		} else if (selectop == 2) { // åªæ˜¾ç¤ºæ–‡ä»¶å¤¹æ—¶
+			jcbtyp.addItem("æ–‡ä»¶å¤¹(dir)");
 		}
-		if (doFliter) { // Èç¹û¹ıÂËÔòÒªÖØĞÂÉèÖÃÎÄ¼şÀàĞÍÏÂÀ­²Ëµ¥
+		if (doFliter) { // å¦‚æœè¿‡æ»¤åˆ™è¦é‡æ–°è®¾ç½®æ–‡ä»¶ç±»å‹ä¸‹æ‹‰èœå•
 			jcbtyp.removeAllItems();
-			if (!isaSaveDg && (selectop == 0 || selectop == 1)) { // ²»ÊÇ±£´æ¶Ô»°¿òÇÒÖ»ÄÜÑ¡ÔñÎÄ¼şÊ±
-				String text = "¿ÉÑ¡ÎÄ¼ş£º";
+			if (!isaSaveDg && (selectop == 0 || selectop == 1)) { // ä¸æ˜¯ä¿å­˜å¯¹è¯æ¡†ä¸”åªèƒ½é€‰æ‹©æ–‡ä»¶æ—¶
+				String text = "å¯é€‰æ–‡ä»¶ï¼š";
 				for (String st : fliter) {
 					text = text + "*." + st + ";";
 				}
@@ -146,33 +146,33 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 					jcbtyp.addItem(typ);
 				}
 			}
-		} else if (selectop != 2 && selectop != 3) { // ²»×öÈÎºÎ¹ıÂË
-			jcbtyp.addItem("ËùÓĞÎÄ¼ş(*.*)");
+		} else if (selectop != 2 && selectop != 3) { // ä¸åšä»»ä½•è¿‡æ»¤
+			jcbtyp.addItem("æ‰€æœ‰æ–‡ä»¶(*.*)");
 		}
 		jcbtyp.setSelectedIndex(0);
 	}
 
 	@SuppressWarnings("unchecked")
-	void refreshfile() { // »ñÈ¡ÎÄ¼şÁĞ±í
+	void refreshfile() { // è·å–æ–‡ä»¶åˆ—è¡¨
 		dfl.removeAllElements();
 		File[] filels = new File(cdpath).listFiles();
 		try {
-			for (File dirs : filels) { // ÏÈ»ñÈ¡ÎÄ¼ş¼ĞÁĞ±í
+			for (File dirs : filels) { // å…ˆè·å–æ–‡ä»¶å¤¹åˆ—è¡¨
 				if (dirs.isDirectory()) {
 					dfl.addElement(dirs);
 				}
 			}
-			if (selectop == 2) { // Ö»Ñ¡ÔñÎÄ¼ş¼ĞÊ±
-				// Ê²Ã´Ò²²»¸É
-			} else { // Òª»ñÈ¡ÎÄ¼şÊ±
-				if (!doFliter) { // ²»×ö¹ıÂËÊ±,»ñÈ¡ËùÓĞÀàĞÍÎÄ¼ş
+			if (selectop == 2) { // åªé€‰æ‹©æ–‡ä»¶å¤¹æ—¶
+				// ä»€ä¹ˆä¹Ÿä¸å¹²
+			} else { // è¦è·å–æ–‡ä»¶æ—¶
+				if (!doFliter) { // ä¸åšè¿‡æ»¤æ—¶,è·å–æ‰€æœ‰ç±»å‹æ–‡ä»¶
 					for (File addfiles : filels) {
 						if (addfiles.isFile()) {
 							dfl.addElement(addfiles);
 						}
 					}
-				} else { // ¹ıÂËÊ±£¬»ñÈ¡¹ıÂËÀàĞÍÎÄ¼ş
-					if (!isaSaveDg) { // Èç¹û²»ÊÇ±£´æ¶Ô»°¿ò£¬Í¬Ê±ÏÔÊ¾ËùÓĞÖ¸¶¨ÀàĞÍÎÄ¼ş
+				} else { // è¿‡æ»¤æ—¶ï¼Œè·å–è¿‡æ»¤ç±»å‹æ–‡ä»¶
+					if (!isaSaveDg) { // å¦‚æœä¸æ˜¯ä¿å­˜å¯¹è¯æ¡†ï¼ŒåŒæ—¶æ˜¾ç¤ºæ‰€æœ‰æŒ‡å®šç±»å‹æ–‡ä»¶
 						for (File addfile : filels) {
 							boolean shouldadd = false;
 							if (addfile.isFile()) {
@@ -188,10 +188,10 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 								}
 							}
 						}
-					} else { // Èç¹ûÊÇ±£´æ¶Ô»°¿ò£¬¾ÍÒª¸ù¾İÏÂÀ­²Ëµ¥ÄÚÈİÊµÊ±Ë¢ĞÂ
+					} else { // å¦‚æœæ˜¯ä¿å­˜å¯¹è¯æ¡†ï¼Œå°±è¦æ ¹æ®ä¸‹æ‹‰èœå•å†…å®¹å®æ—¶åˆ·æ–°
 						for (File addfile : filels) {
 							if (addfile.isFile()) {
-								String ft = new FileRaWUtils().getFileFormat(addfile.getAbsolutePath()); // ÎÄ¼şÀàĞÍ
+								String ft = new FileRaWUtils().getFileFormat(addfile.getAbsolutePath()); // æ–‡ä»¶ç±»å‹
 								String getIt = jcbtyp.getSelectedItem().toString();
 								if (ft.equalsIgnoreCase(getIt.substring(getIt.lastIndexOf(".") + 1))) {
 									dfl.addElement(addfile);
@@ -202,11 +202,11 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Ä¿Â¼Òì³££¡");
+			System.out.println("ç›®å½•å¼‚å¸¸ï¼");
 		}
 	}
 
-	void getdriveroot() { // »ñÈ¡ËùÓĞÇı¶¯Æ÷
+	void getdriveroot() { // è·å–æ‰€æœ‰é©±åŠ¨å™¨
 		dfl.removeAllElements();
 		driname.clear();
 		dritype.clear();
@@ -219,7 +219,7 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 		}
 	}
 
-	void setcombobox() { // ³õÊ¼»¯Ë÷ÒıÏÂÀ­²Ëµ¥
+	void setcombobox() { // åˆå§‹åŒ–ç´¢å¼•ä¸‹æ‹‰èœå•
 		jcbidx.removeAllItems();
 		cbbdriname.clear();
 		desktop = System.getProperty("user.home") + "\\Desktop";
@@ -238,8 +238,8 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 		jcbidx.addItem(music);
 		jcbidx.addItem(video);
 		jcbidx.addItem(appdata);
-		for (int i = 0; i < 7; i++) { // ¶ÔÆëäÖÈ¾Æ÷µÄÊı×é
-			cbbdriname.add("ÓÃ»§ÎÄ¼ş¼Ğ" + (i + 1));
+		for (int i = 0; i < 7; i++) { // å¯¹é½æ¸²æŸ“å™¨çš„æ•°ç»„
+			cbbdriname.add("ç”¨æˆ·æ–‡ä»¶å¤¹" + (i + 1));
 		}
 		for (File ss : dr) {
 			jcbidx.addItem(ss.getAbsolutePath());
@@ -263,13 +263,13 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 		jd.setUndecorated(true);
 		jd.setModal(true);
 		URL bg = DialogCore.class.getResource("res/bg.png");
-		JLabel bl = new JLabel(new ImageIcon(bg)); // °ÑÉÏÃæµÄÍ¼Æ¬¶ÔÏó¼Óµ½Ò»¸öÃûÎªblµÄ±êÇ©Àï
-		bl.setBounds(0, 0, jd.getWidth(), jd.getHeight()); // ÉèÖÃ±êÇ©´óĞ¡
-		JPanel imagePanel = (JPanel) jd.getContentPane(); // °ÑÄÚÈİ´°¸ñ×ª»¯ÎªJPanel£¬·ñÔò²»ÄÜÓÃ·½·¨setOpaque()À´Ê¹ÄÚÈİ´°¸ñÍ¸Ã÷ £¬Ê¹ÄÚÈİ´°¸ñÍ¸Ã÷ºó²ÅÄÜÏÔÊ¾±³¾°Í¼Æ¬
-		imagePanel.setOpaque(false); // °Ñ±³¾°Í¼Æ¬Ìí¼Óµ½·Ö²ã´°¸ñµÄ×îµ×²ã×÷Îª±³¾°
+		JLabel bl = new JLabel(new ImageIcon(bg)); // æŠŠä¸Šé¢çš„å›¾ç‰‡å¯¹è±¡åŠ åˆ°ä¸€ä¸ªåä¸ºblçš„æ ‡ç­¾é‡Œ
+		bl.setBounds(0, 0, jd.getWidth(), jd.getHeight()); // è®¾ç½®æ ‡ç­¾å¤§å°
+		JPanel imagePanel = (JPanel) jd.getContentPane(); // æŠŠå†…å®¹çª—æ ¼è½¬åŒ–ä¸ºJPanelï¼Œå¦åˆ™ä¸èƒ½ç”¨æ–¹æ³•setOpaque()æ¥ä½¿å†…å®¹çª—æ ¼é€æ˜ ï¼Œä½¿å†…å®¹çª—æ ¼é€æ˜åæ‰èƒ½æ˜¾ç¤ºèƒŒæ™¯å›¾ç‰‡
+		imagePanel.setOpaque(false); // æŠŠèƒŒæ™¯å›¾ç‰‡æ·»åŠ åˆ°åˆ†å±‚çª—æ ¼çš„æœ€åº•å±‚ä½œä¸ºèƒŒæ™¯
 		jd.getLayeredPane().add(bl, new Integer(Integer.MIN_VALUE));
-		jd.addMouseListener(new MouseAdapter() { // ÉèÖÃ´°¿Ú¿ÉÍÏ¶¯£¬Ìí¼Ó¼àÌıÆ÷
-			public void mousePressed(MouseEvent e) { // »ñÈ¡µã»÷Êó±êÊ±µÄ×ø±ê
+		jd.addMouseListener(new MouseAdapter() { // è®¾ç½®çª—å£å¯æ‹–åŠ¨ï¼Œæ·»åŠ ç›‘å¬å™¨
+			public void mousePressed(MouseEvent e) { // è·å–ç‚¹å‡»é¼ æ ‡æ—¶çš„åæ ‡
 				x = e.getPoint().x;
 				y = e.getPoint().y;
 			}
@@ -278,28 +278,28 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 				jd.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			}
 		});
-		jd.addMouseMotionListener(new MouseMotionAdapter() { // ÉèÖÃÍÏ×§ºó£¬´°¿ÚµÄÎ»ÖÃ
+		jd.addMouseMotionListener(new MouseMotionAdapter() { // è®¾ç½®æ‹–æ‹½åï¼Œçª—å£çš„ä½ç½®
 			public void mouseDragged(MouseEvent e) {
 				jd.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
 				jd.setLocation(e.getXOnScreen() - x, e.getYOnScreen() - y);
 			}
 		});
 		JLabel title = new JLabel(jdt);
-		title.setFont(new Font("ºÚÌå", Font.BOLD, 18));
+		title.setFont(new Font("é»‘ä½“", Font.BOLD, 18));
 		title.setBounds(6, 4, 255, 27);
 		title.setToolTipText(jdt);
-		JLabel idx = new JLabel("¿ìËÙË÷Òı£º");
-		idx.setFont(new Font("µÈÏß", Font.BOLD, 18));
+		JLabel idx = new JLabel("å¿«é€Ÿç´¢å¼•ï¼š");
+		idx.setFont(new Font("ç­‰çº¿", Font.BOLD, 18));
 		idx.setBounds(20, 51, 90, 27);
-		JLabel name = new JLabel("ÎÄ¼şÃû£º");
-		name.setFont(new Font("µÈÏß", Font.BOLD, 20));
+		JLabel name = new JLabel("æ–‡ä»¶åï¼š");
+		name.setFont(new Font("ç­‰çº¿", Font.BOLD, 20));
 		name.setBounds(53, 406, 80, 18);
-		JLabel type = new JLabel("ÎÄ¼şÀàĞÍ£º");
-		type.setFont(new Font("µÈÏß", Font.BOLD, 20));
+		JLabel type = new JLabel("æ–‡ä»¶ç±»å‹ï¼š");
+		type.setFont(new Font("ç­‰çº¿", Font.BOLD, 20));
 		type.setBounds(33, 456, 100, 18);
 		URL cb = DialogCore.class.getResource("res/bt-close.png");
 		JButton close = new JButton(new ImageIcon(cb));
-		close.addActionListener(new ActionListener() { // ¹Ø±Õ´°¿Ú
+		close.addActionListener(new ActionListener() { // å…³é—­çª—å£
 			public void actionPerformed(ActionEvent arg0) {
 				selectpath = "";
 				String[] mnul = { "null" };
@@ -310,10 +310,10 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 		close.setBounds(715, 2, 32, 32);
 		close.setBorderPainted(false);
 		close.setContentAreaFilled(false);
-		close.setToolTipText("¹Ø±Õ´°¿Ú");
+		close.setToolTipText("å…³é—­çª—å£");
 		URL cmb = DialogCore.class.getResource("res/bt-computer.png");
 		JButton computer = new JButton(new ImageIcon(cmb));
-		computer.addActionListener(new ActionListener() { // ½øÈë¡°ÎÒµÄµçÄÔ¡±
+		computer.addActionListener(new ActionListener() { // è¿›å…¥â€œæˆ‘çš„ç”µè„‘â€
 			public void actionPerformed(ActionEvent e) {
 				cdpath = "root";
 				isInaDisk = false;
@@ -323,10 +323,10 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 		computer.setBounds(511, 47, 38, 38);
 		computer.setBorderPainted(false);
 		computer.setContentAreaFilled(false);
-		computer.setToolTipText("½øÈë\"ÎÒµÄµçÄÔ\"");
+		computer.setToolTipText("è¿›å…¥\"æˆ‘çš„ç”µè„‘\"");
 		URL hmb = DialogCore.class.getResource("res/bt-home.png");
 		JButton home = new JButton(new ImageIcon(hmb));
-		home.addActionListener(new ActionListener() { // ½øÈëÓÃ»§Ö÷Ä¿Â¼
+		home.addActionListener(new ActionListener() { // è¿›å…¥ç”¨æˆ·ä¸»ç›®å½•
 			public void actionPerformed(ActionEvent e) {
 				cdpath = System.getProperty("user.home");
 				isInaDisk = true;
@@ -341,10 +341,10 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 		home.setBounds(561, 47, 38, 38);
 		home.setBorderPainted(false);
 		home.setContentAreaFilled(false);
-		home.setToolTipText("½øÈëÓÃ»§Ä¿Â¼");
+		home.setToolTipText("è¿›å…¥ç”¨æˆ·ç›®å½•");
 		URL ndb = DialogCore.class.getResource("res/bt-newdir.png");
 		JButton newDir = new JButton(new ImageIcon(ndb));
-		newDir.addActionListener(new ActionListener() { // ĞÂ½¨ÎÄ¼ş¼Ğ°´Å¥
+		newDir.addActionListener(new ActionListener() { // æ–°å»ºæ–‡ä»¶å¤¹æŒ‰é’®
 			public void actionPerformed(ActionEvent e) {
 				if (isInaDisk) {
 					new NewDir().ndfr();
@@ -358,10 +358,10 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 		newDir.setBounds(611, 47, 38, 38);
 		newDir.setBorderPainted(false);
 		newDir.setContentAreaFilled(false);
-		newDir.setToolTipText("ĞÂ½¨ÎÄ¼ş¼Ğ");
+		newDir.setToolTipText("æ–°å»ºæ–‡ä»¶å¤¹");
 		URL frb = DialogCore.class.getResource("res/bt-front.png");
 		JButton front = new JButton(new ImageIcon(frb));
-		front.addActionListener(new ActionListener() { // ÉÏÒ»¼¶Ä¿Â¼°´Å¥
+		front.addActionListener(new ActionListener() { // ä¸Šä¸€çº§ç›®å½•æŒ‰é’®
 			public void actionPerformed(ActionEvent arg0) {
 				if (isInaDisk) {
 					cdpath = new File(cdpath).getParent();
@@ -379,10 +379,10 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 		front.setBounds(411, 47, 38, 38);
 		front.setContentAreaFilled(false);
 		front.setBorderPainted(false);
-		front.setToolTipText("½øÈëÉÏÒ»¼¶Ä¿Â¼");
+		front.setToolTipText("è¿›å…¥ä¸Šä¸€çº§ç›®å½•");
 		URL rfb = DialogCore.class.getResource("res/bt-refresh.png");
 		JButton refresh = new JButton(new ImageIcon(rfb));
-		refresh.addActionListener(new ActionListener() { // Ë¢ĞÂ°´Å¥
+		refresh.addActionListener(new ActionListener() { // åˆ·æ–°æŒ‰é’®
 			public void actionPerformed(ActionEvent arg0) {
 				String cdt = cdpath;
 				new DialogCore().setcombobox();
@@ -397,10 +397,10 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 		refresh.setBounds(461, 47, 38, 38);
 		refresh.setContentAreaFilled(false);
 		refresh.setBorderPainted(false);
-		refresh.setToolTipText("Ë¢ĞÂÁĞ±í");
+		refresh.setToolTipText("åˆ·æ–°åˆ—è¡¨");
 		URL vib = DialogCore.class.getResource("res/bt-view.png");
 		JButton view = new JButton(new ImageIcon(vib));
-		view.addActionListener(new ActionListener() { // ÇĞ»»ÊÓÍ¼
+		view.addActionListener(new ActionListener() { // åˆ‡æ¢è§†å›¾
 			public void actionPerformed(ActionEvent e) {
 				FileRaWUtils fru = new FileRaWUtils();
 				if (viewop == 2) {
@@ -409,10 +409,10 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 					viewop++;
 				}
 				if (viewop == 0) {
-					fls.setLayoutOrientation(JList.VERTICAL); // ÉèÖÃÊú×ÅÅÅÁĞ
+					fls.setLayoutOrientation(JList.VERTICAL); // è®¾ç½®ç«–ç€æ’åˆ—
 				} else if (viewop == 1) {
-					fls.setLayoutOrientation(JList.HORIZONTAL_WRAP); // ÉèÖÃ±í¸ñ·ÖÀ¸ÅÅÁĞÔªËØ
-					fls.setVisibleRowCount(7); // ÉèÖÃ×ÜĞĞÊıÎª7ĞĞ
+					fls.setLayoutOrientation(JList.HORIZONTAL_WRAP); // è®¾ç½®è¡¨æ ¼åˆ†æ æ’åˆ—å…ƒç´ 
+					fls.setVisibleRowCount(7); // è®¾ç½®æ€»è¡Œæ•°ä¸º7è¡Œ
 				} else if (viewop == 2) {
 					fls.setLayoutOrientation(JList.VERTICAL_WRAP);
 					fls.setVisibleRowCount(2);
@@ -427,40 +427,40 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 		view.setBounds(661, 47, 38, 38);
 		view.setContentAreaFilled(false);
 		view.setBorderPainted(false);
-		view.setToolTipText("¸ü¸ÄÊÓÍ¼");
-		JButton ok = new JButton("È·¶¨");
-		ok.addActionListener(new ActionListener() { // È·¶¨
+		view.setToolTipText("æ›´æ”¹è§†å›¾");
+		JButton ok = new JButton("ç¡®å®š");
+		ok.addActionListener(new ActionListener() { // ç¡®å®š
 			public void actionPerformed(ActionEvent e) {
 				FileRaWUtils fru = new FileRaWUtils();
-				if (!isaSaveDg) { // ÎªÑ¡Ôñ¶Ô»°¿òÊ±
-					if (fls.getSelectedIndex() == -1 && (selectop == 1 || selectop == 3)) { // Èç¹ûÔÚÖ»ÄÜÑ¡ÔñÎÄ¼şºÍÇı¶¯Æ÷µÄÇé¿öÏÂÃ»ÓĞÑ¡ÔñÎÄ¼ş£¬¾ÍÌáÊ¾ÇëÑ¡ÔñÎÄ¼ş
+				if (!isaSaveDg) { // ä¸ºé€‰æ‹©å¯¹è¯æ¡†æ—¶
+					if (fls.getSelectedIndex() == -1 && (selectop == 1 || selectop == 3)) { // å¦‚æœåœ¨åªèƒ½é€‰æ‹©æ–‡ä»¶å’Œé©±åŠ¨å™¨çš„æƒ…å†µä¸‹æ²¡æœ‰é€‰æ‹©æ–‡ä»¶ï¼Œå°±æç¤ºè¯·é€‰æ‹©æ–‡ä»¶
 						try {
 							Process tip = Runtime.getRuntime().exec(
-									"cmd /c echo msgbox \"ÇëÑ¡ÔñÏîÄ¿£¡\",64,\"´íÎó\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
+									"cmd /c echo msgbox \"è¯·é€‰æ‹©é¡¹ç›®ï¼\",64,\"é”™è¯¯\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
-					} else if (fls.getSelectedIndex() == -1 && (selectop == 0 || selectop == 2)) { // Èç¹ûÔÚ¿ÉÒÔÑ¡ÔñÄ¿Â¼µÄÇé¿öÏÂÃ»Ñ¡ÔñÏîÄ¿£¬Ôò½«µ±Ç°µÄÂ·¾¶×÷ÎªÑ¡Ôñ·µ»ØÖµ
+					} else if (fls.getSelectedIndex() == -1 && (selectop == 0 || selectop == 2)) { // å¦‚æœåœ¨å¯ä»¥é€‰æ‹©ç›®å½•çš„æƒ…å†µä¸‹æ²¡é€‰æ‹©é¡¹ç›®ï¼Œåˆ™å°†å½“å‰çš„è·¯å¾„ä½œä¸ºé€‰æ‹©è¿”å›å€¼
 						try {
 							fru.replaceLine(WKFILE, 1, cdpath);
 							if (isInaDisk) {
-								if (!isMultiSelect) { // µ¥Ñ¡Ê±
+								if (!isMultiSelect) { // å•é€‰æ—¶
 									selectpath = cdpath;
-								} else { // ¶àÑ¡Ê±
+								} else { // å¤šé€‰æ—¶
 									Object[] msl = { cdpath };
 									multiselectpath = msl;
 								}
 								jd.dispose();
 							} else {
 								Process tip = Runtime.getRuntime().exec(
-										"cmd /c echo msgbox \"Çë½øÈëÒ»¸öÇı¶¯Æ÷²¢Ñ¡ÔñÎÄ¼ş»òÕßÎÄ¼ş¼Ğ£¡\",64,\"´íÎó\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
+										"cmd /c echo msgbox \"è¯·è¿›å…¥ä¸€ä¸ªé©±åŠ¨å™¨å¹¶é€‰æ‹©æ–‡ä»¶æˆ–è€…æ–‡ä»¶å¤¹ï¼\",64,\"é”™è¯¯\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
 							}
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
-					} else { // Ñ¡ÖĞÁËÏîÄ¿Ê±
-						if (!isMultiSelect) { // µ¥Ñ¡Ê±
-							if (selectop == 0 || selectop == 2) { // ¶¼¿ÉÒÔÑ¡ÔñÊ±»òÕßÊÇÑ¡ÔñÎÄ¼ş¼ĞÊ±
+					} else { // é€‰ä¸­äº†é¡¹ç›®æ—¶
+						if (!isMultiSelect) { // å•é€‰æ—¶
+							if (selectop == 0 || selectop == 2) { // éƒ½å¯ä»¥é€‰æ‹©æ—¶æˆ–è€…æ˜¯é€‰æ‹©æ–‡ä»¶å¤¹æ—¶
 								if (isInaDisk) {
 									try {
 										fru.replaceLine(WKFILE, 1, cdpath);
@@ -474,7 +474,7 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 									new DialogCore().refreshfile();
 									isInaDisk = true;
 								}
-							} else if (selectop == 1) { // Ö»ÄÜÑ¡ÔñÎÄ¼şÊ±
+							} else if (selectop == 1) { // åªèƒ½é€‰æ‹©æ–‡ä»¶æ—¶
 								if (isInaDisk) {
 									cdpath = fls.getSelectedValue().toString();
 									if (new File(cdpath).isDirectory()) {
@@ -494,12 +494,12 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 									new DialogCore().refreshfile();
 									isInaDisk = true;
 								}
-							} else { // Ö»ÄÜÑ¡ÔñÇı¶¯Æ÷Ê±
+							} else { // åªèƒ½é€‰æ‹©é©±åŠ¨å™¨æ—¶
 								selectpath = fls.getSelectedValue().toString();
 								jd.dispose();
 							}
-						} else { // ¶àÑ¡Ê±
-							if (selectop == 0 || selectop == 2) { // ¶¼¿ÉÒÔÑ¡ÔñÊ±»òÕßÊÇÑ¡ÔñÎÄ¼ş¼ĞÊ±
+						} else { // å¤šé€‰æ—¶
+							if (selectop == 0 || selectop == 2) { // éƒ½å¯ä»¥é€‰æ‹©æ—¶æˆ–è€…æ˜¯é€‰æ‹©æ–‡ä»¶å¤¹æ—¶
 								if (isInaDisk) {
 									try {
 										fru.replaceLine(WKFILE, 1, cdpath);
@@ -510,18 +510,18 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 										e1.printStackTrace();
 									}
 								} else {
-									if (fls.getSelectedValues().length == 1) { // Èç¹ûÑ¡ÔñµÄ¶ÔÏóÖ»ÓĞÒ»¸ö
+									if (fls.getSelectedValues().length == 1) { // å¦‚æœé€‰æ‹©çš„å¯¹è±¡åªæœ‰ä¸€ä¸ª
 										cdpath = fls.getSelectedValues()[0].toString();
 										new DialogCore().refreshfile();
 										isInaDisk = true;
-									} else { // ÓĞ¶à¸ö±»Ñ¡ÖĞÊ±
+									} else { // æœ‰å¤šä¸ªè¢«é€‰ä¸­æ—¶
 										fls.setSelectedIndex(0);
 									}
 								}
-							} else if (selectop == 1) { // Ö»ÄÜÑ¡ÔñÎÄ¼şÊ±
+							} else if (selectop == 1) { // åªèƒ½é€‰æ‹©æ–‡ä»¶æ—¶
 								if (isInaDisk) {
 									Object[] seit = fls.getSelectedValues();
-									if (seit.length == 1) { // Èç¹ûÑ¡ÔñµÄ¶ÔÏóÖ»ÓĞÒ»¸ö
+									if (seit.length == 1) { // å¦‚æœé€‰æ‹©çš„å¯¹è±¡åªæœ‰ä¸€ä¸ª
 										if (new File(seit[0].toString()).isDirectory()) {
 											cdpath = seit[0].toString();
 											new DialogCore().refreshfile();
@@ -535,7 +535,7 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 												e1.printStackTrace();
 											}
 										}
-									} else { // ÓĞ¶à¸ö±»Ñ¡ÖĞÊ±
+									} else { // æœ‰å¤šä¸ªè¢«é€‰ä¸­æ—¶
 										boolean isicldir = false;
 										for (Object o : seit) {
 											if (new File(o.toString()).isDirectory()) {
@@ -543,7 +543,7 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 												break;
 											}
 										}
-										if (isicldir) { // ¶àÑ¡µÄÄÚÈİ°üº¬ÎÄ¼ş¼Ğ£¬µ«ÊÇÕâ²»±»ÔÊĞí´ËÊ±
+										if (isicldir) { // å¤šé€‰çš„å†…å®¹åŒ…å«æ–‡ä»¶å¤¹ï¼Œä½†æ˜¯è¿™ä¸è¢«å…è®¸æ­¤æ—¶
 											fls.setSelectedIndex(0);
 										} else {
 											try {
@@ -557,72 +557,72 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 										}
 									}
 								} else {
-									if (fls.getSelectedValues().length == 1) { // Èç¹ûÑ¡ÔñµÄ¶ÔÏóÖ»ÓĞÒ»¸ö
+									if (fls.getSelectedValues().length == 1) { // å¦‚æœé€‰æ‹©çš„å¯¹è±¡åªæœ‰ä¸€ä¸ª
 										cdpath = fls.getSelectedValues()[0].toString();
 										new DialogCore().refreshfile();
 										isInaDisk = true;
-									} else { // ÓĞ¶à¸ö±»Ñ¡ÖĞÊ±
+									} else { // æœ‰å¤šä¸ªè¢«é€‰ä¸­æ—¶
 										fls.setSelectedIndex(0);
 									}
 								}
-							} else { // Ö»ÄÜÑ¡ÔñÇı¶¯Æ÷Ê±
+							} else { // åªèƒ½é€‰æ‹©é©±åŠ¨å™¨æ—¶
 								Object[] msl = fls.getSelectedValues();
 								multiselectpath = msl;
 								jd.dispose();
 							}
 						}
 					}
-				} else { // ÊÇ±£´æ¶Ô»°¿òÊ±
-					if (fls.getSelectedIndex() == -1 && !isInaDisk) { // Èç¹ûÔÚÇı¶¯Æ÷¸ùÄ¿Â¼µÄÇé¿öÏÂÃ»ÓĞÑ¡ÔñÎÄ¼ş£¬¾ÍÌáÊ¾ÇëÑ¡ÔñÄ¿Â¼
+				} else { // æ˜¯ä¿å­˜å¯¹è¯æ¡†æ—¶
+					if (fls.getSelectedIndex() == -1 && !isInaDisk) { // å¦‚æœåœ¨é©±åŠ¨å™¨æ ¹ç›®å½•çš„æƒ…å†µä¸‹æ²¡æœ‰é€‰æ‹©æ–‡ä»¶ï¼Œå°±æç¤ºè¯·é€‰æ‹©ç›®å½•
 						try {
 							Process tip = Runtime.getRuntime().exec(
-									"cmd /c echo msgbox \"ÇëÑ¡Ôñ²¢½øÈëÒ»¸ö´ÅÅÌ£¡\",64,\"´íÎó\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
+									"cmd /c echo msgbox \"è¯·é€‰æ‹©å¹¶è¿›å…¥ä¸€ä¸ªç£ç›˜ï¼\",64,\"é”™è¯¯\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
-					} else { // ÆäÓàÇé¿ö£¨Ñ¡ÔñÁËÄ¿Â¼»òÕßÒÑ¾­ÊÇÑ¡ÔñÁËÎÄ¼ş£©
+					} else { // å…¶ä½™æƒ…å†µï¼ˆé€‰æ‹©äº†ç›®å½•æˆ–è€…å·²ç»æ˜¯é€‰æ‹©äº†æ–‡ä»¶ï¼‰
 						try {
-							if (selectop == 2) { // Ö»Ö¸¶¨±£´æÄ¿Â¼Ê±
-								if (fls.getSelectedIndex() == -1) { // Ã»Ñ¡ÔñÎÄ¼ş¼Ğ£¬ÔòÒÔµ±Ç°Â·¾¶Îª±ê×¼
+							if (selectop == 2) { // åªæŒ‡å®šä¿å­˜ç›®å½•æ—¶
+								if (fls.getSelectedIndex() == -1) { // æ²¡é€‰æ‹©æ–‡ä»¶å¤¹ï¼Œåˆ™ä»¥å½“å‰è·¯å¾„ä¸ºæ ‡å‡†
 									selectpath = cdpath;
 									fru.replaceLine(WKFILE, 1, cdpath);
 									jd.dispose();
-								} else { // ÒÑ¾­Ñ¡ÔñÁËÎÄ¼ş¼Ğ£¬ÔòÒÔÑ¡ÔñµÄÎª½á¹û
+								} else { // å·²ç»é€‰æ‹©äº†æ–‡ä»¶å¤¹ï¼Œåˆ™ä»¥é€‰æ‹©çš„ä¸ºç»“æœ
 									selectpath = fls.getSelectedValue().toString();
 									fru.replaceLine(WKFILE, 1, cdpath);
 									jd.dispose();
 								}
-							} else { // ·ñÔò
+							} else { // å¦åˆ™
 								if (jtn.getText().equals("")) {
 									Process tip = Runtime.getRuntime().exec(
-											"cmd /c echo msgbox \"ÇëÊäÈëÎÄ¼şÃû£¡\",64,\"´íÎó\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
+											"cmd /c echo msgbox \"è¯·è¾“å…¥æ–‡ä»¶åï¼\",64,\"é”™è¯¯\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
 								} else {
-									String sfl = ""; // ×îºó»ñÈ¡µÄÍêÕûÎÄ¼şÂ·¾¶
+									String sfl = ""; // æœ€åè·å–çš„å®Œæ•´æ–‡ä»¶è·¯å¾„
 									if (cdpath.endsWith("\\")) {
 										sfl = cdpath + jtn.getText();
 									} else {
 										sfl = cdpath + "\\" + jtn.getText();
 									}
-									if (doFliter) { // ±£´æ¶Ô»°¿òÇÒ×ö¹ıÂËÊ±£¬¼ì²é²¢×Ô¶¯²¹È«ÎÄ¼şÃûÕıÈ·ĞÔ
-										String jcbsel = jcbtyp.getSelectedItem().toString(); // »ñÈ¡µÄÁĞ±íÑ¡ÔñÏî
-										String jcbselx = jcbsel.substring(jcbsel.lastIndexOf(".") + 1); // »ñÈ¡µÄÁĞ±íÏà¶ÔÓ¦À©Õ¹Ãû
-										if (sfl.contains(".")) { // ÎÄ¼şÓĞÎ²×ºÊ±£¬¼ì²éÆäÕıÈ·ĞÔ
-											String fty = sfl.substring(sfl.lastIndexOf(".") + 1); // »ñÈ¡ÎÄ¼şÀ©Õ¹Ãû
-											if (!fty.equalsIgnoreCase(jcbselx)) { // À©Õ¹Ãû²»¶ÔÊ±
+									if (doFliter) { // ä¿å­˜å¯¹è¯æ¡†ä¸”åšè¿‡æ»¤æ—¶ï¼Œæ£€æŸ¥å¹¶è‡ªåŠ¨è¡¥å…¨æ–‡ä»¶åæ­£ç¡®æ€§
+										String jcbsel = jcbtyp.getSelectedItem().toString(); // è·å–çš„åˆ—è¡¨é€‰æ‹©é¡¹
+										String jcbselx = jcbsel.substring(jcbsel.lastIndexOf(".") + 1); // è·å–çš„åˆ—è¡¨ç›¸å¯¹åº”æ‰©å±•å
+										if (sfl.contains(".")) { // æ–‡ä»¶æœ‰å°¾ç¼€æ—¶ï¼Œæ£€æŸ¥å…¶æ­£ç¡®æ€§
+											String fty = sfl.substring(sfl.lastIndexOf(".") + 1); // è·å–æ–‡ä»¶æ‰©å±•å
+											if (!fty.equalsIgnoreCase(jcbselx)) { // æ‰©å±•åä¸å¯¹æ—¶
 												sfl = sfl + "." + jcbselx;
 											}
-										} else { // Ã»ÓĞÎ²×º£¬¾Í¼ÓÉÏÈ¥
+										} else { // æ²¡æœ‰å°¾ç¼€ï¼Œå°±åŠ ä¸Šå»
 											sfl = sfl + "." + jcbselx;
 										}
 									}
-									if (new File(sfl).exists()) { // Èç¹ûÎÄ¼ş´æÔÚ
+									if (new File(sfl).exists()) { // å¦‚æœæ–‡ä»¶å­˜åœ¨
 										new OverwriteTip().fr();
 										if (OverwriteTip.isOvt) {
 											selectpath = sfl;
 											fru.replaceLine(WKFILE, 1, cdpath);
 											jd.dispose();
 										} else {
-											// Ê²Ã´¶¼²»×ö
+											// ä»€ä¹ˆéƒ½ä¸åš
 										}
 									} else {
 										selectpath = sfl;
@@ -639,11 +639,11 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 			}
 		});
 		ok.setForeground(new Color(255, 0, 153));
-		ok.setFont(new Font("ºÚÌå", Font.BOLD, 20));
+		ok.setFont(new Font("é»‘ä½“", Font.BOLD, 20));
 		ok.setBounds(605, 398, 88, 35);
 		ok.setContentAreaFilled(false);
-		JButton cancel = new JButton("È¡Ïû");
-		cancel.addActionListener(new ActionListener() { // È¡Ïû°´Å¥
+		JButton cancel = new JButton("å–æ¶ˆ");
+		cancel.addActionListener(new ActionListener() { // å–æ¶ˆæŒ‰é’®
 			public void actionPerformed(ActionEvent arg0) {
 				selectpath = "";
 				String[] mnul = { "null" };
@@ -652,31 +652,31 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 			}
 		});
 		cancel.setForeground(new Color(255, 102, 0));
-		cancel.setFont(new Font("ºÚÌå", Font.BOLD, 20));
+		cancel.setFont(new Font("é»‘ä½“", Font.BOLD, 20));
 		cancel.setBounds(605, 448, 88, 35);
 		cancel.setContentAreaFilled(false);
 		fls = new JList(dfl);
 		fls.setCellRenderer(new WFsCellRender());
 		if (viewop == 0) {
-			fls.setLayoutOrientation(JList.VERTICAL); // ÉèÖÃÊú×ÅÅÅÁĞ
+			fls.setLayoutOrientation(JList.VERTICAL); // è®¾ç½®ç«–ç€æ’åˆ—
 		} else if (viewop == 1) {
-			fls.setLayoutOrientation(JList.HORIZONTAL_WRAP); // ÉèÖÃ±í¸ñ·ÖÀ¸ÅÅÁĞÔªËØ
-			fls.setVisibleRowCount(7); // ÉèÖÃ×ÜĞĞÊıÎª7ĞĞ
+			fls.setLayoutOrientation(JList.HORIZONTAL_WRAP); // è®¾ç½®è¡¨æ ¼åˆ†æ æ’åˆ—å…ƒç´ 
+			fls.setVisibleRowCount(7); // è®¾ç½®æ€»è¡Œæ•°ä¸º7è¡Œ
 		} else if (viewop == 2) {
 			fls.setLayoutOrientation(JList.VERTICAL_WRAP);
 			fls.setVisibleRowCount(2);
 		}
-		if (isMultiSelect && !isaSaveDg) { // µ¥Ñ¡/¶àÑ¡ÅĞ¶Ï
+		if (isMultiSelect && !isaSaveDg) { // å•é€‰/å¤šé€‰åˆ¤æ–­
 			fls.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		} else {
 			fls.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		}
 		fls.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 1) { // Êó±êµ¥»÷
+				if (e.getClickCount() == 1) { // é¼ æ ‡å•å‡»
 					if (isInaDisk) {
-						if (!isaSaveDg) { // ÎªÑ¡Ôñ¶Ô»°¿òÊ±
-							if (!isMultiSelect) { // µ¥Ñ¡Ê±
+						if (!isaSaveDg) { // ä¸ºé€‰æ‹©å¯¹è¯æ¡†æ—¶
+							if (!isMultiSelect) { // å•é€‰æ—¶
 								String gfn = new File(fls.getSelectedValue().toString()).getName();
 								jtn.setText(gfn);
 							} else {
@@ -687,7 +687,7 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 								}
 								jtn.setText(gfnn);
 							}
-						} else { // Îª±£´æ¶Ô»°¿òÊ±
+						} else { // ä¸ºä¿å­˜å¯¹è¯æ¡†æ—¶
 							if (new File(fls.getSelectedValue().toString()).isFile()) {
 								String gfn = new File(fls.getSelectedValue().toString()).getName();
 								jtn.setText(gfn);
@@ -698,11 +698,11 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 						}
 					}
 				}
-				if (e.getClickCount() == 2) { // Êó±êË«»÷
-					int index = fls.locationToIndex(e.getPoint()); // »ñÈ¡Êó±êËùÔÚµÄË÷Òı
-					if (!isInaDisk) { // Èôµ±Ç°ÔÚÎÒµÄµçÄÔÏÂ
-						if (selectop == 3) { // µ±Ö»ÔÊĞíÑ¡Ôñ´ÅÅÌÊ±
-							if (!isMultiSelect) { // µ¥Ñ¡Ê±
+				if (e.getClickCount() == 2) { // é¼ æ ‡åŒå‡»
+					int index = fls.locationToIndex(e.getPoint()); // è·å–é¼ æ ‡æ‰€åœ¨çš„ç´¢å¼•
+					if (!isInaDisk) { // è‹¥å½“å‰åœ¨æˆ‘çš„ç”µè„‘ä¸‹
+						if (selectop == 3) { // å½“åªå…è®¸é€‰æ‹©ç£ç›˜æ—¶
+							if (!isMultiSelect) { // å•é€‰æ—¶
 								selectpath = fls.getSelectedValue().toString();
 							} else {
 								Object[] asp = { fls.getSelectedValue() };
@@ -714,23 +714,23 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 							new DialogCore().refreshfile();
 							isInaDisk = true;
 						}
-					} else { // Èôµ±Ç°ÔÚ´ÅÅÌÀïÃæ
+					} else { // è‹¥å½“å‰åœ¨ç£ç›˜é‡Œé¢
 						cdpath = fls.getModel().getElementAt(index).toString();
-						if (new File(cdpath).isDirectory()) { // ÈôË«»÷ÎÄ¼ş¼Ğ£¬Ôò½øÈë
+						if (new File(cdpath).isDirectory()) { // è‹¥åŒå‡»æ–‡ä»¶å¤¹ï¼Œåˆ™è¿›å…¥
 							new DialogCore().refreshfile();
-						} else if (new File(cdpath).isFile()) { // Èç¹ûÊÇÎÄ¼ş
+						} else if (new File(cdpath).isFile()) { // å¦‚æœæ˜¯æ–‡ä»¶
 							try {
 								FileRaWUtils fru = new FileRaWUtils();
 								cdpath = new File(cdpath).getParent();
-								if (!isMultiSelect) { // µ¥Ñ¡Ê±
-									if (isaSaveDg) { // ±£´æ¶Ô»°¿òÊ±
+								if (!isMultiSelect) { // å•é€‰æ—¶
+									if (isaSaveDg) { // ä¿å­˜å¯¹è¯æ¡†æ—¶
 										new OverwriteTip().fr();
-										if (OverwriteTip.isOvt) { // ÌáÊ¾¸²¸ÇµÄÑ¡Ïî
+										if (OverwriteTip.isOvt) { // æç¤ºè¦†ç›–çš„é€‰é¡¹
 											selectpath = fls.getSelectedValue().toString();
 											fru.replaceLine(WKFILE, 1, cdpath);
 											jd.dispose();
-										} else { // ²»È»
-											// Ê²Ã´¶¼²»×ö
+										} else { // ä¸ç„¶
+											// ä»€ä¹ˆéƒ½ä¸åš
 										}
 									} else {
 										selectpath = fls.getSelectedValue().toString();
@@ -754,15 +754,15 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 				}
 			}
 
-			public void mouseEntered(MouseEvent e) { // Êó±ê·ÅÉÏÈ¥
+			public void mouseEntered(MouseEvent e) { // é¼ æ ‡æ”¾ä¸Šå»
 				if (isShowPre.isSelected()) {
 					if (viewop == 0 || viewop == 1) {
-						int index = fls.locationToIndex(e.getPoint()); // »ñÈ¡Êó±êËùÔÚµÄË÷Òı
+						int index = fls.locationToIndex(e.getPoint()); // è·å–é¼ æ ‡æ‰€åœ¨çš„ç´¢å¼•
 						String imgpath = "";
 						try {
 							imgpath = fls.getModel().getElementAt(index).toString();
 						} catch (Exception es) {
-							System.out.println("Ä¿Â¼Îª¿Õ£¡");
+							System.out.println("ç›®å½•ä¸ºç©ºï¼");
 						}
 						String ft = new FileRaWUtils().getFileFormat(imgpath);
 						if (ft.equalsIgnoreCase("jpg") || ft.equalsIgnoreCase("jpeg") || ft.equalsIgnoreCase("png")
@@ -791,7 +791,7 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 				}
 			}
 
-			public void mouseExited(MouseEvent e) { // Êó±êÒÆ¿ªÊÂ¼ş
+			public void mouseExited(MouseEvent e) { // é¼ æ ‡ç§»å¼€äº‹ä»¶
 				if (isShowPre.isSelected()) {
 					PreFrame.jf.dispose();
 					isfrShow = false;
@@ -799,15 +799,15 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 			}
 		});
 		fls.addMouseMotionListener(new MouseMotionAdapter() {
-			public void mouseMoved(MouseEvent e) { // Êó±êÒÆ¶¯ÊÂ¼ş
+			public void mouseMoved(MouseEvent e) { // é¼ æ ‡ç§»åŠ¨äº‹ä»¶
 				if (isShowPre.isSelected()) {
 					if (viewop == 0 || viewop == 1) {
-						int index = fls.locationToIndex(e.getPoint()); // »ñÈ¡Êó±êËùÔÚµÄË÷Òı
+						int index = fls.locationToIndex(e.getPoint()); // è·å–é¼ æ ‡æ‰€åœ¨çš„ç´¢å¼•
 						String imgpath = "";
 						try {
 							imgpath = fls.getModel().getElementAt(index).toString();
 						} catch (Exception es) {
-							System.out.println("Ä¿Â¼Îª¿Õ£¡");
+							System.out.println("ç›®å½•ä¸ºç©ºï¼");
 						}
 						String ft = new FileRaWUtils().getFileFormat(imgpath);
 						if (ft.equalsIgnoreCase("jpg") || ft.equalsIgnoreCase("jpeg") || ft.equalsIgnoreCase("png")
@@ -833,7 +833,7 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 							} else {
 								PreFrame.jf.setLocation(e.getXOnScreen() - 183, e.getYOnScreen() - 197);
 							}
-						} else { // ÒÆµ½±ğµÄÎÄ¼ş
+						} else { // ç§»åˆ°åˆ«çš„æ–‡ä»¶
 							PreFrame.jf.dispose();
 							isfrShow = false;
 						}
@@ -845,20 +845,20 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 		jsp.setBounds(43, 108, 656, 278);
 		jsp.setViewportView(fls);
 		jcbidx.setBounds(113, 41, 289, 45);
-		jcbidx.addActionListener(new ActionListener() { // ¿ìËÙË÷ÒıÏÂÀ­²Ëµ¥ÊÂ¼ş
+		jcbidx.addActionListener(new ActionListener() { // å¿«é€Ÿç´¢å¼•ä¸‹æ‹‰èœå•äº‹ä»¶
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					cdpath = jcbidx.getSelectedItem().toString();
 					isInaDisk = true;
 					new DialogCore().refreshfile();
 				} catch (Exception e1) {
-					// Ê²Ã´¶¼²»×ö
+					// ä»€ä¹ˆéƒ½ä¸åš
 				}
 			}
 		});
 		jcbidx.setRenderer(new CoboBoxRender());
 		jcbtyp.setBounds(141, 448, 447, 35);
-		if (isaSaveDg && doFliter && selectop != 2 && selectop != 3) { // Îª±£´æ¶Ô»°¿òÇÒÓĞ¹ıÂËÊ±£¬ÊµÏÖÑ¡ÔñÒ»¸öÀàĞÍÖ»ÏÔÊ¾¸ÃÀàĞÍÎÄ¼ş
+		if (isaSaveDg && doFliter && selectop != 2 && selectop != 3) { // ä¸ºä¿å­˜å¯¹è¯æ¡†ä¸”æœ‰è¿‡æ»¤æ—¶ï¼Œå®ç°é€‰æ‹©ä¸€ä¸ªç±»å‹åªæ˜¾ç¤ºè¯¥ç±»å‹æ–‡ä»¶
 			jcbtyp.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					new DialogCore().refreshfile();
@@ -866,7 +866,7 @@ class DialogCore { // ¶Ô»°¿ò´¦ÀíºËĞÄ
 			});
 		}
 		jtn.setBounds(141, 399, 447, 35);
-		isShowPre.setFont(new Font("µÈÏß", Font.BOLD, 15));
+		isShowPre.setFont(new Font("ç­‰çº¿", Font.BOLD, 15));
 		isShowPre.setSelected(true);
 		isShowPre.setBounds(20, 88, 160, 18);
 		isShowPre.setOpaque(false);
