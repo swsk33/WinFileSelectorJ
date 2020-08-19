@@ -25,7 +25,7 @@
     <groupId>com.gitee.swsk33</groupId>
     <artifactId>WinFileSelectorJ</artifactId>
     <version>1.0.5</version>
-<dependency>
+</dependency>
 ```
 ### 2，导入swsk33.WFs下所有类或者需要的类。（import swsk33.WFs.*;）
 ### 3，语法：
