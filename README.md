@@ -18,15 +18,15 @@
 每次选择完成文件之后会记录上一次的位置，配置文件生成于用户文件夹的AppData\Local\WinFileSelectorJ目录下（```C:\Users\%username%\AppData\Local\WinFileSelectorJ```）。
 #### 二、开发用法
 ### 1，添加依赖：
- ①Eclipse直接添加jar：先把这个包导入到IDE里面，例如eclipse。不知道如何导入请查看教程：[eclipse导入外部jar包](https://blog.csdn.net/czbqoo01/article/details/72803450)<br>
- ②Maven工程：在项目的配置文件pom.xml中的```<dependencies>```标签里加入下列依赖，此操作无需在上面手动下载jar包（推荐）：
- ```
- <dependency>
-	<groupId>com.gitee.swsk33</groupId>
-	<artifactId>WinFileSelectorJ</artifactId>
- 	<version>1.0.5</version>
- <dependency>
- ```
+①Eclipse直接添加jar：先把这个包导入到IDE里面，例如eclipse。不知道如何导入请查看教程：[eclipse导入外部jar包](https://blog.csdn.net/czbqoo01/article/details/72803450)<br>
+②Maven工程：在项目的配置文件pom.xml中的```<dependencies>```标签里加入下列依赖，此操作无需在上面手动下载jar包（推荐）：
+```
+<dependency>
+    <groupId>com.gitee.swsk33</groupId>
+    <artifactId>WinFileSelectorJ</artifactId>
+    <version>1.0.5</version>
+<dependency>
+```
 ### 2，导入swsk33.WFs下所有类或者需要的类。（import swsk33.WFs.*;）
 ### 3，语法：
 **说在最前：下面语法示例中用了最快捷的方法去执行了某个类中的某个方法。**<br>
