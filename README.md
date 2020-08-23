@@ -24,7 +24,7 @@
 <dependency>
     <groupId>com.gitee.swsk33</groupId>
     <artifactId>WinFileSelectorJ</artifactId>
-    <version>1.0.6</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 ### 2，导入swsk33.WFs下所有类或者需要的类。（import swsk33.WFs.*;）
@@ -47,31 +47,39 @@
 ```FileSelectDialog.DIR_ONLY```:只能选择文件夹。<br>
 ```FileSelectDialog.DRIVE_ONLY```:只能选择驱动器。<br>
 **例如：创建一个标题为“选择文件”、只能选择文件的文件选择器对话框并输出其选择的文件路径**<br>
-```String s=new FileSelectDialog().createSingleSelectionDialog("选择文件",FileSelectDialog.FILE_ONLY);```<br>
-```System.out.println(s);```<br>
+```
+String s=new FileSelectDialog().createSingleSelectionDialog("选择文件", FileSelectDialog.FILE_ONLY);
+System.out.println(s);
+```
 2，创建一个带过滤的文件选择器单选窗口(返回值String):<br>
 ```new FileSelectDialog().createSingleSelectionDialog("窗口的标题",文件选择模式,要显示的文件扩展名的字符串数组);```<br>
 这个是带过滤显示的文件选择器窗口，他只会显示你制定类型的文件。<br>
 先自己定一个String数组，里面放入你要指定显示的文件类型扩展名，再把该String数组对象放入第三个参数。<br>
 **例如：创建一个标题为“选择文件”、只能选择文件的文件选择器对话框，且只显示png和jpg文件，并输出其选择的文件路径**<br>
-```String[] type={"png","jpg"};		//指定显示文件的字符串数组```<br>
-```String s=new FileSelectDialog().createSingleSelectionDialog("选择文件",FileSelectDialog.FILE_ONLY,type);```<br>
-```System.out.println(s);```<br>
+```
+String[] type = {"png", "jpg"};		//指定显示文件的字符串数组
+String s = new FileSelectDialog().createSingleSelectionDialog("选择文件", FileSelectDialog.FILE_ONLY,type);
+System.out.println(s);
+```
 3，创建一个不带过滤的文件选择器多选窗口(返回值Object[]):<br>
 ```new FileSelectDialog().createMultipleSelectionDialog("窗口标题",文件选择模式);```<br>
 **例如：创建一个标题为“选择文件”、只能选择文件的多选文件选择器对话框，并逐个输出其选择的文件路径**<br>
-```Object[] o=new FileSelectDialog().createMultipleSelectionDialog("选择文件",FileSelectDialog.FILE_ONLY);```<br>
-```for(Object name:o) {```<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```System.out.println(name.toString());```<br>
-```}```<br>
+```
+Object[] o = new FileSelectDialog().createMultipleSelectionDialog("选择文件", FileSelectDialog.FILE_ONLY);
+for (Object name : o) {
+	System.out.println(name.toString());
+}
+```
 4，创建一个带过滤的文件选择器多选窗口(返回值Object[]):<br>
 ```new FileSelectDialog().createMultipleSelectionDialog("窗口标题",文件选择模式,要显示的文件扩展名的字符串数组);```<br>
 **例如：创建一个标题为“选择文件”、只能选择文件的多选文件选择器对话框，且只显示png和jpg文件，并逐个输出其选择的文件路径**<br>
-```String[] type={"png","jpg"};		//指定显示文件的字符串数组```<br>
-```Object[] o=new FileSelectDialog().createMultipleSelectionDialog("选择文件",FileSelectDialog.FILE_ONLY,type)```<br>
-```for(Object name:o) {```<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```System.out.println(name.toString());```<br>
-```}```<br>
+```
+String[] type = {"png", "jpg"};		//指定显示文件的字符串数组
+Object[] o = new FileSelectDialog().createMultipleSelectionDialog("选择文件",FileSelectDialog.FILE_ONLY,type);
+for (Object name : o) {
+	System.out.println(name.toString());
+}
+```
 5，创建一个不带过滤的文件保存路径选择对话框(返回值String):<br>
 ```new FileSaveDialog().createSaveDialog("对话框标题",文件选择模式);```<br>
 *和上述的选择对话框不同，文件保存路径选择的对话框只能单选，并且可以在文件类型下拉菜单选择相应的文件类型，选择相应的文件类型时只会显示文件夹和选中的相应类型的文件，当前目录下存在输入的文件名时会提示是否覆盖。方法返回值即为文件保存的完整路径。*<br>
@@ -83,6 +91,9 @@
 参数以及使用和上面文件选择窗口类似。<br>
 ##### 这就是所有的说明，感谢观看！
 #### ->更新日志
+**v1.1.0(2020.8.23)**<br>
+1，修改了资源文件位置。<br>
+2，调整了新建文件夹窗口的按钮文字颜色。<br>
 **v1.0.6(2020.8.19)**<br>
 1，修复了资源文件缺失问题。<br>
 **v1.0.5(2020.8.19)**<br>
