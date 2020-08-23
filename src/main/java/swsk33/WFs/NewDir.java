@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.net.*;
 
-
 class NewDir {
 
 	static int x;
@@ -76,7 +75,7 @@ class NewDir {
 			}
 		});
 		ok.setContentAreaFilled(false);
-		ok.setForeground(new Color(0, 191, 255));
+		ok.setForeground(Color.BLUE);
 		ok.setFont(new Font("等线", Font.BOLD, 15));
 		ok.setBounds(71, 104, 71, 27);
 		JButton cancel = new JButton("取消");
@@ -86,7 +85,7 @@ class NewDir {
 			}
 		});
 		cancel.setContentAreaFilled(false);
-		cancel.setForeground(new Color(255, 165, 0));
+		cancel.setForeground(Color.MAGENTA);
 		cancel.setFont(new Font("等线", Font.BOLD, 15));
 		cancel.setBounds(189, 104, 71, 27);
 		jt.setBounds(71, 65, 222, 27);
