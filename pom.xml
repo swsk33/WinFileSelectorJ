@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.gitee.swsk33</groupId>
 	<artifactId>WinFileSelectorJ</artifactId>
-	<version>1.0.6</version>
+	<version>1.1.0</version>
 	<name>WinFileSelectorJ</name>
 	<description>一个简易的文件选择器外部包，作为GUI开发选择文件组件。</description>
 	<packaging>jar</packaging>
