@@ -75,7 +75,7 @@ for (Object name : o) {
 **例如：创建一个标题为“选择文件”、只能选择文件的多选文件选择器对话框，且只显示png和jpg文件，并逐个输出其选择的文件路径**<br>
 ```
 String[] type = {"png", "jpg"};		//指定显示文件的字符串数组
-Object[] o = new FileSelectDialog().createMultipleSelectionDialog("选择文件",FileSelectDialog.FILE_ONLY,type);
+Object[] o = new FileSelectDialog().createMultipleSelectionDialog("选择文件", FileSelectDialog.FILE_ONLY, type);
 for (Object name : o) {
 	System.out.println(name.toString());
 }
