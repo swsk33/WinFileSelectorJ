@@ -21,7 +21,7 @@ class OverwriteTip {
 		jdt.setUndecorated(true);
 		jdt.setModal(true);
 		jdt.setLocation(sc.width / 2 - 192, sc.height / 2 - 90);
-		URL bg = DialogCore.class.getResource("res/bg-ovt.png");
+		URL bg = DialogCore.class.getResource("/res/bg-ovt.png");
 		JLabel bl = new JLabel(new ImageIcon(bg)); // 把上面的图片对象加到一个名为bl的标签里
 		bl.setBounds(0, 0, jdt.getWidth(), jdt.getHeight()); // 设置标签大小
 		JPanel imagePanel = (JPanel) jdt.getContentPane(); // 把内容窗格转化为JPanel，否则不能用方法setOpaque()来使内容窗格透明

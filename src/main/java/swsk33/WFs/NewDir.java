@@ -25,7 +25,7 @@ class NewDir {
 		jd.setLocation(sc.width / 2 - 160, sc.height / 2 - 73);
 		jd.setUndecorated(true);
 		jd.setModal(true);
-		URL bg = NewDir.class.getResource("res/bg-newdirdf.png");
+		URL bg = NewDir.class.getResource("/res/bg-newdirdf.png");
 		JLabel bl = new JLabel(new ImageIcon(bg)); // 把上面的图片对象加到一个名为bl的标签里
 		bl.setBounds(0, 0, jd.getWidth(), jd.getHeight()); // 设置标签大小
 		JPanel imagePanel = (JPanel) jd.getContentPane(); // 把内容窗格转化为JPanel，否则不能用方法setOpaque()来使内容窗格透明 ，使内容窗格透明后才能显示背景图片
