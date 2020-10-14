@@ -23,7 +23,7 @@
 ```
 <dependency>
     <groupId>com.gitee.swsk33</groupId>
-    <artifactId>WinFileSelectorJ</artifactId>
+    <artifactId>win-file-selector</artifactId>
     <version>1.1.12</version>
 </dependency>
 ```
