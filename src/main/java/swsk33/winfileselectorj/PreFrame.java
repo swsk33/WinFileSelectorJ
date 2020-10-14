@@ -1,8 +1,11 @@
-package swsk33.WFs;
+package swsk33.winfileselectorj;
 
-import java.awt.*;
-import javax.swing.*;
-import java.net.*;
+import java.awt.Color;
+import java.net.URL;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 class PreFrame {
 
@@ -34,4 +37,5 @@ class PreFrame {
 		jf.getContentPane().add(jp);
 		jf.show();
 	}
+
 }

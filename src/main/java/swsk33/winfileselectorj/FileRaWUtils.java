@@ -1,6 +1,12 @@
-package swsk33.WFs;
+package swsk33.winfileselectorj;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 class FileRaWUtils {
 	public String getFileFormat(String filepath) { // 获取文件格式

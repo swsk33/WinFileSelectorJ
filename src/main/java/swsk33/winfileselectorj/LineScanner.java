@@ -1,8 +1,12 @@
-package swsk33.WFs;
+package swsk33.winfileselectorj;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 
 class LineScanner {
+
 	public int GetLinage(String filepath) throws Exception { // 获取文本文档行数
 		int linage = 0;
 		File f = new File(filepath);
@@ -15,4 +19,5 @@ class LineScanner {
 		br.close();
 		return linage;
 	}
+
 }

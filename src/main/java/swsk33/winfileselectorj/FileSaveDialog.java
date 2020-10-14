@@ -1,4 +1,4 @@
-package swsk33.WFs;
+package swsk33.winfileselectorj;
 
 /**
  * 创建一个文件保存对话框
@@ -7,6 +7,7 @@ package swsk33.WFs;
  *
  */
 public class FileSaveDialog extends DialogCore {
+
 	/**
 	 * 指定保存文件夹并指定其文件名
 	 */
@@ -57,4 +58,5 @@ public class FileSaveDialog extends DialogCore {
 		sfilepath = selectpath;
 		return sfilepath;
 	}
+
 }

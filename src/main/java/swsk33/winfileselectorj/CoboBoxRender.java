@@ -1,14 +1,21 @@
-package swsk33.WFs;
+package swsk33.winfileselectorj;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.net.*;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.URL;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
 
 @SuppressWarnings({ "serial", "rawtypes" })
 class CoboBoxRender extends JLabel implements ListCellRenderer {
+
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 			boolean cellHasFocus) {
+
 		if (value.toString().equals(DialogCore.desktop)) {
 			URL icp = CoboBoxRender.class.getResource("/res/jcbico/des.png");
 			setText("桌面");
@@ -58,4 +65,5 @@ class CoboBoxRender extends JLabel implements ListCellRenderer {
 		});
 		return this;
 	}
+
 }

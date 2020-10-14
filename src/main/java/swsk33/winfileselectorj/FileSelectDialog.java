@@ -1,4 +1,4 @@
-package swsk33.WFs;
+package swsk33.winfileselectorj;
 
 /**
  * 创建一个文件选择器窗口
@@ -7,6 +7,7 @@ package swsk33.WFs;
  *
  */
 public class FileSelectDialog extends DialogCore {
+
 	/**
 	 * 允许选择文件和文件夹
 	 */
@@ -105,4 +106,5 @@ public class FileSelectDialog extends DialogCore {
 		Object[] sfilepath = multiselectpath;
 		return sfilepath;
 	}
+
 }

@@ -1,14 +1,35 @@
-package swsk33.WFs;
+package swsk33.winfileselectorj;
 
-import javax.swing.*;
-import javax.swing.filechooser.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.io.File;
+import java.net.URL;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.filechooser.FileSystemView;
 
 class DialogCore { // 对话框处理核心
+
 	// 窗口位置
 	static int x;
 	static int y;
@@ -893,4 +914,5 @@ class DialogCore { // 对话框处理核心
 		jd.getContentPane().add(jp);
 		jd.show();
 	}
+
 }

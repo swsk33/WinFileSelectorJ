@@ -1,13 +1,18 @@
-package swsk33.WFs;
+package swsk33.winfileselectorj;
 
-import java.awt.*;
-import javax.swing.*;
-import java.net.*;
-import java.io.*;
-
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Image;
+import java.io.File;
+import java.net.URL;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
+import javax.swing.JList;
+import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 class WFsCellRender extends DefaultListCellRenderer {
+
 	static String ftyp; // 文件类型
 	static int icox;
 	static int icoy;
@@ -222,4 +227,5 @@ class WFsCellRender extends DefaultListCellRenderer {
 		}
 		return this;
 	}
+
 }

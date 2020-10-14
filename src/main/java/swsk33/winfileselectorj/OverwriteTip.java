@@ -1,11 +1,24 @@
-package swsk33.WFs;
+package swsk33.winfileselectorj;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.net.URL;
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 class OverwriteTip {
+
 	static int dx;
 	static int dy;
 	static boolean isOvt;
@@ -85,4 +98,5 @@ class OverwriteTip {
 		jdt.getContentPane().add(jp);
 		jdt.show();
 	}
+
 }
