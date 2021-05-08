@@ -1,4 +1,4 @@
-package swsk33.winfileselectorj;
+package com.gitee.swsk33.winfileselector;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -26,6 +26,7 @@ class OverwriteTip {
 	/**
 	 * @wbp.parser.entryPoint
 	 */
+	@SuppressWarnings("deprecation")
 	void fr() {
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension sc = kit.getScreenSize();
@@ -34,11 +35,10 @@ class OverwriteTip {
 		jdt.setUndecorated(true);
 		jdt.setModal(true);
 		jdt.setLocation(sc.width / 2 - 192, sc.height / 2 - 90);
-		URL bg = DialogCore.class.getResource("/res/bg-ovt.png");
+		URL bg = DialogCore.class.getResource("/winfileselector/bg-ovt.png");
 		JLabel bl = new JLabel(new ImageIcon(bg)); // 把上面的图片对象加到一个名为bl的标签里
 		bl.setBounds(0, 0, jdt.getWidth(), jdt.getHeight()); // 设置标签大小
-		JPanel imagePanel = (JPanel) jdt.getContentPane(); // 把内容窗格转化为JPanel，否则不能用方法setOpaque()来使内容窗格透明
-															// ，使内容窗格透明后才能显示背景图片
+		JPanel imagePanel = (JPanel) jdt.getContentPane(); // 把内容窗格转化为JPanel，否则不能用方法setOpaque()来使内容窗格透明，使内容窗格透明后才能显示背景图片
 		imagePanel.setOpaque(false); // 把背景图片添加到分层窗格的最底层作为背景
 		jdt.getLayeredPane().add(bl, new Integer(Integer.MIN_VALUE));
 		jdt.addMouseListener(new MouseAdapter() { // 设置窗口可拖动，添加监听器

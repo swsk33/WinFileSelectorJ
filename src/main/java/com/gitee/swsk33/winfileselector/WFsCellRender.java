@@ -1,4 +1,4 @@
-package swsk33.winfileselectorj;
+package com.gitee.swsk33.winfileselector;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -89,8 +89,7 @@ class WFsCellRender extends DefaultListCellRenderer {
 		return res;
 	}
 
-	public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,
-			boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		if (DialogCore.viewop == 2) { // 设定图标大小
 			icox = 120;
 			icoy = 120;
@@ -105,7 +104,7 @@ class WFsCellRender extends DefaultListCellRenderer {
 			setText(new File(value.toString()).getName()); // 设置文字为文件名
 			// 文件图标的设定
 			if (!isfile) {
-				URL icp = WFsCellRender.class.getResource("/res/fileico/common-dir.png");
+				URL icp = WFsCellRender.class.getResource("/winfileselector/fileico/common-dir.png");
 				ImageIcon ico = new ImageIcon(icp); // 实例化一个ImageIcon对象
 				Image img = ico.getImage(); // 实例化Image对象获取ico对象的内容
 				img = img.getScaledInstance(icox, icoy, Image.SCALE_DEFAULT); // 缩放显示图片
@@ -113,9 +112,7 @@ class WFsCellRender extends DefaultListCellRenderer {
 				setIcon(ico); // 设置图标
 			} else {
 				if (this.isPic()) {
-					if (DialogCore.viewop == 2 && (ftyp.equalsIgnoreCase("jpg") || ftyp.equalsIgnoreCase("jpeg")
-							|| ftyp.equalsIgnoreCase("png") || ftyp.equalsIgnoreCase("bmp")
-							|| ftyp.equalsIgnoreCase("gif"))) {
+					if (DialogCore.viewop == 2 && (ftyp.equalsIgnoreCase("jpg") || ftyp.equalsIgnoreCase("jpeg") || ftyp.equalsIgnoreCase("png") || ftyp.equalsIgnoreCase("bmp") || ftyp.equalsIgnoreCase("gif"))) {
 						int iw;
 						int ih;
 						ImageIcon ico = new ImageIcon(filepath);
@@ -131,7 +128,7 @@ class WFsCellRender extends DefaultListCellRenderer {
 						ico.setImage(img);
 						setIcon(ico);
 					} else {
-						URL icp = WFsCellRender.class.getResource("/res/fileico/pic/" + ftyp + ".png");
+						URL icp = WFsCellRender.class.getResource("/winfileselector/fileico/pic/" + ftyp + ".png");
 						ImageIcon ico = new ImageIcon(icp);
 						Image img = ico.getImage();
 						img = img.getScaledInstance(icox, icoy, Image.SCALE_DEFAULT);
@@ -139,42 +136,42 @@ class WFsCellRender extends DefaultListCellRenderer {
 						setIcon(ico);
 					}
 				} else if (this.isAu()) {
-					URL icp = WFsCellRender.class.getResource("/res/fileico/aud/" + ftyp + ".png");
+					URL icp = WFsCellRender.class.getResource("/winfileselector/fileico/aud/" + ftyp + ".png");
 					ImageIcon ico = new ImageIcon(icp);
 					Image img = ico.getImage();
 					img = img.getScaledInstance(icox, icoy, Image.SCALE_DEFAULT);
 					ico.setImage(img);
 					setIcon(ico);
 				} else if (this.isVe()) {
-					URL icp = WFsCellRender.class.getResource("/res/fileico/ved/" + ftyp + ".png");
+					URL icp = WFsCellRender.class.getResource("/winfileselector/fileico/ved/" + ftyp + ".png");
 					ImageIcon ico = new ImageIcon(icp);
 					Image img = ico.getImage();
 					img = img.getScaledInstance(icox, icoy, Image.SCALE_DEFAULT);
 					ico.setImage(img);
 					setIcon(ico);
 				} else if (this.isDoc()) {
-					URL icp = WFsCellRender.class.getResource("/res/fileico/docf/" + ftyp + ".png");
+					URL icp = WFsCellRender.class.getResource("/winfileselector/fileico/docf/" + ftyp + ".png");
 					ImageIcon ico = new ImageIcon(icp);
 					Image img = ico.getImage();
 					img = img.getScaledInstance(icox, icoy, Image.SCALE_DEFAULT);
 					ico.setImage(img);
 					setIcon(ico);
 				} else if (this.isZip()) {
-					URL icp = WFsCellRender.class.getResource("/res/fileico/zips/" + ftyp + ".png");
+					URL icp = WFsCellRender.class.getResource("/winfileselector/fileico/zips/" + ftyp + ".png");
 					ImageIcon ico = new ImageIcon(icp);
 					Image img = ico.getImage();
 					img = img.getScaledInstance(icox, icoy, Image.SCALE_DEFAULT);
 					ico.setImage(img);
 					setIcon(ico);
 				} else if (this.isProg()) {
-					URL icp = WFsCellRender.class.getResource("/res/fileico/cod/" + ftyp + ".png");
+					URL icp = WFsCellRender.class.getResource("/winfileselector/fileico/cod/" + ftyp + ".png");
 					ImageIcon ico = new ImageIcon(icp);
 					Image img = ico.getImage();
 					img = img.getScaledInstance(icox, icoy, Image.SCALE_DEFAULT);
 					ico.setImage(img);
 					setIcon(ico);
 				} else {
-					URL icp = WFsCellRender.class.getResource("/res/fileico/common.png");
+					URL icp = WFsCellRender.class.getResource("/winfileselector/fileico/common.png");
 					ImageIcon ico = new ImageIcon(icp);
 					Image img = ico.getImage();
 					img = img.getScaledInstance(icox, icoy, Image.SCALE_DEFAULT);
@@ -189,19 +186,19 @@ class WFsCellRender extends DefaultListCellRenderer {
 				setText(drina[index]);
 				String disktype = drity[index];
 				if (disktype.startsWith("本") || disktype.startsWith("Local")) { // 当磁盘为本地磁盘时
-					URL icp = WFsCellRender.class.getResource("/res/diskico/disk.png");
+					URL icp = WFsCellRender.class.getResource("/winfileselector/diskico/disk.png");
 					ImageIcon finaico = new ImageIcon(icp);
 					Image img = finaico.getImage().getScaledInstance(icox, icoy, Image.SCALE_DEFAULT);
 					finaico.setImage(img);
 					setIcon(finaico);
 				} else if (disktype.startsWith("U") || disktype.startsWith("Removable")) { // 为可移动磁盘时
-					URL icp = WFsCellRender.class.getResource("/res/diskico/udisk.png");
+					URL icp = WFsCellRender.class.getResource("/winfileselector/diskico/udisk.png");
 					ImageIcon finaico = new ImageIcon(icp);
 					Image img = finaico.getImage().getScaledInstance(icox, icoy, Image.SCALE_DEFAULT);
 					finaico.setImage(img);
 					setIcon(finaico);
 				} else if (disktype.startsWith("CD")) { // 为CD驱动器时
-					URL icp = WFsCellRender.class.getResource("/res/diskico/cd.png");
+					URL icp = WFsCellRender.class.getResource("/winfileselector/diskico/cd.png");
 					ImageIcon finaico = new ImageIcon(icp);
 					Image img = finaico.getImage().getScaledInstance(icox, icoy, Image.SCALE_DEFAULT);
 					finaico.setImage(img);

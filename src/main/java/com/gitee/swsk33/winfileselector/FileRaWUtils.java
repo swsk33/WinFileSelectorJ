@@ -1,4 +1,4 @@
-package swsk33.winfileselectorj;
+package com.gitee.swsk33.winfileselector;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -67,6 +67,7 @@ class FileRaWUtils {
 			String front = "";
 			FileInputStream fis = new FileInputStream(f);
 			InputStreamReader isr = new InputStreamReader(fis);
+			@SuppressWarnings("resource")
 			BufferedReader br = new BufferedReader(isr);
 			int ifr;
 			for (ifr = 0; ifr < whichline - 1; ifr++) {

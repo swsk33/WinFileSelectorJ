@@ -1,4 +1,4 @@
-package swsk33.winfileselectorj;
+package com.gitee.swsk33.winfileselector;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -28,6 +28,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileSystemView;
 
+@SuppressWarnings({ "rawtypes", "unchecked", "deprecation" })
 class DialogCore { // 对话框处理核心
 
 	// 窗口位置
@@ -71,21 +72,17 @@ class DialogCore { // 对话框处理核心
 	static Object[] multiselectpath;
 	// 图片常用格式（提供预览图）和其余格式
 	final static String[] COMPICFO = { "jpg", "jpeg", "png", "bmp", "gif" };
-	final static String[] OTHPICFO = { "psd", "tiff", "iff", "jfif", "svg", "pcx", "dxf", "wmf", "emf", "lic", "eps",
-			"tga", "raw", "ico", "webp", "heic", "spr", "mpo" };
+	final static String[] OTHPICFO = { "psd", "tiff", "iff", "jfif", "svg", "pcx", "dxf", "wmf", "emf", "lic", "eps", "tga", "raw", "ico", "webp", "heic", "spr", "mpo" };
 	// 音频文件格式
-	final static String[] AUDFO = { "mp3", "mp2", "aiff", "wav", "mid", "wma", "m4a", "ogg", "flac", "amr", "ra", "rm",
-			"rmx", "vqf", "ape", "aac", "cda" };
+	final static String[] AUDFO = { "mp3", "mp2", "aiff", "wav", "mid", "wma", "m4a", "ogg", "flac", "amr", "ra", "rm", "rmx", "vqf", "ape", "aac", "cda" };
 	// 视频文件格式
-	final static String[] VEDFO = { "mp4", "avi", "flv", "wmv", "3gp", "mov", "mkv", "mpg", "asf", "asx", "rm", "rmvb",
-			"m4v", "vob" };
+	final static String[] VEDFO = { "mp4", "avi", "flv", "wmv", "3gp", "mov", "mkv", "mpg", "asf", "asx", "rm", "rmvb", "m4v", "vob" };
 	// 文档格式
 	final static String[] DOCFO = { "doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "txt" };
 	// 压缩文件格式
 	final static String[] ZIPFO = { "zip", "rar", "7z", "jar", "tar", "gz", "xz", "uue", "iso", "apk" };
 	// 代码文件和可执行/二进制文件格式
-	final static String[] PROGFO = { "c", "o", "cpp", "py", "java", "bat", "go", "js", "html", "css", "dll", "exe",
-			"class" };
+	final static String[] PROGFO = { "c", "o", "cpp", "py", "java", "bat", "go", "js", "html", "css", "dll", "exe", "class" };
 	// 程序配置文件路径
 	final static String WKDIR = System.getProperty("user.home") + "\\AppData\\Local\\WinFileSelectorJ";
 	final static String WKFILE = System.getProperty("user.home") + "\\AppData\\Local\\WinFileSelectorJ\\repath.wfs";
@@ -173,7 +170,6 @@ class DialogCore { // 对话框处理核心
 		jcbtyp.setSelectedIndex(0);
 	}
 
-	@SuppressWarnings("unchecked")
 	void refreshfile() { // 获取文件列表
 		dfl.removeAllElements();
 		File[] filels = new File(cdpath).listFiles();
@@ -272,7 +268,6 @@ class DialogCore { // 对话框处理核心
 	/**
 	 * @throws Exception 文件存在错误或者资源不存在抛出异常
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	public void df() throws Exception {
 		this.idxfileexa();
 		Toolkit kit = Toolkit.getDefaultToolkit();
@@ -282,7 +277,7 @@ class DialogCore { // 对话框处理核心
 		jd.setLocation(sc.width / 2 - 375, sc.height / 2 - 250);
 		jd.setUndecorated(true);
 		jd.setModal(true);
-		URL bg = DialogCore.class.getResource("/res/bg.png");
+		URL bg = DialogCore.class.getResource("/winfileselector/bg.png");
 		JLabel bl = new JLabel(new ImageIcon(bg)); // 把上面的图片对象加到一个名为bl的标签里
 		bl.setBounds(0, 0, jd.getWidth(), jd.getHeight()); // 设置标签大小
 		JPanel imagePanel = (JPanel) jd.getContentPane(); // 把内容窗格转化为JPanel，否则不能用方法setOpaque()来使内容窗格透明 ，使内容窗格透明后才能显示背景图片
@@ -317,7 +312,7 @@ class DialogCore { // 对话框处理核心
 		JLabel type = new JLabel("文件类型：");
 		type.setFont(new Font("等线", Font.BOLD, 20));
 		type.setBounds(33, 456, 100, 18);
-		URL cb = DialogCore.class.getResource("/res/bt-close.png");
+		URL cb = DialogCore.class.getResource("/winfileselector/bt-close.png");
 		JButton close = new JButton(new ImageIcon(cb));
 		close.addActionListener(new ActionListener() { // 关闭窗口
 			public void actionPerformed(ActionEvent arg0) {
@@ -331,7 +326,7 @@ class DialogCore { // 对话框处理核心
 		close.setBorderPainted(false);
 		close.setContentAreaFilled(false);
 		close.setToolTipText("关闭窗口");
-		URL cmb = DialogCore.class.getResource("/res/bt-computer.png");
+		URL cmb = DialogCore.class.getResource("/winfileselector/bt-computer.png");
 		JButton computer = new JButton(new ImageIcon(cmb));
 		computer.addActionListener(new ActionListener() { // 进入“我的电脑”
 			public void actionPerformed(ActionEvent e) {
@@ -344,7 +339,7 @@ class DialogCore { // 对话框处理核心
 		computer.setBorderPainted(false);
 		computer.setContentAreaFilled(false);
 		computer.setToolTipText("进入\"我的电脑\"");
-		URL hmb = DialogCore.class.getResource("/res/bt-home.png");
+		URL hmb = DialogCore.class.getResource("/winfileselector/bt-home.png");
 		JButton home = new JButton(new ImageIcon(hmb));
 		home.addActionListener(new ActionListener() { // 进入用户主目录
 			public void actionPerformed(ActionEvent e) {
@@ -362,7 +357,7 @@ class DialogCore { // 对话框处理核心
 		home.setBorderPainted(false);
 		home.setContentAreaFilled(false);
 		home.setToolTipText("进入用户目录");
-		URL ndb = DialogCore.class.getResource("/res/bt-newdir.png");
+		URL ndb = DialogCore.class.getResource("/winfileselector/bt-newdir.png");
 		JButton newDir = new JButton(new ImageIcon(ndb));
 		newDir.addActionListener(new ActionListener() { // 新建文件夹按钮
 			public void actionPerformed(ActionEvent e) {
@@ -379,7 +374,7 @@ class DialogCore { // 对话框处理核心
 		newDir.setBorderPainted(false);
 		newDir.setContentAreaFilled(false);
 		newDir.setToolTipText("新建文件夹");
-		URL frb = DialogCore.class.getResource("/res/bt-front.png");
+		URL frb = DialogCore.class.getResource("/winfileselector/bt-front.png");
 		JButton front = new JButton(new ImageIcon(frb));
 		front.addActionListener(new ActionListener() { // 上一级目录按钮
 			public void actionPerformed(ActionEvent arg0) {
@@ -400,7 +395,7 @@ class DialogCore { // 对话框处理核心
 		front.setContentAreaFilled(false);
 		front.setBorderPainted(false);
 		front.setToolTipText("进入上一级目录");
-		URL rfb = DialogCore.class.getResource("/res/bt-refresh.png");
+		URL rfb = DialogCore.class.getResource("/winfileselector/bt-refresh.png");
 		JButton refresh = new JButton(new ImageIcon(rfb));
 		refresh.addActionListener(new ActionListener() { // 刷新按钮
 			public void actionPerformed(ActionEvent arg0) {
@@ -418,7 +413,7 @@ class DialogCore { // 对话框处理核心
 		refresh.setContentAreaFilled(false);
 		refresh.setBorderPainted(false);
 		refresh.setToolTipText("刷新列表");
-		URL vib = DialogCore.class.getResource("/res/bt-view.png");
+		URL vib = DialogCore.class.getResource("/winfileselector/bt-view.png");
 		JButton view = new JButton(new ImageIcon(vib));
 		view.addActionListener(new ActionListener() { // 切换视图
 			public void actionPerformed(ActionEvent e) {
@@ -455,8 +450,7 @@ class DialogCore { // 对话框处理核心
 				if (!isaSaveDg) { // 为选择对话框时
 					if (fls.getSelectedIndex() == -1 && (selectop == 1 || selectop == 3)) { // 如果在只能选择文件和驱动器的情况下没有选择文件，就提示请选择文件
 						try {
-							Process tip = Runtime.getRuntime().exec(
-									"cmd /c echo msgbox \"请选择项目！\",64,\"错误\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
+							Runtime.getRuntime().exec("cmd /c echo msgbox \"请选择项目！\",64,\"错误\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
@@ -472,8 +466,7 @@ class DialogCore { // 对话框处理核心
 								}
 								jd.dispose();
 							} else {
-								Process tip = Runtime.getRuntime().exec(
-										"cmd /c echo msgbox \"请进入一个驱动器并选择文件或者文件夹！\",64,\"错误\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
+								Runtime.getRuntime().exec("cmd /c echo msgbox \"请进入一个驱动器并选择文件或者文件夹！\",64,\"错误\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
 							}
 						} catch (Exception e1) {
 							e1.printStackTrace();
@@ -595,8 +588,7 @@ class DialogCore { // 对话框处理核心
 				} else { // 是保存对话框时
 					if (fls.getSelectedIndex() == -1 && !isInaDisk) { // 如果在驱动器根目录的情况下没有选择文件，就提示请选择目录
 						try {
-							Process tip = Runtime.getRuntime().exec(
-									"cmd /c echo msgbox \"请选择并进入一个磁盘！\",64,\"错误\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
+							Runtime.getRuntime().exec("cmd /c echo msgbox \"请选择并进入一个磁盘！\",64,\"错误\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
@@ -614,8 +606,7 @@ class DialogCore { // 对话框处理核心
 								}
 							} else { // 否则
 								if (jtn.getText().equals("")) {
-									Process tip = Runtime.getRuntime().exec(
-											"cmd /c echo msgbox \"请输入文件名！\",64,\"错误\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
+									Runtime.getRuntime().exec("cmd /c echo msgbox \"请输入文件名！\",64,\"错误\">alert.vbs && start alert.vbs && ping -n 2 127.1>nul && del alert.vbs");
 								} else {
 									String sfl = ""; // 最后获取的完整文件路径
 									if (cdpath.endsWith("\\")) {
@@ -785,8 +776,7 @@ class DialogCore { // 对话框处理核心
 							System.out.println("目录为空！");
 						}
 						String ft = new FileRaWUtils().getFileFormat(imgpath);
-						if (ft.equalsIgnoreCase("jpg") || ft.equalsIgnoreCase("jpeg") || ft.equalsIgnoreCase("png")
-								|| ft.equalsIgnoreCase("bmp") || ft.equalsIgnoreCase("gif")) {
+						if (ft.equalsIgnoreCase("jpg") || ft.equalsIgnoreCase("jpeg") || ft.equalsIgnoreCase("png") || ft.equalsIgnoreCase("bmp") || ft.equalsIgnoreCase("gif")) {
 							int iw;
 							int ih;
 							ImageIcon preimg = new ImageIcon(imgpath);
@@ -830,8 +820,7 @@ class DialogCore { // 对话框处理核心
 							System.out.println("目录为空！");
 						}
 						String ft = new FileRaWUtils().getFileFormat(imgpath);
-						if (ft.equalsIgnoreCase("jpg") || ft.equalsIgnoreCase("jpeg") || ft.equalsIgnoreCase("png")
-								|| ft.equalsIgnoreCase("bmp") || ft.equalsIgnoreCase("gif")) {
+						if (ft.equalsIgnoreCase("jpg") || ft.equalsIgnoreCase("jpeg") || ft.equalsIgnoreCase("png") || ft.equalsIgnoreCase("bmp") || ft.equalsIgnoreCase("gif")) {
 							ImageIcon preimg = new ImageIcon(imgpath);
 							int iw;
 							int ih;

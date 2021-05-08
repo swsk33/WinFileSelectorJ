@@ -1,4 +1,4 @@
-package swsk33.winfileselectorj;
+package com.gitee.swsk33.winfileselector;
 
 import java.io.BufferedReader;
 import java.io.File;

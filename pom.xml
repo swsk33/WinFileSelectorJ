@@ -1,24 +1,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.gitee.swsk33</groupId>
 	<artifactId>win-file-selector</artifactId>
-	<version>1.1.12</version>
+	<version>2.0.0</version>
 	<name>WinFileSelectorJ</name>
 	<description>一个简易的文件选择器外部包，作为GUI开发选择文件组件。</description>
 	<packaging>jar</packaging>
 	<url>https://gitee.com/swsk33/WinFileSelectorJ</url>
 
-	<!--maven工程配置 -->
 	<properties>
 		<java.version>1.8</java.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-	<!--许可证信息，根据自己的情况修改 -->
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version2.0</name>
@@ -27,14 +24,12 @@
 		</license>
 	</licenses>
 
-	<!--托管仓库信息，根据自己的应用情况修改 -->
 	<scm>
 		<url>https://gitee.com/swsk33/WinFileSelectorJ</url>
 		<connection>https://gitee.com/swsk33/WinFileSelectorJ.git</connection>
 		<developerConnection>https://gitee.com/swsk33/WinFileSelectorJ</developerConnection>
 	</scm>
 
-	<!--开发者信息 -->
 	<developers>
 		<developer>
 			<name>swsk33</name>
@@ -43,23 +38,19 @@
 		</developer>
 	</developers>
 
-	<!--仓库地址配置信息 -->
 	<distributionManagement>
 		<snapshotRepository>
-			<!--id 要与setting.xml server id一致 -->
 			<id>snapshot</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
+
 		<repository>
-			<!--id 要与setting.xml server id一致 -->
 			<id>release</id>
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
 		</repository>
 	</distributionManagement>
 
-	<!--发布到oss.sonatype.org需要的组件，已经配置好，无需修改 -->
 	<build>
-		<!--配置使其包含资源文件进jar包 -->
 		<resources>
 			<resource>
 				<directory>${basedir}/src/main/resources</directory>
@@ -79,7 +70,6 @@
 		</resources>
 
 		<plugins>
-			<!--java source生成插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -94,7 +84,6 @@
 				</executions>
 			</plugin>
 
-			<!--java doc生成插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -109,7 +98,6 @@
 				</executions>
 			</plugin>
 
-			<!--gpg签名插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
